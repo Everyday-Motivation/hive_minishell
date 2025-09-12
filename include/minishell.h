@@ -14,21 +14,21 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
 # include <dirent.h>
-# include <termios.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <termcap.h>
+# include <termios.h>
 
 #endif
 
-/* 
+/*
 <readline/readline.h> / <readline/history.h>
 readline
 rl_clear_history

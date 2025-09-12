@@ -12,12 +12,11 @@
 
 #include "../include/minishell.h"
 
-
 int	main(void)
 {
-	char *line;
+	char	*line;
 
-	while(1)
+	while (1)
 	{
 		line = readline(">");
 		if (!line)
@@ -25,7 +24,7 @@ int	main(void)
 			ft_putendl_fd("Exiting..", 2);
 			return (EXIT_FAILURE);
 		}
-		if(*line)
+		if (*line)
 			add_history(line);
 		free(line);
 	}
