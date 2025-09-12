@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:55 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/11 09:24:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:40:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ access
 open
 read
 close
-fork
-execve
-dup
+	fork 
+ 	execve
+	dup
 dup2
-pipe
+	pipe
 isatty
 ttyname
 ttyslot
@@ -66,17 +66,17 @@ chdir
 unlink
 
 <sys/wait.h>
-wait
-waitpid
+	wait
+	waitpid
 wait3
 wait4
 
 <signal.h>
-signal
-sigaction
-sigemptyset
-sigaddset
-kill
+	signal
+	sigaction
+	sigemptyset
+	sigaddset
+	kill
 
 <sys/stat.h>
 stat
