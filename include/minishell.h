@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:55 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/11 09:24:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:43:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ strerror
 ioctl
 
 <termios.h>
-tcsetattr
-tcgetattr
+
 
 <termcap.h>
 tgetent
