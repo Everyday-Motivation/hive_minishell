@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:55 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/12 13:24:01 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/14 16:42:28 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@
 # include <string.h>
 # include <sys/ioctl.h>
 # include <termcap.h>
+
+
+//jaekwang 
+int init_env(char ***env, char **envp);
+int	increment_shlvl(char **env);
+char **add_pwd(char **env);
+int pwd_exists(char **env);
+char **copy_env(char **envp);
+
 
 #endif
 

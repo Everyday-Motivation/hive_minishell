@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/10 10:26:26 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/14 16:47:08 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 
 SOURCES = \
 src/minishell.c \
+src/get_env.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
