@@ -12,13 +12,13 @@
 
 #include "../include/minishell.h"
 
-void shell_loop(void)
+void	shell_loop(void)
 {
-	char *line;
-	int loop_status;
+	char	*line;
+	int		loop_status;
 
 	loop_status = 1;
-	while(loop_status)
+	while (loop_status)
 	{
 		line = readline("$ ");
 		if (!line)
@@ -26,13 +26,13 @@ void shell_loop(void)
 			ft_putendl_fd("exit.", 2);
 			exit(0);
 		}
-		if(*line)
+		if (*line)
 			add_history(line);
 		free(line);
 	}
 }
 
-void sigint_handler(int signal)
+void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -42,9 +42,9 @@ void sigint_handler(int signal)
 	}
 }
 
-void set_sig_action(void)
+void	set_sig_action(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = sigint_handler;
