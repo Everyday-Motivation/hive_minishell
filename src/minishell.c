@@ -6,26 +6,30 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 15:27:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/14 16:15:13 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
   char **copy_env(char **envp)
-  {
+{
 	char **env;
 	int len = 0;
 	int i = 0;
 		
-	while(*env != '\0')
+	while(envp[len])
+	{
+		printf("obj: %s\n len %i\n",envp[len], len);
+		
 		len++;
+	}
 	env = malloc((len + 1) * sizeof(char *));
 	if (!env)
 		return NULL;
 	while (i < len)
 	{
-		env = ft_strdup(i);
+		env[i] = ft_strdup(envp[i]);
 		if (!env[i])
 		{
 			while (--i >= 0)
@@ -37,7 +41,7 @@
 	}
 	env[i] = NULL;
 	return env;
-  }
+}
 
 int pwd_exists(char **env)
 {
@@ -94,7 +98,6 @@ char **add_pwd(char **env)
 		free(new_env);
 		return (env);
 	}
-
 	new_env[i++] = pwd_entry;
 	new_env[i] = NULL;
 	free(cwd);
@@ -110,11 +113,16 @@ int init_env(char ***env, char **envp)
 {
 	*env = copy_env(envp);
 	if (!*env)
-		return -1;
+		return 0;
 	if (!pwd_exists(*env))
 		*env = add_pwd(*env);
+	if (!pwd_exists(*env))
+	{
+		perror("PWD allocation failed \n");
+		return (0);
+	}
 
-	return 0;
+	return 1;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -123,11 +131,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	char **env;
 
-	env = copy_env(envp);
-	if (init_env(&env, envp) < 0)
+	if (!init_env(&env, envp))
 	{
 		perror("Environment init failed");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	
 	/// signal init
@@ -135,5 +142,5 @@ int	main(int ac, char **av, char **envp)
 	// -> if yes ->parsing  ->>> first tokenizing 
 	
 	
-	return (0);
+	return (EXIT_SUCCESS);
 }
