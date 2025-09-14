@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/13 18:26:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/14 13:41:57 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void shell_loop(void)
 	loop_status = 1;
 	while(loop_status)
 	{
-		line = readline("$>");
+		line = readline("$ ");
 		if (!line)
 		{
 			ft_putendl_fd("exit.", 2);
@@ -36,7 +36,9 @@ void sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		readline("$> ^C");
+		rl_replace_line("^C", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
