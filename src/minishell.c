@@ -6,19 +6,18 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 13:41:57 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/14 19:29:41 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 void	shell_loop(void)
 {
 	char	*line;
 	int		loop_status;
 
 	loop_status = 1;
-	while (loop_status)
+	while  (loop_status)
 	{
 		line = readline("$ ");
 		if (!line)
