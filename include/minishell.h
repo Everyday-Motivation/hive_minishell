@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:55 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/12 15:43:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/14 12:20:11 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@
 # include <string.h>
 # include <sys/ioctl.h>
 # include <termcap.h>
+
+//termios: https://www.mkssoftware.com/docs/man5/struct_termios.5.asp
+struct termios {
+	tcflag_t c_iflag;
+	tcflag_t c_oflag;
+	tcflag_t c_cflag;
+	tcflag_t c_lflag;
+	cc_t c_cc[NCCS];
+	speed_t c_ispeed;
+	speed_t c_ospeed;
+} t_termios;
+
 
 #endif
 
@@ -95,7 +107,8 @@ strerror
 ioctl
 
 <termios.h>
-
+tcsetattr
+tcgetattr
 
 <termcap.h>
 tgetent
