@@ -6,28 +6,52 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/12 18:12:31 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:26:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-int	main(void)
+void shell_loop(void)
 {
 	char *line;
+	int loop_status;
 
-	while(1)
+	loop_status = 1;
+	while(loop_status)
 	{
-		line = readline(">");
+		line = readline("$>");
 		if (!line)
 		{
-			ft_putendl_fd("Exiting..", 2);
-			return (EXIT_FAILURE);
+			ft_putendl_fd("exit.", 2);
+			exit(0);
 		}
 		if(*line)
 			add_history(line);
 		free(line);
 	}
+}
+
+void sigint_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		readline("$> ^C");
+	}
+}
+
+void set_sig_action(void)
+{
+	struct sigaction sa;
+
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = sigint_handler;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+int	main(void)
+{
+	set_sig_action();
+	shell_loop();
 	return (EXIT_SUCCESS);
 }
