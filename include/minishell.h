@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:55 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/12 10:40:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/12 13:24:01 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ lstat
 fstat
 
 <dirent.h>
-opendir
+opendi
 readdir
 closedir
 
