@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 16:39:58 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/15 17:18:48 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	char **env;
+	t_vec env;
 	char *input;
 	t_arena arena;
 
