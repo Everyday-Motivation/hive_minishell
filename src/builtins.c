@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:20:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/15 16:50:32 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:02:54 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
 int	builtin_pwd(void)
 {
