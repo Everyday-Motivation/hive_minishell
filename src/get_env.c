@@ -6,18 +6,12 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/14 16:39:24 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/15 15:43:11 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-typedef struct s_vec {
-    void *memory;
-    size_t len;
-    size_t alloc_size;
-    size_t elem_size;
-} t_vec;
 
 
 int init_env(t_vec *env, char **envp)
@@ -106,7 +100,7 @@ int add_pwd(t_vec *env)
 
 int increment_shlvl(t_vec *env)
 {
-    int i;
+    size_t i;
 	int level;
 	char **entry;
 	char *new_level;

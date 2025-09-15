@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/14 16:47:08 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/15 16:58:45 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME = minishell
 
 SOURCES = \
 src/minishell.c \
-src/get_env.c
+src/get_env.c \
+src/get_input.c \
+src/data_arena.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

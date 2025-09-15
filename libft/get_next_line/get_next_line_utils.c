@@ -6,21 +6,21 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:45:05 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 16:06:15 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:59:29 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	count;
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	count;
 
-	count = 0;
-	while (*(s + count))
-		count++;
-	return (count);
-}
+// 	count = 0;
+// 	while (*(s + count))
+// 		count++;
+// 	return (count);
+// }
 
 // char	*ft_strjoin(char const *s1, char const *s2)
 // {
@@ -43,42 +43,42 @@ size_t	ft_strlen(const char *s)
 // 	return (s);
 // }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	unsigned char		*temp_dest;
-	const unsigned char	*temp_src;
+// void	*ft_memcpy(void *dest, const void *src, size_t n)
+// {
+// 	unsigned char		*temp_dest;
+// 	const unsigned char	*temp_src;
 
-	temp_dest = dest;
-	temp_src = (const unsigned char *)src;
-	while (n > 0)
-	{
-		*temp_dest++ = *temp_src++;
-		n--;
-	}
-	return (dest);
-}
+// 	temp_dest = dest;
+// 	temp_src = (const unsigned char *)src;
+// 	while (n > 0)
+// 	{
+// 		*temp_dest++ = *temp_src++;
+// 		n--;
+// 	}
+// 	return (dest);
+// }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	s_len;
-	size_t	substr_len;
-	char	*substr;
+// char	*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	size_t	s_len;
+// 	size_t	substr_len;
+// 	char	*substr;
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		return (ft_strdup(""));
-	substr_len = s_len - start;
-	if (len > (substr_len))
-		len = (substr_len);
-	substr = (char *)malloc(len + 1);
-	if (!substr)
-		return (NULL);
-	ft_memcpy(substr, s + start, len);
-	substr[len] = '\0';
-	return (substr);
-}
+// 	if (!s)
+// 		return (NULL);
+// 	s_len = ft_strlen(s);
+// 	if (start >= s_len)
+// 		return (ft_strdup(""));
+// 	substr_len = s_len - start;
+// 	if (len > (substr_len))
+// 		len = (substr_len);
+// 	substr = (char *)malloc(len + 1);
+// 	if (!substr)
+// 		return (NULL);
+// 	ft_memcpy(substr, s + start, len);
+// 	substr[len] = '\0';
+// 	return (substr);
+// }
 
 // static char	*ft_strdup(const char *s)
 // {
