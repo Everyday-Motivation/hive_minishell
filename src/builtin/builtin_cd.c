@@ -16,8 +16,7 @@ int	mini_cd(char **args)
 {
 	if (!args[1])
 		perror("Expected argument to cd");
-	else
-		if (chdir(args[1]) != 0)
-			perror("minishell: cd: No such file or directory");
+	else if (chdir(args[1]) != 0)
+		perror("minishell: cd: No such file or directory");
 	return (1);
 }

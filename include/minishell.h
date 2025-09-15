@@ -26,17 +26,17 @@
 # include <termcap.h>
 # include <termios.h>
 
-int builtin_pwd(void);
+int	builtin_pwd(void);
 int	mini_cd(char **args);
 
 #endif
 
 /*
 <readline/readline.h> / <readline/history.h>
-readline       
+readline
 	// Shows a prompt and lets the user edit a line; returns the typed string.
 rl_clear_history// Wipes the saved input history from memory.
-rl_on_new_line 
+rl_on_new_line
 	// Tells Readline you’re starting a fresh line (after printing stuff).
 rl_replace_line // Replaces the current input buffer with your text.
 rl_redisplay    // Redraws the input line on screen.
