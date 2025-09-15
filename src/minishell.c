@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/15 17:07:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:10:31 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ void	shell_loop(void)
 {
 	char	*line;
 	char	*prompt;
-	int		loop_status;
 
-	loop_status = 1;
-	while (loop_status)
+	while (1)
 	{
 		prompt = getcwd(NULL, 0);
 		prompt = ft_strjoin(prompt, "$ ");
