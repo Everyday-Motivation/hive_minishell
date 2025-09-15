@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:45:05 by timurray          #+#    #+#             */
-/*   Updated: 2025/08/19 13:45:37 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 12:12:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@ size_t	ft_strlen(const char *s)
 	return (count);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	s1_length;
-	size_t	s2_length;
-	size_t	s_size;
-	char	*s;
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	size_t	s1_length;
+// 	size_t	s2_length;
+// 	size_t	s_size;
+// 	char	*s;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s1_length = ft_strlen(s1);
-	s2_length = ft_strlen(s2);
-	s_size = s1_length + s2_length + 1;
-	s = (char *)malloc((s_size) * sizeof(char));
-	if (!s)
-		return (NULL);
-	ft_memcpy(s, s1, s1_length);
-	ft_memcpy(s + s1_length, s2, s2_length);
-	s[s_size - 1] = '\0';
-	return (s);
-}
+// 	if (!s1 || !s2)
+// 		return (NULL);
+// 	s1_length = ft_strlen(s1);
+// 	s2_length = ft_strlen(s2);
+// 	s_size = s1_length + s2_length + 1;
+// 	s = (char *)malloc((s_size) * sizeof(char));
+// 	if (!s)
+// 		return (NULL);
+// 	ft_memcpy(s, s1, s1_length);
+// 	ft_memcpy(s + s1_length, s2, s2_length);
+// 	s[s_size - 1] = '\0';
+// 	return (s);
+// }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

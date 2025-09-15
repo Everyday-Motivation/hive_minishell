@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 13:40:23 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 11:31:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
+
+int builtin_pwd(void);
+int	mini_cd(char **args);
 
 #endif
 

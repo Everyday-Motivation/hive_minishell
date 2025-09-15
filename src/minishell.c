@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/14 19:29:53 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:20:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 void	shell_loop(void)
 {
 	char	*line;
+	char *prompt;
 	int		loop_status;
 
 	loop_status = 1;
 	while  (loop_status)
 	{
-		line = readline("$ ");
+		prompt = getcwd(NULL, 0);
+		prompt = ft_strjoin(prompt, "$ ");
+		line = readline(prompt);
+		printf("output :%s\n", line);
+		free(prompt);
 		if (!line)
 		{
-			ft_putendl_fd("exit.", 2);
+			ft_putendl_fd("exit", 2);
 			exit(0);
 		}
 		if (*line)
@@ -36,7 +41,8 @@ void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		rl_replace_line("^C", 0);
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -48,11 +54,15 @@ void	set_sig_action(void)
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 int	main(void)
 {
+	rl_catch_signals = 0;
 	set_sig_action();
 	shell_loop();
 	return (EXIT_SUCCESS);
