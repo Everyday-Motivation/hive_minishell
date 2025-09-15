@@ -1,50 +1,53 @@
 #include "minishell.h"
 
-int get_input(char **input)
+int get_input(t_arena *arena, char **input)
 {
     char *line;
-    size_t   len;
+    size_t len;
 
-    if(isatty(STDIN_FILENO))
-    {
-        *input = readline("minishell$ ");
-        if(*input)
-            return (1);
-        else
-            return (0);
-    }
+    if (isatty(STDIN_FILENO))
+        line = readline("minishell$ ");
     else
+        line = get_next_line(STDIN_FILENO);
+    if (!line)
     {
-        line = get_next_line(fileno(stdin));
-        if(!line)
-            *input = NULL;
-        else
-        {
-            len = ft_strlen(line);
-            if(len > 0 && line[len - 1] == '\n')
-                line[len - 1] = '\0';
-            *input = line;
-            return 1; 
-        }
+        *input = NULL;
+        return 0;
     }
-    return (0);
+    len = ft_strlen(line);
+    if (len > 0 && line[len - 1] == '\n')
+        line[len - 1] = '\0';
+
+    *input = arena_strdup(arena, line);
+    if (!(*input))
+    {
+        if (isatty(STDIN_FILENO))
+            free(line);
+        return 0;
+    }
+    if (isatty(STDIN_FILENO))
+        free(line);
+    return (1);
 }
 
-int check_input(char **input)
+
+int check_input(t_arena *arena,char **input)
 {
-    if(!get_input(input))
+    int len;
+
+    if(!get_input(arena, input))
     {
-        //freedata
         perror("get_input error");
-        return(EXIT_FAILURE);
+        return(0);
     }
-    if(ft_strlen(*input) > 1024 || ft_strlen(*input) <= 0)
+    len = ft_strlen(*input);
+    if(len > 1024 || len <= 0)
     {
-        //freedata
         perror("more_than Max input or allocation failed");
-        return(EXIT_FAILURE);
+        return(0);
     }
     add_history(*input);
+    return (1);
 }
 
 /*

@@ -34,6 +34,12 @@ char **add_pwd(char **env);
 int pwd_exists(char **env);
 char **copy_env(char **envp);
 
+typedef struct s_arena {
+    char *block; 
+    size_t size;       
+    size_t capacity;
+} t_arena;
+
 
 #endif
 
