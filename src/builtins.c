@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:20:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/15 15:35:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:50:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,13 @@ int	builtin_pwd(void)
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);
+}
+
+int	builtin_cd(char **args)
+{
+	if (!args[1])
+		perror("Expected argument to cd");
+	else if (chdir(args[1]) != 0)
+		perror("minishell: cd: No such file or directory");
+	return (1);
 }
