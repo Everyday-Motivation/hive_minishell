@@ -67,7 +67,7 @@ close
 	dup
 dup2
 	pipe
-isatty
+	isatty
 ttyname
 ttyslot
 getcwd

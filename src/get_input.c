@@ -1,6 +1,50 @@
+#include "minishell.h"
+
 int get_input(char **input)
 {
-    
+    char *line;
+    size_t   len;
+
+    if(isatty(STDIN_FILENO))
+    {
+        *input = readline("minishell$ ");
+        if(*input)
+            return (1);
+        else
+            return (0);
+    }
+    else
+    {
+        line = get_next_line(fileno(stdin));
+        if(!line)
+            *input = NULL;
+        else
+        {
+            len = ft_strlen(line);
+            if(len > 0 && line[len - 1] == '\n')
+                line[len - 1] = '\0';
+            *input = line;
+            return 1; 
+        }
+    }
+    return (0);
+}
+
+int check_input(char **input)
+{
+    if(!get_input(input))
+    {
+        //freedata
+        perror("get_input error");
+        return(EXIT_FAILURE);
+    }
+    if(ft_strlen(*input) > 1024 || ft_strlen(*input) <= 0)
+    {
+        //freedata
+        perror("more_than Max input or allocation failed");
+        return(EXIT_FAILURE);
+    }
+    add_history(*input);
 }
 
 /*
