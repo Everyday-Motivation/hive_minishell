@@ -6,40 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 19:22:02 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:47:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static char	*read_line(int interactive)
-{
-	char	*prompt;
-	char	*line;
-	size_t	len;
-
-	if (interactive)
-	{
-		prompt = get_prompt();
-		line = readline(prompt);
-		free(prompt);
-		if (!line)
-			exit_clear_rl_history();
-		if (*line)
-			add_history(line);
-		return (line);
-	}
-	else
-	{
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			return (NULL);
-		len = ft_strlen(line);
-		if (len && line[len - 1] == '\n')
-			line[len - 1] = '\0';
-		return (line);
-	}
-}
 
 static void	shell_loop(int interactive)
 {
@@ -51,7 +22,7 @@ static void	shell_loop(int interactive)
 		if (!line)
 			break ;
 		printf("read line: %s\n", line);
-		// TODO: execute_line(line);
+		// TODO: execute/tokenize/etc(line);
 		free(line);
 	}
 }
