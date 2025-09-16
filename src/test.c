@@ -6,7 +6,10 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 12:51:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:54:24 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+static int	nothing(void)
+{
+}
