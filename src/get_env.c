@@ -3,140 +3,133 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/15 15:43:11 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:58:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-
-int init_env(t_vec *env, char **envp)
+int	init_env(t_vec *env, char **envp)
 {
-    if (!copy_env(env, envp))
-        return 0;
-
-    if (!pwd_exists(env))
-        if (!add_pwd(env))
-            return 0;
-
-    if (!increment_shlvl(env))
-        return 0;
-
-    return 1;
+	if (!copy_env(env, envp))
+		return (0);
+	if (!pwd_exists(env))
+		if (!add_pwd(env))
+			return (0);
+	if (!increment_shlvl(env))
+		return (0);
+	return (1);
 }
 
-int copy_env(t_vec *env, char **envp)
+int	copy_env(t_vec *env, char **envp)
 {
-	int i;
-	int j;
-	char *dup;
+	int		i;
+	int		j;
+	char	*dup;
 
 	i = 0;
-    if (ft_vec_new(env, 0, sizeof(char *)) < 0)
-        return 0;
-    while (envp[i])
-    {
-        dup = strdup(envp[i]);
-        if (!dup)
-        {
-            j = 0;
-            while (j < (int)env->len)
-            {
-                free(*(char **)ft_vec_get(env, j));
-                j++;
-            }
-            ft_vec_free(env);
-            return 0;
-        }
-        if (ft_vec_push(env, &dup) < 0)
-        {
-            free(dup);
-            return (0);
-        }
-        i++;
-    }
-    return (1);
+	if (ft_vec_new(env, 0, sizeof(char *)) < 0)
+		return (0);
+	while (envp[i])
+	{
+		dup = strdup(envp[i]);
+		if (!dup)
+		{
+			j = 0;
+			while (j < (int)env->len)
+			{
+				free(*(char **)ft_vec_get(env, j));
+				j++;
+			}
+			ft_vec_free(env);
+			return (0);
+		}
+		if (ft_vec_push(env, &dup) < 0)
+		{
+			free(dup);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
-int pwd_exists(t_vec *env)
+int	pwd_exists(t_vec *env)
 {
-    size_t i;
-	char *entry;
-	
+	size_t	i;
+	char	*entry;
+
 	i = 0;
-    while (i < env->len)
-    {
-        entry = *(char **)ft_vec_get(env, i);
-        if (strncmp(entry, "PWD=", 4) == 0)
-            return 1;
-        i++;
-    }
-    return 0;
+	while (i < env->len)
+	{
+		entry = *(char **)ft_vec_get(env, i);
+		if (strncmp(entry, "PWD=", 4) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int add_pwd(t_vec *env)
+int	add_pwd(t_vec *env)
 {
-    char *cwd;
-    char *pwd_tmp;
+	char	*cwd;
+	char	*pwd_tmp;
 
-    cwd = getcwd(NULL, 0);
-    if (!cwd)
-        return 0;
-    pwd_tmp = ft_strjoin("PWD=", cwd);
-    free(cwd);
-    if (!pwd_tmp)
-        return (0);
-    if (ft_vec_push(env, &pwd_tmp) < 0)
-    {
-        free(pwd_tmp);
-        return (0);
-    }
-    return (1);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (0);
+	pwd_tmp = ft_strjoin("PWD=", cwd);
+	free(cwd);
+	if (!pwd_tmp)
+		return (0);
+	if (ft_vec_push(env, &pwd_tmp) < 0)
+	{
+		free(pwd_tmp);
+		return (0);
+	}
+	return (1);
 }
 
-int increment_shlvl(t_vec *env)
+int	increment_shlvl(t_vec *env)
 {
-    size_t i;
-	int level;
-	char **entry;
-	char *new_level;
-	char *new_entry;
-	
+	size_t	i;
+	int		level;
+	char	**entry;
+	char	*new_level;
+	char	*new_entry;
+
 	i = 0;
-    while (i < env->len)
-    {
-        entry = ft_vec_get(env, i);
-        if (strncmp(*entry, "SHLVL=", 6) == 0)
-        {
-            level = ft_atoi(*entry + 6); 
-            new_level = ft_itoa(level + 1);
-            if (!new_level)
-                return (0);
-            new_entry = ft_strjoin("SHLVL=", new_level);
-            free(new_level);
-            if (!new_entry)
-                return (0);
-            free(*entry);
-            *entry = new_entry;
-            return (1);
-        }
-        i++;
-    }
-    return (1);
+	while (i < env->len)
+	{
+		entry = ft_vec_get(env, i);
+		if (strncmp(*entry, "SHLVL=", 6) == 0)
+		{
+			level = ft_atoi(*entry + 6);
+			new_level = ft_itoa(level + 1);
+			if (!new_level)
+				return (0);
+			new_entry = ft_strjoin("SHLVL=", new_level);
+			free(new_level);
+			if (!new_entry)
+				return (0);
+			free(*entry);
+			*entry = new_entry;
+			return (1);
+		}
+		i++;
+	}
+	return (1);
 }
-
-
 
 // char **copy_env(char **envp)
 // {
 // 	char **env;
 // 	int len = 0;
 // 	int i = 0;
-		
+
 // 	while(envp[len])
 // 	{
 // 		printf("obj: %s\n len %i\n",envp[len], len);
@@ -144,7 +137,7 @@ int increment_shlvl(t_vec *env)
 // 	}
 // 	env = malloc((len + 1) * sizeof(char *));
 // 	if (!env)
-// 		return NULL;
+// 		return (NULL);
 // 	while (i < len)
 // 	{
 // 		env[i] = ft_strdup(envp[i]);
@@ -158,7 +151,7 @@ int increment_shlvl(t_vec *env)
 // 		i++;
 // 	}
 // 	env[i] = NULL;
-// 	return env;
+// 	return (env);
 // }
 
 // int pwd_exists(char **env)
@@ -167,10 +160,10 @@ int increment_shlvl(t_vec *env)
 // 	while (env[i])
 // 	{
 // 		if (strncmp(env[i], "PWD=", 4) == 0)
-// 			return 1;
+// 			return (1);
 // 		i++;
 // 	}
-// 	return 0;
+// 	return (0);
 // }
 
 // char **add_pwd(char **env)
@@ -258,7 +251,7 @@ int increment_shlvl(t_vec *env)
 // {
 // 	*env = copy_env(envp);
 // 	if (!*env)
-// 		return 0;
+// 		return (0);
 // 	if (!pwd_exists(*env))
 // 		*env = add_pwd(*env);
 // 	if (!pwd_exists(*env))
@@ -271,6 +264,5 @@ int increment_shlvl(t_vec *env)
 // 		perror("shlvl allocation failed \n");
 // 		return (0);
 // 	}
-// 	return 1;
+// 	return (1);
 // }
-

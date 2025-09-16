@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 15:23:11 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/16 17:00:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
+# define ARENA_INIT_SIZE 4096
+
 # include "../libft/libft.h"
 # include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
@@ -26,40 +28,39 @@
 # include <termcap.h>
 # include <termios.h>
 
+typedef struct s_arena
+{
+	char	*block;
+	size_t	size;
+	size_t	capacity;
+}			t_arena;
+
 // Builtin functions
-int		builtin_pwd(void);
-int		builtin_cd(char **args);
+int			builtin_pwd(void);
+int			builtin_cd(char **args);
 
 // Signal
-void	sigint_handler(int signal);
-void	set_sig_action(void);
+void		sigint_handler(int signal);
+void		set_sig_action(void);
 
+// Arena
+int			arena_init(t_arena *arena);
+void		arena_free(t_arena *arena);
+char		*arena_strdup(t_arena *arena, const char *s);
 
-typedef struct s_arena {
-    char *block; 
-    size_t size;       
-    size_t capacity;
-} t_arena;
+// Input
+int			get_input(t_arena *arena, char **input);
+int			check_input(t_arena *arena, char **input);
 
-//jaekwang 
-//arena
+// Env
+int			init_env(t_vec *env, char **envp);
+int			copy_env(t_vec *env, char **envp);
+int			pwd_exists(t_vec *env);
+int			add_pwd(t_vec *env);
+int			increment_shlvl(t_vec *env);
 
-int arena_init(t_arena *arena);
-void arena_free(t_arena *arena);
-char *arena_strdup(t_arena *arena, const char *s);
-
-//input
-int get_input(t_arena *arena, char **input);
-int check_input(t_arena *arena,char **input);
-//get env
-int init_env(t_vec *env, char **envp);
-int copy_env(t_vec *env, char **envp);
-int pwd_exists(t_vec *env);
-int add_pwd(t_vec *env);
-int increment_shlvl(t_vec *env);
-//tokenzing
-int tokenizing(char **input);
-
+// tokenzing
+int			tokenizing(char *input);
 
 #endif
 
