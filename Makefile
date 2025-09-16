@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/15 16:58:45 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/16 13:33:18 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ src/minishell.c \
 src/get_env.c \
 src/get_input.c \
 src/data_arena.c \
+src/builtins.c src/signal.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -28,6 +29,8 @@ SFLAGS = -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
 LIBFT_DIR  = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a 
 
+LIBS = -lreadline
+
 debug ?= 0
 
 ifeq (${debug}, 1)
@@ -38,7 +41,7 @@ ifeq (${debug}, 2)
 endif
 
 $(NAME): $(LIBFT) $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) $(LIBS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

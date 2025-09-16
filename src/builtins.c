@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 17:11:56 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/15 16:50:23 by timurray         ###   ########.fr       */
+/*   Created: 2025/09/15 11:20:52 by timurray          #+#    #+#             */
+/*   Updated: 2025/09/15 17:02:54 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../include/minishell.h"
 
-char	*ft_strdup(const char *s)
+int	builtin_pwd(void)
 {
-	char	*strdup;
-	size_t	len;
+	char	*pwd;
 
-	len = ft_strlen(s);
-	strdup = (char *)malloc((len + 1) * sizeof(char));
-	if (strdup == NULL)
-		return ((char *) NULL);
-	ft_memcpy(strdup, s, len);
-	strdup[len] = '\0';
-	return (strdup);
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		perror("pwd error.");
+		return (EXIT_FAILURE);
+	}
+	printf("%s\n", pwd);
+	free(pwd);
+	return (0);
+}
+
+int	builtin_cd(char **args)
+{
+	if (!args[1])
+		perror("Expected argument to cd");
+	else if (chdir(args[1]) != 0)
+		perror("minishell: cd: No such file or directory");
+	return (1);
 }

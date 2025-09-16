@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 16:30:13 by timurray          #+#    #+#              #
-#    Updated: 2025/09/15 17:04:44 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/16 13:46:03 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ SRCS = \
 	base/ft_toupper.c base/ft_bzero.c base/ft_isascii.c \
 	base/ft_memchr.c base/ft_memset.c base/ft_split.c \
 	base/ft_strjoin.c base/ft_strmapi.c base/ft_strtrim.c \
-	base/ft_free_split.c base/ft_atoi_check.c \
-	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
+	base/ft_free_split.c base/ft_atoi_check.c base/ft_strlen.c \
+	get_next_line/get_next_line.c \
 	printf/ft_printf.c printf/ft_printf_char_utils.c \
 	printf/ft_printf_num_utils.c \
 	vector/allocation.c vector/operations.c \
