@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 11:21:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:01:40 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ int		builtin_cd(char **args);
 
 // Signal
 void	sigint_handler(int signal);
-void	set_sig_action(void);
+void	init_signals(void);
+
+// Prompt
+char *get_prompt(void);
+
+// Error
+void exit_clear_rl_history(void);
 
 #endif
 

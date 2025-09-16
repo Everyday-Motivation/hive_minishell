@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/16 10:53:08 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/16 19:05:26 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = minishell
 SOURCES = \
 src/minishell.c \
 src/builtins.c src/signal.c \
+src/error.c src/prompt.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

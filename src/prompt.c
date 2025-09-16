@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 17:55:47 by timurray         ###   ########.fr       */
+/*   Created: 2025/09/16 17:56:52 by timurray          #+#    #+#             */
+/*   Updated: 2025/09/16 19:04:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	sigint_handler(int signal)
+char *get_prompt(void)
 {
-	if (signal == SIGINT)
+	char	*cwd;
+	char	*prompt;
+
+	cwd = getcwd(NULL, 0);
+	if(!cwd)
+		return ("$ ");
+	prompt = ft_strjoin(cwd, "$ ");
+	if(!prompt)
 	{
-		write(STDOUT_FILENO, "^C", 2);
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		free(cwd);
+		return ("$ ");
 	}
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	rl_catch_signals = 0;
-	ft_bzero(&sa, sizeof(sa));
-	sa.sa_handler = sigint_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	free(cwd);
+	return (prompt);
 }
