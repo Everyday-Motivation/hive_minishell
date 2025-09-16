@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/16 15:20:11 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/16 19:51:54 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ src/get_input.c \
 src/data_arena.c \
 src/builtins.c src/signal.c \
 src/tokenizing.c \
+src/error.c src/prompt.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

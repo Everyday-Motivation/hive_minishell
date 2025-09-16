@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 17:01:35 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:52:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int			builtin_pwd(void);
 int			builtin_cd(char **args);
 
 // Signal
-void		sigint_handler(int signal);
-void		set_sig_action(void);
+void	sigint_handler(int signal);
+void	init_signals(void);
 
 // Arena
 int			arena_init(t_arena *arena);
@@ -61,6 +61,12 @@ int			increment_shlvl(t_vec *env);
 
 // Tokenizing
 int			tokenizing(char *input);
+
+// Prompt
+char	*read_line(int interactive);
+
+// Error
+void	exit_clear_rl_history(void);
 
 #endif
 

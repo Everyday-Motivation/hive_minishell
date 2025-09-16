@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 17:55:47 by timurray         ###   ########.fr       */
+/*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
+/*   Updated: 2025/09/16 19:01:17 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	sigint_handler(int signal)
+void	exit_clear_rl_history(void)
 {
-	if (signal == SIGINT)
-	{
-		write(STDOUT_FILENO, "^C", 2);
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	rl_catch_signals = 0;
-	ft_bzero(&sa, sizeof(sa));
-	sa.sa_handler = sigint_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	ft_putendl_fd("exit", 2);
+	rl_clear_history();
+	exit(0);
 }
