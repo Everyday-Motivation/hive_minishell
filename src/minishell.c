@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 13:43:49 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/16 15:22:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ int	main(int ac, char **av, char **envp)
 	char *input;
 	t_arena arena;
 
+	if (!arena_init(&arena))
+    {
+        perror("arena init failed");
+        return (EXIT_FAILURE);
+    }
 	if (!init_env(&env, envp))
 	{
 		perror("Environment init failed");
 		return (EXIT_FAILURE);
 	}
-	
-	 while (1)
+	while (1)
     {
         if (!check_input(&arena, &input))
             break;
@@ -34,9 +38,10 @@ int	main(int ac, char **av, char **envp)
         {
             break;
         }
-
+		tokenizing(&input);
+		// printf("%s\n", input);
+		
         // TODO: 여기서 parsing, tokenizing 등 처리
-        printf("입력받음: %s\n", input);
 
         arena.size = 0;
     }

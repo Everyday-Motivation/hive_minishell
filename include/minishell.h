@@ -6,19 +6,19 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 13:45:20 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/16 15:23:11 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include "../libft/libft.h"
 # include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
@@ -57,6 +57,8 @@ int copy_env(t_vec *env, char **envp);
 int pwd_exists(t_vec *env);
 int add_pwd(t_vec *env);
 int increment_shlvl(t_vec *env);
+//tokenzing
+int tokenizing(char **input);
 
 
 #endif

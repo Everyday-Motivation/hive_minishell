@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/16 13:33:18 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/16 15:20:11 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ src/get_env.c \
 src/get_input.c \
 src/data_arena.c \
 src/builtins.c src/signal.c \
+src/tokenizing.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
