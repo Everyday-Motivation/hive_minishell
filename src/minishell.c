@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 10:52:41 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 11:20:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	shell_loop(void)
 		if (!line)
 		{
 			ft_putendl_fd("exit", 2);
+			rl_clear_history();
 			exit(0);
 		}
 		if (*line)
