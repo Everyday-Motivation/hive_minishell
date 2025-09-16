@@ -35,10 +35,10 @@ void	sigint_handler(int signal);
 void	init_signals(void);
 
 // Prompt
-char *get_prompt(void);
+char	*get_prompt(void);
 
 // Error
-void exit_clear_rl_history(void);
+void	exit_clear_rl_history(void);
 
 #endif
 

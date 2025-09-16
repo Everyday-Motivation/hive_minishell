@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void exit_clear_rl_history(void)
+void	exit_clear_rl_history(void)
 {
 	ft_putendl_fd("exit", 2);
 	rl_clear_history();

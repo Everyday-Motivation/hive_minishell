@@ -12,16 +12,16 @@
 
 #include "../include/minishell.h"
 
-char *get_prompt(void)
+char	*get_prompt(void)
 {
 	char	*cwd;
 	char	*prompt;
 
 	cwd = getcwd(NULL, 0);
-	if(!cwd)
+	if (!cwd)
 		return ("$ ");
 	prompt = ft_strjoin(cwd, "$ ");
-	if(!prompt)
+	if (!prompt)
 	{
 		free(cwd);
 		return ("$ ");
