@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 17:00:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:01:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_arena
 	size_t	capacity;
 }			t_arena;
 
-// Builtin functions
+// Builtins
 int			builtin_pwd(void);
 int			builtin_cd(char **args);
 
@@ -59,7 +59,7 @@ int			pwd_exists(t_vec *env);
 int			add_pwd(t_vec *env);
 int			increment_shlvl(t_vec *env);
 
-// tokenzing
+// Tokenizing
 int			tokenizing(char *input);
 
 #endif
