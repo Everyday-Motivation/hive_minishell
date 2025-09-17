@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 19:52:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:33:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct s_arena
 	size_t	size;
 	size_t	capacity;
 }			t_arena;
+
+enum e_error_code
+{
+	NO_BINARY = 0,
+	ENV_FAIL = 1
+};
 
 // Builtins
 int			builtin_pwd(void);
@@ -67,6 +73,7 @@ char	*read_line(int interactive);
 
 // Error
 void	exit_clear_rl_history(void);
+int		return_error(int e);
 
 #endif
 
