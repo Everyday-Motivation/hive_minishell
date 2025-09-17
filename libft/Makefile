@@ -3,17 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 16:30:13 by timurray          #+#    #+#              #
-#    Updated: 2025/09/16 13:46:03 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/17 12:32:37 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I.
-LDFLAGS = -lreadline
 
 SRCS = \
 	base/ft_calloc.c base/ft_isdigit.c base/ft_memcmp.c \
