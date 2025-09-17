@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 10:46:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:04:09 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	shell_loop(int interactive)
 		if (!line)
 			break ;
 		printf("read line: %s\n", line);
-		tokenizing(line);
+		// tokenizing(line);
 		free(line);
 	}
 }

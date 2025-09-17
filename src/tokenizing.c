@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 16:59:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:04:37 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	tokenizing(char *input)
 {
-	char	**token;
+	// char	**token;
 	size_t	i;
 
 	i = 0;
-	token = ft_split(input, ' ');
+	// token = ft_split(input, ' ');
 	while (input[i])
 	{
 		if ((input[i] == ' ' || input[i] == '\t' || input[i] == '\n'))
