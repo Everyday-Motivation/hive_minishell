@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 10:33:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:44:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ typedef struct s_arena
 	size_t	capacity;
 }			t_arena;
 
-enum e_error_code
+enum		e_error_code
 {
 	NO_BINARY = 0,
-	ENV_FAIL = 1
+	ENV_FAIL = 1,
+	ARENA_FAIL = 2,
 };
 
 // Builtins
@@ -46,8 +47,8 @@ int			builtin_pwd(void);
 int			builtin_cd(char **args);
 
 // Signal
-void	sigint_handler(int signal);
-void	init_signals(void);
+void		sigint_handler(int signal);
+void		init_signals(void);
 
 // Arena
 int			arena_init(t_arena *arena);
@@ -69,11 +70,11 @@ int			increment_shlvl(t_vec *env);
 int			tokenizing(char *input);
 
 // Prompt
-char	*read_line(int interactive);
+char		*read_line(int interactive);
 
 // Error
-void	exit_clear_rl_history(void);
-int		return_error(int e);
+void		exit_clear_rl_history(void);
+int			return_error(int e);
 
 #endif
 

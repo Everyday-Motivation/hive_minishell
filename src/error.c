@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 10:40:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:44:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ int	return_error(int e)
 		ft_putendl_fd("minishell cannot execute binaries.", 2);
 	if (e == ENV_FAIL)
 		perror("Environment init failed");
-	return(EXIT_FAILURE);
+	if (e == ARENA_FAIL)
+		perror("arena init failed");
+	return (EXIT_FAILURE);
 }
