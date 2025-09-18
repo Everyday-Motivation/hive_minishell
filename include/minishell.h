@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 12:03:49 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/18 12:56:33 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ enum		e_error_code
 	ARENA_FAIL = 2,
 };
 
+typedef enum e_type
+{
+	word,
+	cmd
+} t_type;
+
+typedef struct s_lex
+{
+	t_type type;
+	char *word;
+} t_lex;
+
 // Builtins
 int			builtin_pwd(void);
 int			builtin_cd(char **args);
@@ -68,6 +80,7 @@ int			increment_shlvl(t_vec *env);
 
 // Tokenizing
 int			tokenizing(char *input);
+void		lexer(char *line, t_vec *lex_line);
 
 // Prompt
 char		*read_line(int interactive);
