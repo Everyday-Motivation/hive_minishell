@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 08:09:27 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/09 08:55:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:09:33 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,4 @@ static int	limit_check(long long n, int sign, int digit)
 	if (n > (limit - digit) / 10)
 		return (0);
 	return (1);
-}
-
-static int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || (c == 32))
-		return (1);
-	return (0);
 }

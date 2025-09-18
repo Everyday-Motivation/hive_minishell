@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 16:30:13 by timurray          #+#    #+#              #
-#    Updated: 2025/09/17 12:32:37 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/18 10:07:59 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS = \
 	base/ft_strdup.c base/ft_strlcpy.c base/ft_strnstr.c  \
 	base/ft_tolower.c base/ft_atoi.c base/ft_isalpha.c \
 	base/ft_itoa.c base/ft_memmove.c  base/ft_atol.c\
-	base/ft_striteri.c base/ft_strrchr.c \
+	base/ft_striteri.c base/ft_strrchr.c base/ft_isspace.c \
 	base/ft_toupper.c base/ft_bzero.c base/ft_isascii.c \
 	base/ft_memchr.c base/ft_memset.c base/ft_split.c \
 	base/ft_strjoin.c base/ft_strmapi.c base/ft_strtrim.c \

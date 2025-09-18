@@ -14,9 +14,9 @@
 
 int	tokenizing(char *input)
 {
-	// char	**token;
 	size_t	i;
 
+	// char	**token;
 	i = 0;
 	// token = ft_split(input, ' ');
 	while (input[i])
