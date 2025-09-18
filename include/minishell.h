@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/18 12:56:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:27:10 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum		e_error_code
 
 typedef enum e_type
 {
-	word,
+	WORD,
 	cmd
 } t_type;
 
