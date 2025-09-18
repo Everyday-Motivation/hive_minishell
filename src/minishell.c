@@ -62,7 +62,7 @@ static void	shell_loop(int interactive)
 		if (!line)
 			break ;
 		printf("read line: %s\n", line);
-		// tokenizing(line);
+		tokenizing(line);
 		free(line);
 	}
 }
