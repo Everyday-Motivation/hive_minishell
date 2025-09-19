@@ -6,13 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 11:22:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/18 10:06:51 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/19 12:49:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-
-static int	ft_isspace(char c);
 
 long	ft_atol(const char *nptr)
 {
