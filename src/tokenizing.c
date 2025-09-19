@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 12:35:52 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/19 12:51:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	tokenizing(t_arena *arena,char *input)
 	size_t	start;
 	char	*token;
 
-	// char	**token;
 	i = 0;
 	while (input[i])
 	{
