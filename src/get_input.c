@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:55:13 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/16 15:11:16 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/19 15:24:09 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_input(t_arena *arena, char **input)
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 		line[len - 1] = '\0';
-	*input = arena_strdup(arena, line);
+	*input = arena_strdup(arena, line,ft_strlen(line));
 	if (!(*input))
 	{
 		if (isatty(STDIN_FILENO))
