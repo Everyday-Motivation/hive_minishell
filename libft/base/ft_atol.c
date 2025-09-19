@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 11:22:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/08/18 14:48:01 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:06:51 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,4 @@ long	ft_atol(const char *nptr)
 		index++;
 	}
 	return (n * sign);
-}
-
-static int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || (c == 32))
-		return (1);
-	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/16 19:51:54 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/17 12:33:17 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I libft/
 VFLAGS = -g
 SFLAGS = -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
+LDFLAGS = -lreadline
 
 LIBFT_DIR  = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a 
-
-LIBS = -lreadline
 
 debug ?= 0
 
@@ -43,7 +42,7 @@ ifeq (${debug}, 2)
 endif
 
 $(NAME): $(LIBFT) $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
