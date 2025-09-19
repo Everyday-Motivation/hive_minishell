@@ -6,13 +6,12 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 08:09:27 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/18 10:09:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/19 12:58:31 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-static int	ft_isspace(char c);
 static int	limit_check(long long n, int sign, int digit);
 
 int	ft_atoi_check(const char *nptr, int *num)
