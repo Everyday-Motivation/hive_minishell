@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 12:04:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/19 12:34:22 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 // 	return (EXIT_SUCCESS);
 // }
 
-static void	shell_loop(int interactive)
+static void	shell_loop(int interactive, t_arena *arena)
 {
 	char	*line;
 
@@ -62,7 +62,7 @@ static void	shell_loop(int interactive)
 		if (!line)
 			break ;
 		printf("read line: %s\n", line);
-		tokenizing(line);
+		tokenizing(arena, line);
 		free(line);
 	}
 }
@@ -81,7 +81,7 @@ int	main(int ac, char **av, char **envp)
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
 	init_signals();
-	shell_loop(isatty(STDIN_FILENO));
+	shell_loop(isatty(STDIN_FILENO), &arena);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }

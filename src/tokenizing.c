@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/17 12:04:37 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/19 12:35:52 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	tokenizing(t_arena *arena,char *input)
 		{
 			if (input[i] == '\'' || input[i] == '"')
 			{
-				if (!quote_check(input, &tmp))
+				if (!quote_check(input, i))
 					return (0);
 				continue;
 			}
@@ -90,10 +90,4 @@ int deli_check(char c)
 	return (0);
 }
 
-int ft_isspace(char c)
-{
-    if (c == ' ' || c == '\t' || c == '\n' ||
-        c == '\v' || c == '\f' || c == '\r')
-        return 1;
-    return 0;
-}
+
