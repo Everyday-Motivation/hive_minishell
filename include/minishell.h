@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 12:32:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/19 13:12:51 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # define ARENA_INIT_SIZE 4096
 
 # include "../libft/libft.h"
+# include <stdio.h>
 # include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
+
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
@@ -53,7 +54,7 @@ void		init_signals(void);
 // Arena
 int			arena_init(t_arena *arena);
 void		arena_free(t_arena *arena);
-char		*arena_strdup(t_arena *arena, const char *s);
+char	*arena_strdup(t_arena *arena, const char *s, size_t n);
 
 // Input
 int			get_input(t_arena *arena, char **input);
@@ -68,6 +69,8 @@ int			increment_shlvl(t_vec *env);
 
 // Tokenizing
 int	tokenizing(t_arena *arena,char *input);
+int deli_check(char c);
+int quote_check(char *input, size_t *i);
 
 // Prompt
 char		*read_line(int interactive);
