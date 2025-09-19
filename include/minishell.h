@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 12:15:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:09:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ enum		e_error_code
 typedef enum e_type
 {
 	WORD,
-	D_Q, //""
+	D_Q, // ""
 	S_Q, // ''
 	S_LT, // <
-	S_GT, // 
+	S_GT, // >
 	D_LT, // <<
-	D_GT,
-	PIPE
+	D_GT, // >>
+	PIPE // |
 } t_type;
 
 typedef struct s_lex
