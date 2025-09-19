@@ -17,10 +17,10 @@
 
 # include "../libft/libft.h"
 # include <dirent.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>

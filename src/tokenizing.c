@@ -18,6 +18,7 @@ int	tokenizing(t_arena *arena,char *input)
 	size_t	start;
 	char	*token;
 
+	// char	**token;
 	i = 0;
 	while (input[i])
 	{
