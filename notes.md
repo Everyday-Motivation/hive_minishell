@@ -2,7 +2,7 @@
 
 ## Examples
 echo hi > hi.txt | cat
-ls -l | grep txt > out.txt
+ls -l | grep txt > grep.txt
 
 
 ## Test cases
