@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 12:34:22 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:35:05 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int ac, char **av, char **envp)
 		return (return_error(ENV_FAIL));
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
+
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &arena);
 	arena_free(&arena);

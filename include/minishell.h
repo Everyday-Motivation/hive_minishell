@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 16:11:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:40:31 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ enum		e_error_code
 	ARENA_FAIL = 2,
 };
 
+typedef enum e_token_type 
+{
+	WORD,
+	S_LT, // <
+	D_LT, // <<
+	S_GT, // >
+	D_GT, // >>
+	PIPE
+} t_token_type;
+
+typedef struct s_token
+{
+	t_token_type type;
+	char *data;
+} t_token;
+
+
+
 // Builtins
 int			builtin_pwd(void);
 int			builtin_cd(char **args);
@@ -67,7 +85,7 @@ int			add_pwd(t_vec *env);
 int			increment_shlvl(t_vec *env);
 
 // Tokenizing
-int	tokenizing(t_arena *arena,char *input);
+int	tokenizing(t_arena *arena, char *input);
 int deli_check(char c);
 int quote_check(char *input, size_t *i);
 

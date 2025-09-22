@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/16 16:58:52 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:34:16 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	copy_env(t_vec *env, char **envp)
 		return (0);
 	while (envp[i])
 	{
-		dup = strdup(envp[i]);
+		dup = ft_strdup(envp[i]);
 		if (!dup)
 		{
 			j = 0;

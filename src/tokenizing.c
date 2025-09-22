@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 16:17:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:35:51 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	tokenizing(t_arena *arena,char *input)
+int	tokenizing(t_arena *arena, char *input)
 {
-	size_t	i;
+	size_t	i = 0;
 	size_t	start;
-	char	*token;
-	char 	quote;
+	char	quote;
+	t_token	token;
+	t_vec tokens;
 
-	i = 0;
+	ft_vec_new(&tokens, 0, sizeof(token));
+
 	if (!quote_check(input, &i))
 		return (0);
 	i = 0;
+
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
@@ -30,52 +33,68 @@ int	tokenizing(t_arena *arena,char *input)
 			i++;
 			continue;
 		}
+
 		if (deli_check(input[i]))
 		{
-			if ((input[i] == '>' && input[i + 1] == '>') ||
-				(input[i] == '<' && input[i + 1] == '<'))
+			if (input[i] == '<' && input[i + 1] == '<')
 			{
-				token = arena_strdup(arena, &input[i], 2);
+				token.type = D_LT;
+				token.data = arena_strdup(arena, &input[i], 2);
 				i += 2;
 			}
-			else
+			else if (input[i] == '>' && input[i + 1] == '>')
 			{
-				token = arena_strdup(arena, &input[i], 1);
+				token.type = D_GT;
+				token.data = arena_strdup(arena, &input[i], 2);
+				i += 2;
+			}
+			else if (input[i] == '<')
+			{
+				token.type = S_LT;
+				token.data = arena_strdup(arena, &input[i], 1);
 				i++;
 			}
-			printf("[token] %s\n", token);
+			else if (input[i] == '>')
+			{
+				token.type = S_GT;
+				token.data = arena_strdup(arena, &input[i], 1);
+				i++;
+			}
+			else if (input[i] == '|')
+			{
+				token.type = PIPE;
+				token.data = arena_strdup(arena, &input[i], 1);
+				i++;
+			}
+			ft_vec_push(&tokens, &token);
+			// printf("[token] type=%d, data=%s\n", token.type, token.data);
 			continue;
 		}
-	
-		
-		start = i;
-		while (input[i] && !(ft_isspace(input[i]) || deli_check(input[i])))
+		if (input[i] == '\'' || input[i] == '"')
 		{
-			if (input[i] == '\'' || input[i] == '"')
-			{
-				quote = input[i];
-				start = i + 1;
+			quote = input[i];
+			start = ++i;
+			while (input[i] && input[i] != quote)
 				i++;
-				while (input[i] && input[i] != quote)
-					i++;
-				int len = i - start;
-        		token = arena_strdup(arena, &input[start], len);
-        		printf("[token] %s\n", token);
-				if (input[i] == quote)
-					i++;
-			}
-			else
-			{
-				start = i;
-				while (input[i] && !(ft_isspace(input[i]) || deli_check(input[i])))
-					i++;
-				token = arena_strdup(arena, &input[start], i - start);
-				printf("[token] %s\n", token);
-			}
+			token.type = WORD;
+			token.data = arena_strdup(arena, &input[start], i - start);
+			if (input[i] == quote)
+				i++;
 		}
+		else
+		{
+			start = i;
+			while (input[i] && !(ft_isspace(input[i]) || deli_check(input[i])))
+				i++;
+			token.type = WORD;
+			token.data = arena_strdup(arena, &input[start], i - start);
+		}
+		ft_vec_push(&tokens, &token);
+		// printf("[token] type=%d, data=%s\n", token.type, token.data);
 	}
 	return (1);
 }
+
 
 int quote_check(char *input, size_t *i)
 {
