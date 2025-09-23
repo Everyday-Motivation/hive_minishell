@@ -44,6 +44,9 @@ echo "user:$USER" | tee tmp.txt | cat -n > numbered.txt
 Syntax error return value?
 “.”/’m’”ini”s’h’’e’”ll” 
 
+echo -e "hey" > in.txt
+cat | cat | cat | cat > out.txt < in.txt
+
 
 ## Links
 (Noel's Minishell Notes)[https://docs.google.com/document/d/1s4wMZveKFOlRsZxNinlzhRAKeUIjM6l2Ze_XBC2Ge2k/edit?tab=t.0]
