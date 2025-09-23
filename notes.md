@@ -34,6 +34,8 @@ echo 'This is "'$USER'"'
 ### Redirection
 < {FileThatDoesntExist} echo hi | echo okii
 < {FileThatDoesntExist} -> {FileThatDoesntExist}
+echo "Hello '$USER'" > hello.txt
+echo 'Hello "'$USER'"' >> hello.txt
 
 ### Pipes
 echo "user:$USER" | tee tmp.txt | cat -n > numbered.txt
