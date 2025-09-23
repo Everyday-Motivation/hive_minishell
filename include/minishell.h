@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/23 11:41:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/23 15:40:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int			add_pwd(t_vec *env);
 int			increment_shlvl(t_vec *env);
 
 // Tokenizing
-int	tokenizing(t_arena *arena, char *input, t_vec *env);
+int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env);
 int deli_check(char c);
 int quote_check(char *input, size_t *i);
 

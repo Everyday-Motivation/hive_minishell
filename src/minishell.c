@@ -6,25 +6,48 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/22 16:38:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/23 15:41:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	shell_loop(int interactive, t_arena *arena)
-{
-	char	*line;
+// static void	shell_loop(int interactive, t_arena *arena, t_vec *env)
+// {
+// 	char	*line;
 
-	while (1)
-	{
-		line = read_line(interactive);
-		if (!line)
-			break ;
-		printf("read line: %s\n", line);
-		tokenizing(arena, line);
-		free(line);
-	}
+// 	while (1)
+// 	{
+// 		line = read_line(interactive);
+// 		if (!line)
+// 			break ;
+// 		printf("read line: %s\n", line);
+// 		tokenizing(arena, line, env);
+// 		free(line);
+// 	}
+// }
+
+static void shell_loop(int interactive, t_arena *arena, t_vec *env)
+{
+    char *line;
+    t_vec tokens;
+
+    while (1)
+    {
+        line = read_line(interactive);
+        if (!line)
+            break;
+
+        printf("read line: %s\n", line);
+
+        if (!tokenizing(arena, line, &tokens, env))
+        {
+            printf("Tokenizing failed\n");
+            free(line);
+            continue;
+        }
+        free(line);
+    }
 }
 
 int	main(int ac, char **av, char **envp)
@@ -41,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
 	init_signals();
-	shell_loop(isatty(STDIN_FILENO), &arena);
+	shell_loop(isatty(STDIN_FILENO), &arena, &env);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }
