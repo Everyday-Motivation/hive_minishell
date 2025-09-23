@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:35:15 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/18 10:07:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:15:12 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include <limits.h>
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
 # include <stdlib.h>
@@ -100,4 +101,5 @@ int					ft_vec_from(t_vec *dst, void *src, size_t len,
 						size_t elem_size);
 int					ft_vec_push_front(t_vec *dst, void *src);
 int					ft_vec_pop_front(void *dst, t_vec *src);
+void				*vec_find(t_vec *src, bool (*f)(void *));
 #endif
