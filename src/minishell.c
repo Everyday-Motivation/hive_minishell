@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 17:17:16 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 17:48:53 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void shell_loop(int interactive, t_arena *arena, t_vec *env)
         }
 
         // 4. 나중에 execute_pipeline(&cmds, env); 호출 예정
-
+		execute_cmds(&cmds, env);
 
         free(line);
         ft_vec_free(&tokens);

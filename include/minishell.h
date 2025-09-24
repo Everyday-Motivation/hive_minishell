@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 17:15:17 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 17:49:39 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ int					quote_check(char *input, size_t *i);
 int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 // Prompt
 char				*read_line(int interactive);
+
+//execute
+int execute_cmds(t_vec *cmds, t_vec *env);
 
 // Error
 void				exit_clear_rl_history(void);

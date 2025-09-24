@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/24 17:09:03 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/24 17:52:50 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ src/data_arena.c \
 src/signal.c \
 src/tokenizing.c \
 src/error.c src/prompt.c \
+src/execute.c src/parsing.c \
 
 $(BUILT_INS)
 
