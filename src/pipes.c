@@ -14,6 +14,8 @@
 //     return (0);
 // } /// it's an example
 
+#include "../include/minishell.h"
+
 void execute_pipeline(char ***cmds, int n, char **envp)
 {
     int     i , j;
