@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/23 11:48:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 17:15:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,37 @@ char	*arena_strdup(t_arena *arena, const char *s, size_t n)
 	dest[n] = '\0';
 	arena->size += n + 1;
 	return (dest);
+}
+
+void *arena_alloc(t_arena *arena, size_t n)
+{
+	char *ptr;
+	char *new_block;
+	size_t new_capacity;
+
+	if (!arena)
+		return NULL;
+
+	// If not enough space, grow the arena
+	if (arena->size + n > arena->capacity)
+	{
+		new_capacity = arena->capacity * 2;
+		while (new_capacity < arena->size + n)
+			new_capacity *= 2;
+
+		new_block = malloc(new_capacity);
+		if (!new_block)
+			return NULL;
+
+		// Copy old contents to new block
+		ft_memcpy(new_block, arena->block, arena->size);
+
+		free(arena->block);
+		arena->block = new_block;
+		arena->capacity = new_capacity;
+	}
+
+	ptr = arena->block + arena->size;
+	arena->size += n;
+	return (void *)ptr;
 }

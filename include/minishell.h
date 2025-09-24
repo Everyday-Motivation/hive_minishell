@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 13:09:26 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 17:15:17 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
+
+typedef struct s_cmd
+{
+    char    **argv;        // 명령어와 인자 목록
+    int     input_fd;      // 입력 파일 디스크립터
+    int     output_fd;     // 출력 파일 디스크립터
+    int     heredoc;       // heredoc 플래그 (필요 시)
+}   t_cmd;
 
 typedef struct s_arena
 {
@@ -59,51 +67,6 @@ typedef struct s_token
 } t_token;
 
 
-typedef enum e_type
-{
-	WORD,
-	D_Q,  // ""
-	S_Q,  // ''
-	S_LT, // "<"
-	S_GT, // >
-	D_LT, // "<<"
-	D_GT, // >>
-	PIPE  // |
-}					t_type;
-
-typedef struct s_lex
-{
-	t_type			type;
-	char			*data;
-}					t_lex;
-
-typedef struct s_redir
-{
-	t_type			type;
-	char			*data;
-}					t_redir;
-
-typedef struct s_cmd
-{
-	t_vec			args;
-	t_vec			redirs;
-}					t_cmd;
-
-typedef enum e_action_type
-{
-	CMD,
-	OP
-}					t_action_type;
-
-typedef struct s_task
-{
-	t_action_type	action_type;
-	union
-	{
-		t_cmd		cmd;
-		t_type		op;
-	} u_action;
-}					t_task;
 
 // Builtins
 int					cd_builtin(char **args);
@@ -116,7 +79,8 @@ void				init_signals(void);
 // Arena
 int					arena_init(t_arena *arena);
 void				arena_free(t_arena *arena);
-char				*arena_strdup(t_arena *arena, const char *s);
+void *arena_alloc(t_arena *arena, size_t n);
+char	*arena_strdup(t_arena *arena, const char *s, size_t n);
 
 // Input
 int					get_input(t_arena *arena, char **input);
@@ -133,11 +97,10 @@ int					increment_shlvl(t_vec *env);
 int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env);
 int deli_check(char c);
 int quote_check(char *input, size_t *i);
-void				lexer(char *line, t_vec *lex_line);
-int					lex_to_parse(t_vec *lex, t_vec *parse);
 int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
 
+int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 // Prompt
 char				*read_line(int interactive);
 
