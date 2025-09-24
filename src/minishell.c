@@ -6,13 +6,53 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 12:52:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:58:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	shell_loop(int interactive, char **envp)
+// int	main_2(int ac, char **av, char **envp)
+// {
+// 	// t_vec	env;
+// 	// char	*input;
+// 	// t_arena	arena;
+
+// 	// (void)ac;
+// 	// (void)av;
+// 	// if (!arena_init(&arena))
+// 	// {
+// 	// 	perror("arena init failed");
+// 	// 	return (EXIT_FAILURE);
+// 	// }
+// 	// if (!init_env(&env, envp))
+// 	// {
+// 	// 	perror("Environment init failed");
+// 	// 	return (EXIT_FAILURE);
+// 	// }
+// 	// while (1)
+// 	// {
+// 		if (!check_input(&arena, &input))
+// 	// 		break ;
+// 	// 	if (strcmp(input, "exit") == 0)
+// 	// 	{
+// 	// 		break ;
+// 	// 	}
+// 	// 	tokenizing(input);
+// 		// printf("%s\n", input);
+// 		// TODO: 여기서 parsing, tokenizing 등 처리
+// 		arena.size = 0;
+// 	// }
+// 	// arena_free(&arena);
+// 	// 환경 변수 해제
+// 	// TODO: free_env(env);
+// 	/// signal init
+// 	// get input -> check if it is valid input
+// 	// -> if yes ->parsing  ->>> first tokenizing
+// 	return (EXIT_SUCCESS);
+// }
+
+static void	shell_loop(int interactive, t_arena *arena)
 {
 	char	*line;
 	t_vec	lex_line;
@@ -23,10 +63,8 @@ static void	shell_loop(int interactive, char **envp)
 		line = read_line(interactive);
 		if (!line)
 			break ;
-		// printf("read line: %s\n", line);
-		ft_vec_new(&lex_line, 0, sizeof(t_lex));
-		lexer(line, &lex_line);
-		lex_to_parse(&lex_line, &parse);
+		printf("read line: %s\n", line);
+		tokenizing(arena, line);
 		free(line);
 	}
 }
@@ -45,7 +83,7 @@ int	main(int ac, char **av, char **envp)
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
 	init_signals();
-	shell_loop(isatty(STDIN_FILENO), envp);
+	shell_loop(isatty(STDIN_FILENO), &arena);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 12:54:05 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:59:54 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ typedef struct s_task
 }					t_task;
 
 // Builtins
-int					builtin_pwd(void);
-int					builtin_cd(char **args);
+int					cd_builtin(char **args);
+int					pwd_builtin(void);
 
 // Signal
 void				sigint_handler(int signal);
@@ -113,9 +113,11 @@ int					add_pwd(t_vec *env);
 int					increment_shlvl(t_vec *env);
 
 // Tokenizing
-int					tokenizing(char *input);
 void				lexer(char *line, t_vec *lex_line);
 int					lex_to_parse(t_vec *lex, t_vec *parse);
+int					tokenizing(t_arena *arena, char *input);
+int					deli_check(char c);
+int					quote_check(char *input, size_t *i);
 
 // Prompt
 char				*read_line(int interactive);
