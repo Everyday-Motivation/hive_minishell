@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/19 16:11:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:31:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ enum		e_error_code
 };
 
 // Builtins
-int			builtin_pwd(void);
-int			builtin_cd(char **args);
+int	cd_builtin(char **args);
+int	pwd_builtin(void);
 
 // Signal
 void		sigint_handler(int signal);
