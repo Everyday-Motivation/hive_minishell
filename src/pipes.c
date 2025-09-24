@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/24 12:34:20 by jaeklee           #+#    #+#             */
+/*   Updated: 2025/09/24 12:34:29 by jaeklee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
+
 // int main(int ac, char **av, char **envp)
 // {
 //     char    ***cmds;
@@ -14,7 +28,6 @@
 //     return (0);
 // } /// it's an example
 
-#include "../include/minishell.h"
 
 void execute_pipeline(char ***cmds, int n, char **envp)
 {
