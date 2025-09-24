@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/18 12:59:25 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/24 09:56:15 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ src/get_input.c \
 src/data_arena.c \
 src/builtins.c src/signal.c \
 src/tokenizing.c src/lexer.c \
-src/error.c src/prompt.c \
+src/error.c src/prompt.c src/executor.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

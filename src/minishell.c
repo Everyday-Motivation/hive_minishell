@@ -6,25 +6,28 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/18 12:56:31 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:59:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	shell_loop(int interactive)
+static void	shell_loop(int interactive, char **envp)
 {
 	char	*line;
-	t_vec lex_line;
+	t_vec	lex_line;
+	t_vec	parse;
 
 	while (1)
 	{
 		line = read_line(interactive);
 		if (!line)
 			break ;
-		printf("read line: %s\n", line);
-		ft_vec_new(&lex_line,0,sizeof(t_lex));
+		// printf("read line: %s\n", line);
+		ft_vec_new(&lex_line, 0, sizeof(t_lex));
 		lexer(line, &lex_line);
+		lex_to_parse(&lex_line, &parse);
+		execute_plan(&parse, envp);
 		free(line);
 	}
 }
@@ -43,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
 	init_signals();
-	shell_loop(isatty(STDIN_FILENO));
+	shell_loop(isatty(STDIN_FILENO), envp);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }

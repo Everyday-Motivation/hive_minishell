@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/22 19:15:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:56:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int					increment_shlvl(t_vec *env);
 // Tokenizing
 int					tokenizing(char *input);
 void				lexer(char *line, t_vec *lex_line);
+int					lex_to_parse(t_vec *lex, t_vec *parse);
 
 // Prompt
 char				*read_line(int interactive);
@@ -122,6 +123,8 @@ char				*read_line(int interactive);
 // Error
 void				exit_clear_rl_history(void);
 int					return_error(int e);
+
+void execute_plan(t_vec *plan, char **envp);
 
 #endif
 
