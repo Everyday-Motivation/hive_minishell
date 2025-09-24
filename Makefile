@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/23 12:19:27 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/09/24 12:48:55 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,17 @@ src/minishell.c \
 src/get_env.c \
 src/get_input.c \
 src/data_arena.c \
-src/builtins.c src/signal.c \
+src/signal.c \
 src/tokenizing.c \
 src/error.c src/prompt.c \
+$(BUILT_INS)
+
+BUILT_IN_DIR = src/builtins
+BUILT_INS = \
+$(BUILT_IN_DIR)/cd_builtin.c $(BUILT_IN_DIR)/echo_builtin.c \
+$(BUILT_IN_DIR)/env_builtin.c $(BUILT_IN_DIR)/exit_builtin.c \
+$(BUILT_IN_DIR)/export_builtin.c s$(BUILT_IN_DIR)/pwd_builtin.c \
+$(BUILT_IN_DIR)/unset_builtin.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

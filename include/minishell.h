@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/23 15:40:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 12:48:50 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct s_token
 
 
 // Builtins
-int			builtin_pwd(void);
-int			builtin_cd(char **args);
+int	cd_builtin(char **args);
+int	pwd_builtin(void);
 
 // Signal
 void		sigint_handler(int signal);
