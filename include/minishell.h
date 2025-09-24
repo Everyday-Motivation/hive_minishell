@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 09:56:02 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:54:05 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ char				*read_line(int interactive);
 // Error
 void				exit_clear_rl_history(void);
 int					return_error(int e);
-
-void execute_plan(t_vec *plan, char **envp);
 
 #endif
 

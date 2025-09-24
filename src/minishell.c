@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 09:59:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:52:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	shell_loop(int interactive, char **envp)
 		ft_vec_new(&lex_line, 0, sizeof(t_lex));
 		lexer(line, &lex_line);
 		lex_to_parse(&lex_line, &parse);
-		execute_plan(&parse, envp);
 		free(line);
 	}
 }
