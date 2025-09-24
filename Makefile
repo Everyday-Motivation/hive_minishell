@@ -6,7 +6,11 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/09/24 12:48:55 by jaeklee          ###   ########.fr        #
+=======
+#    Updated: 2025/09/24 12:59:42 by timurray         ###   ########.fr        #
+>>>>>>> dev
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +22,11 @@ src/get_env.c \
 src/get_input.c \
 src/data_arena.c \
 src/signal.c \
+src/tokenizing.c src/lexer.c \
+src/signal.c \
 src/tokenizing.c \
 src/error.c src/prompt.c \
+
 $(BUILT_INS)
 
 BUILT_IN_DIR = src/builtins

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/23 15:41:20 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 13:08:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 // static void	shell_loop(int interactive, t_arena *arena, t_vec *env)
 // {
 // 	char	*line;
+	// t_vec	lex_line;
+	// t_vec	parse;
 
 // 	while (1)
 // 	{
@@ -31,6 +33,8 @@ static void shell_loop(int interactive, t_arena *arena, t_vec *env)
 {
     char *line;
     t_vec tokens;
+	char	*line;
+
 
     while (1)
     {

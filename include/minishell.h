@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 12:48:50 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 13:09:26 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # define ARENA_INIT_SIZE 4096
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
@@ -30,12 +30,12 @@
 
 typedef struct s_arena
 {
-	char	*block;
-	size_t	size;
-	size_t	capacity;
-}			t_arena;
+	char			*block;
+	size_t			size;
+	size_t			capacity;
+}					t_arena;
 
-enum		e_error_code
+enum				e_error_code
 {
 	NO_BINARY = 0,
 	ENV_FAIL = 1,
@@ -59,42 +59,91 @@ typedef struct s_token
 } t_token;
 
 
+typedef enum e_type
+{
+	WORD,
+	D_Q,  // ""
+	S_Q,  // ''
+	S_LT, // "<"
+	S_GT, // >
+	D_LT, // "<<"
+	D_GT, // >>
+	PIPE  // |
+}					t_type;
+
+typedef struct s_lex
+{
+	t_type			type;
+	char			*data;
+}					t_lex;
+
+typedef struct s_redir
+{
+	t_type			type;
+	char			*data;
+}					t_redir;
+
+typedef struct s_cmd
+{
+	t_vec			args;
+	t_vec			redirs;
+}					t_cmd;
+
+typedef enum e_action_type
+{
+	CMD,
+	OP
+}					t_action_type;
+
+typedef struct s_task
+{
+	t_action_type	action_type;
+	union
+	{
+		t_cmd		cmd;
+		t_type		op;
+	} u_action;
+}					t_task;
 
 // Builtins
-int	cd_builtin(char **args);
-int	pwd_builtin(void);
+int					cd_builtin(char **args);
+int					pwd_builtin(void);
 
 // Signal
-void		sigint_handler(int signal);
-void		init_signals(void);
+void				sigint_handler(int signal);
+void				init_signals(void);
 
 // Arena
-int			arena_init(t_arena *arena);
-void		arena_free(t_arena *arena);
-char	*arena_strdup(t_arena *arena, const char *s, size_t n);
+int					arena_init(t_arena *arena);
+void				arena_free(t_arena *arena);
+char				*arena_strdup(t_arena *arena, const char *s);
 
 // Input
-int			get_input(t_arena *arena, char **input);
-int			check_input(t_arena *arena, char **input);
+int					get_input(t_arena *arena, char **input);
+int					check_input(t_arena *arena, char **input);
 
 // Env
-int			init_env(t_vec *env, char **envp);
-int			copy_env(t_vec *env, char **envp);
-int			pwd_exists(t_vec *env);
-int			add_pwd(t_vec *env);
-int			increment_shlvl(t_vec *env);
+int					init_env(t_vec *env, char **envp);
+int					copy_env(t_vec *env, char **envp);
+int					pwd_exists(t_vec *env);
+int					add_pwd(t_vec *env);
+int					increment_shlvl(t_vec *env);
 
 // Tokenizing
 int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env);
 int deli_check(char c);
 int quote_check(char *input, size_t *i);
+void				lexer(char *line, t_vec *lex_line);
+int					lex_to_parse(t_vec *lex, t_vec *parse);
+int					deli_check(char c);
+int					quote_check(char *input, size_t *i);
 
 // Prompt
-char		*read_line(int interactive);
+char				*read_line(int interactive);
 
 // Error
-void		exit_clear_rl_history(void);
-int			return_error(int e);
+void				exit_clear_rl_history(void);
+int					return_error(int e);
 
 #endif
 
