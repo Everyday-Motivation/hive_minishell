@@ -54,7 +54,6 @@ int execute_cmds(t_vec *cmds, t_vec *env)
             perror("fork");
             return 0;
         }
-
         if (prev_fd != -1)
             close(prev_fd);
 

@@ -6,12 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 18:02:43 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/25 19:19:21 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 
 char *get_env_value(t_vec *env, const char *var_name)
@@ -93,12 +92,19 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 	ft_vec_free(&parts);
 	return result;
 }
+
+
+
+
+
 int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 {
     size_t i = 0;
     size_t start;
     char quote;
     t_token token;
+    char buf[1024]; // 간단한 임시 버퍼
+    size_t buf_i;
 
     if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
         return 0;
@@ -115,6 +121,7 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
             continue;
         }
 
+        // 구분자 처리
         if (deli_check(input[i]))
         {
             if (input[i] == '<' && input[i + 1] == '<')
@@ -151,34 +158,146 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
             continue;
         }
 
-        if (input[i] == '\'' || input[i] == '"')
+        // WORD 조합 처리 시작
+        buf_i = 0;
+        while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
         {
-            quote = input[i];
-            start = ++i;
-            while (input[i] && input[i] != quote)
-                i++;
-            token.type = WORD;
-            token.data = arena_strdup(arena, &input[start], i - start);
-            if (input[i] == quote)
-                i++;
+            if (input[i] == '\'') // 작은 따옴표
+            {
+                quote = input[i++];
+                while (input[i] && input[i] != quote)
+                    buf[buf_i++] = input[i++];
+                if (input[i] == quote)
+                    i++;
+                // env 확장 없음
+            }
+            else if (input[i] == '"') // 큰 따옴표
+            {
+                quote = input[i++];
+                start = i;
+                while (input[i] && input[i] != quote)
+                    i++;
+                char *temp = arena_strdup(arena, &input[start], i - start);
+                if (input[i] == quote)
+                    i++;
+                temp = expand_env(arena, temp, env); // env 확장
+                for (size_t j = 0; temp[j]; j++)
+                    buf[buf_i++] = temp[j];
+            }
+            else // 일반 문자
+            {
+                buf[buf_i++] = input[i++];
+            }
         }
-        else
-        {
-            start = i;
-            while (input[i] && !(ft_isspace(input[i]) || deli_check(input[i])))
-                i++;
-            token.type = WORD;
-            token.data = arena_strdup(arena, &input[start], i - start);
-        }
+        buf[buf_i] = '\0';
 
-        // 환경 변수 확장
-        token.data = expand_env(arena, token.data, env);
-
+        token.type = WORD;
+        token.data = arena_strdup(arena, buf, buf_i);
         ft_vec_push(tokens, &token);
     }
-
     return 1;
 }
+
+
+
+
+
+
+
+// int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
+// {
+//     size_t i = 0;
+//     size_t start;
+//     char quote;
+//     t_token token;
+
+//     if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
+//         return 0;
+
+//     if (!quote_check(input, &i))
+//         return 0;
+
+//     i = 0;
+//     while (input[i])
+//     {
+//         if (ft_isspace(input[i]))
+//         {
+//             i++;
+//             continue;
+//         }
+//         if (deli_check(input[i]))
+//         {
+//             if (input[i] == '<' && input[i + 1] == '<')
+//             {
+//                 token.type = D_LT;
+//                 token.data = arena_strdup(arena, &input[i], 2);
+//                 i += 2;
+//             }
+//             else if (input[i] == '>' && input[i + 1] == '>')
+//             {
+//                 token.type = D_GT;
+//                 token.data = arena_strdup(arena, &input[i], 2);
+//                 i += 2;
+//             }
+//             else if (input[i] == '<')
+//             {
+//                 token.type = S_LT;
+//                 token.data = arena_strdup(arena, &input[i], 1);
+//                 i++;
+//             }
+//             else if (input[i] == '>')
+//             {
+//                 token.type = S_GT;
+//                 token.data = arena_strdup(arena, &input[i], 1);
+//                 i++;
+//             }
+//             else if (input[i] == '|')
+//             {
+//                 token.type = PIPE;
+//                 token.data = arena_strdup(arena, &input[i], 1);
+//                 i++;
+//             }
+//             ft_vec_push(tokens, &token);
+//             continue;
+//         }
+// 		if (input[i] == '\'')
+// 		{
+// 			quote = input[i];
+// 			start = ++i;
+// 			while (input[i] && input[i] != quote)
+// 				i++;
+// 			token.type = WORD;
+// 			token.data = arena_strdup(arena, &input[start], i - start);
+// 			if (input[i] == quote)
+// 				i++;
+// 			// No env_exp if It's S_Q
+// 		}
+// 		else if (input[i] == '"')
+// 		{
+// 			quote = input[i];
+// 			start = ++i;
+// 			while (input[i] && input[i] != quote)
+// 				i++;
+// 			token.type = WORD;
+// 			token.data = arena_strdup(arena, &input[start], i - start);
+// 			if (input[i] == quote)
+// 				i++;
+// 			token.data = expand_env(arena, token.data, env);
+// 		}
+// 		else
+// 		{
+// 			start = i;
+// 			while (input[i] && !(ft_isspace(input[i]) || deli_check(input[i])))
+// 				i++;
+// 			token.type = WORD;
+// 			token.data = arena_strdup(arena, &input[start], i - start);
+
+// 			token.data = expand_env(arena, token.data, env);
+// 		}
+//         ft_vec_push(tokens, &token);
+//     }
+//     return 1;
+// }
 
 
 
