@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/24 17:49:39 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/24 19:01:54 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 
 typedef struct s_cmd
 {
-    char    **argv;        // 명령어와 인자 목록
-    int     input_fd;      // 입력 파일 디스크립터
-    int     output_fd;     // 출력 파일 디스크립터
-    int     heredoc;       // heredoc 플래그 (필요 시)
+    char    **argv;        
+    int     input_fd;      
+    int     output_fd;     
+    int     heredoc;      
 }   t_cmd;
 
 typedef struct s_arena

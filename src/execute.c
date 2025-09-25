@@ -35,12 +35,12 @@ int execute_cmds(t_vec *cmds, t_vec *env)
 
             if (cmd->output_fd != 1)
                 dup2(cmd->output_fd, STDOUT_FILENO);
-            else if (i < cmds->len - 1)
+            else if (i < cmds->len - 1) //IF there is more pipe
                 dup2(pipe_fd[1], STDOUT_FILENO); // send output to the next command
 
-            if (prev_fd != -1)
+            if (prev_fd != -1) //if didn't modified
                 close(prev_fd);
-            if (i < cmds->len - 1)
+            if (i < cmds->len - 1) // if it's not the last
             {
                 close(pipe_fd[0]);
                 close(pipe_fd[1]);
@@ -58,7 +58,7 @@ int execute_cmds(t_vec *cmds, t_vec *env)
         if (prev_fd != -1)
             close(prev_fd);
 
-        if (i < cmds->len - 1)
+        if (i < cmds->len - 1) // HERE you mod prev_fd for next pipe
         {
             close(pipe_fd[1]);
             prev_fd = pipe_fd[0]; 
