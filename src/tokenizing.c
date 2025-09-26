@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/25 19:19:21 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/26 13:34:25 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 
 
 
-
 int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 {
     size_t i = 0;
@@ -157,7 +156,6 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
             ft_vec_push(tokens, &token);
             continue;
         }
-
         // WORD 조합 처리 시작
         buf_i = 0;
         while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
@@ -171,7 +169,7 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
                     i++;
                 // env 확장 없음
             }
-            else if (input[i] == '"') // 큰 따옴표
+            else if (input[i] == '"')
             {
                 quote = input[i++];
                 start = i;
@@ -180,14 +178,31 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
                 char *temp = arena_strdup(arena, &input[start], i - start);
                 if (input[i] == quote)
                     i++;
-                temp = expand_env(arena, temp, env); // env 확장
+                temp = expand_env(arena, temp, env);
                 for (size_t j = 0; temp[j]; j++)
                     buf[buf_i++] = temp[j];
             }
-            else // 일반 문자
-            {
-                buf[buf_i++] = input[i++];
-            }
+			else // 일반 문자
+			{
+				if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
+				{
+					size_t var_start = ++i;
+					while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+						i++;
+
+					char *key = arena_strdup(arena, &input[var_start], i - var_start);
+					char *val = get_env_value(env, key);
+					if (val)
+					{
+						for (size_t j = 0; val[j]; j++)
+							buf[buf_i++] = val[j];
+					}
+				}
+				else
+				{
+					buf[buf_i++] = input[i++];
+				}
+			}
         }
         buf[buf_i] = '\0';
 
@@ -197,10 +212,6 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
     }
     return 1;
 }
-
-
-
-
 
 
 
