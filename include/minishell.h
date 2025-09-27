@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/25 19:18:35 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/27 17:35:41 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 
 typedef struct s_cmd
 {
-    char    **argv;        
-    int     input_fd;      
-    int     output_fd;     
-    int     heredoc;      
-}   t_cmd;
+	char			**argv;
+	int				input_fd;
+	int				output_fd;
+	int				heredoc;
+}					t_cmd;
 
 typedef struct s_arena
 {
@@ -50,7 +50,7 @@ enum				e_error_code
 	ARENA_FAIL = 2,
 };
 
-typedef enum e_token_type 
+typedef enum e_token_type
 {
 	WORD,
 	S_LT, // <
@@ -58,15 +58,13 @@ typedef enum e_token_type
 	S_GT, // >
 	D_GT, // >>
 	PIPE
-} t_token_type;
+}					t_token_type;
 
 typedef struct s_token
 {
-	t_token_type type;
-	char *data;
-} t_token;
-
-
+	t_token_type	type;
+	char			*data;
+}					t_token;
 
 // Builtins
 int					cd_builtin(char **args);
@@ -79,8 +77,8 @@ void				init_signals(void);
 // Arena
 int					arena_init(t_arena *arena);
 void				arena_free(t_arena *arena);
-void *arena_alloc(t_arena *arena, size_t n);
-char	*arena_strdup(t_arena *arena, const char *s, size_t n);
+void				*arena_alloc(t_arena *arena, size_t n);
+char				*arena_strdup(t_arena *arena, const char *s, size_t n);
 
 // Input
 int					get_input(t_arena *arena, char **input);
@@ -94,20 +92,21 @@ int					add_pwd(t_vec *env);
 int					increment_shlvl(t_vec *env);
 
 // Tokenizing
-int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env);
-int deli_check(char c);
-int quote_check(char *input, size_t *i);
+int					tokenizing(t_arena *arena, char *input, t_vec *tokens,
+						t_vec *env);
+int					deli_check(char c);
+int					quote_check(char *input, size_t *i);
 int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
 
-//parsing
+// parsing
+int					parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 
-int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 // Prompt
 char				*read_line(int interactive);
 
-//execute
-int execute_cmds(t_vec *cmds, t_vec *env);
+// execute
+int					execute_cmds(t_vec *cmds, t_vec *env);
 
 // Error
 void				exit_clear_rl_history(void);

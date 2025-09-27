@@ -1,6 +1,6 @@
 
 #include "../include/minishell.h"
-#include <fcntl.h>
+
 
 
 int execute_cmds(t_vec *cmds, t_vec *env)
