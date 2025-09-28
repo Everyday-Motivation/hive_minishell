@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/28 12:16:59 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:50:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ typedef struct s_token
 }					t_token;
 
 // Builtins
-int					cd_builtin(char **args);
-int					pwd_builtin(void);
+int					bi_unset(char **av, t_vec *env);
 
 // Signal
 void				sigint_handler(int signal);
@@ -112,6 +111,7 @@ int					return_error(int e);
 void				free_str_vec(t_vec *str_vec);
 int					str_in_str_vec(t_vec *str_vec, char *str);
 void				print_str_vec(t_vec *str_vec);
+int					vec_remove_str(t_vec *src, size_t index);
 
 #endif
 
