@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/26 09:36:55 by timurray         ###   ########.fr        #
+#    Updated: 2025/09/28 10:51:10 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ src/tokenizing.c \
 src/error.c \
 src/prompt.c \
 src/execute.c \
-src/parsing.c
+src/parsing.c \
+src/vec_str_helper.c
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \
