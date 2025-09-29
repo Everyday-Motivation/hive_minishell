@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/29 16:36:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:18:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,16 @@ int	init_env(t_vec *env, char **envp)
 			return (0);
 	if (!increment_shlvl(env))
 		return (0);
-	char *av[] = {"7a sd=","te st=","_=10", "adsdac1111=asd sdasd", "te-est=", "test", "PWD=test", NULL};
+	char *av[] = {
+		"7asd=invalid",
+		"te,st=invalid",
+		"_=valid", 
+		"te-est=invalid",
+		"test",
+		"varname1111=valid",
+		"PWD=test",
+		"PWD=test  extras",
+		NULL};
 	bi_export(av, env);
 	return (1);
 }
@@ -84,7 +93,7 @@ int	increment_shlvl(t_vec *env)
 	while (i < env->len)
 	{
 		entry = (char **)ft_vec_get(env, i);
-		if (strncmp(*entry, "SHLVL=", 6) == 0)
+		if (ft_strncmp(*entry, "SHLVL=", 6) == 0)
 		{
 			new_level = ft_itoa(ft_atoi(*entry + 6) + 1);
 			if (!new_level)

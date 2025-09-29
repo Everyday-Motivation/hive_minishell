@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/28 19:26:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/29 18:02:25 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void				free_str_vec(t_vec *str_vec);
 int					str_in_str_vec(t_vec *str_vec, char *str);
 void				print_str_vec(t_vec *str_vec, char *prefix);
 int					vec_remove_str(t_vec *src, size_t index);
+size_t				get_str_index(t_vec *src, char *s);
 
 #endif
 
