@@ -6,33 +6,31 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/26 13:54:22 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 12:28:21 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-char *get_env_value(t_vec *env, const char *var_name)
+char	*get_env_value(t_vec *env, const char *var_name)
 {
-    size_t i = 0;
-    size_t name_len;
-    char *entry;
+	size_t	i;
+	size_t	name_len;
+	char	*entry;
 
-    if (!var_name || var_name[0] == '\0')
-        return NULL;
-
-    name_len = strlen(var_name);
-
-    while (i < env->len)
-    {
-        entry = *(char **)ft_vec_get(env, i);
-        if (entry && strncmp(entry, var_name, name_len) == 0 && entry[name_len] == '=')
-            return entry + name_len + 1;
-        i++;
-    }
-
-    return NULL;
+	i = 0;
+	if (!var_name || var_name[0] == '\0')
+		return (NULL);
+	name_len = strlen(var_name);
+	while (i < env->len)
+	{
+		entry = *(char **)ft_vec_get(env, i);
+		if (entry && strncmp(entry, var_name, name_len) == 0
+			&& entry[name_len] == '=')
+			return (entry + name_len + 1);
+		i++;
+	}
+	return (NULL);
 }
 
 char *join_fragments_to_arena(t_vec *parts, t_arena *arena)
@@ -59,10 +57,10 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 	t_vec parts;
 	size_t i = 0, start = 0;
 	char *key;
+	char *val;
 
 	if (ft_vec_new(&parts, 0, sizeof(char *)) < 0)
-		return NULL;
-
+		return (NULL);
 	while (input[i])
 	{
 		if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
@@ -70,9 +68,8 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 			start = ++i;
 			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
 				i++;
-
 			key = arena_strdup(arena, input + start, i - start);
-			char *val = get_env_value(env, key);
+			val = get_env_value(env, key);
 			if (val)
 				ft_vec_push(&parts, &val);
 		}
@@ -86,7 +83,7 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 
 	char *result = join_fragments_to_arena(&parts, arena);
 	ft_vec_free(&parts);
-	return result;
+	return (result);
 }
 
 
@@ -133,102 +130,104 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 
 
 
-int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
+int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 {
-    size_t i = 0;
-    size_t start;
-    char quote;
-    t_token token;
-    char buf[1024]; // 간단한 임시 버퍼
-    size_t buf_i;
+	size_t	i;
+	size_t	start;
+	char	quote;
+	t_token	token;
+	size_t	buf_i;
+	char	*temp;
+	size_t	var_start;
+	char	*key;
+	char	*val;
 
-    if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
-        return 0;
-
-    if (!quote_check(input, &i))
-        return 0;
-
-    i = 0;
-    while (input[i])
-    {
-        if (ft_isspace(input[i]))
-        {
-            i++;
-            continue;
-        }
-
-        // 구분자 처리
-        if (deli_check(input[i]))
-        {
-            if (input[i] == '<' && input[i + 1] == '<')
-            {
-                token.type = D_LT;
-                token.data = arena_strdup(arena, &input[i], 2);
-                i += 2;
-            }
-            else if (input[i] == '>' && input[i + 1] == '>')
-            {
-                token.type = D_GT;
-                token.data = arena_strdup(arena, &input[i], 2);
-                i += 2;
-            }
-            else if (input[i] == '<')
-            {
-                token.type = S_LT;
-                token.data = arena_strdup(arena, &input[i], 1);
-                i++;
-            }
-            else if (input[i] == '>')
-            {
-                token.type = S_GT;
-                token.data = arena_strdup(arena, &input[i], 1);
-                i++;
-            }
-            else if (input[i] == '|')
-            {
-                token.type = PIPE;
-                token.data = arena_strdup(arena, &input[i], 1);
-                i++;
-            }
-            ft_vec_push(tokens, &token);
-            continue;
-        }
-        // WORD 조합 처리 시작
-        buf_i = 0;
-        while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
-        {
-            if (input[i] == '\'') // 작은 따옴표
-            {
-                quote = input[i++];
-                while (input[i] && input[i] != quote)
-                    buf[buf_i++] = input[i++];
-                if (input[i] == quote)
-                    i++;
-                // env 확장 없음
-            }
-            else if (input[i] == '"')
-            {
-                quote = input[i++];
-                start = i;
-                while (input[i] && input[i] != quote)
-                    i++;
-                char *temp = arena_strdup(arena, &input[start], i - start);
-                if (input[i] == quote)
-                    i++;
-                temp = expand_env(arena, temp, env);
-                for (size_t j = 0; temp[j]; j++)
-                    buf[buf_i++] = temp[j];
-            }
+	i = 0;
+	char buf[1024]; // 간단한 임시 버퍼
+	if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
+		return (0);
+	if (!quote_check(input, &i))
+		return (0);
+	i = 0;
+	while (input[i])
+	{
+		if (ft_isspace(input[i]))
+		{
+			i++;
+			continue ;
+		}
+		// 구분자 처리
+		if (deli_check(input[i]))
+		{
+			if (input[i] == '<' && input[i + 1] == '<')
+			{
+				token.type = D_LT;
+				token.data = arena_strdup(arena, &input[i], 2);
+				i += 2;
+			}
+			else if (input[i] == '>' && input[i + 1] == '>')
+			{
+				token.type = D_GT;
+				token.data = arena_strdup(arena, &input[i], 2);
+				i += 2;
+			}
+			else if (input[i] == '<')
+			{
+				token.type = S_LT;
+				token.data = arena_strdup(arena, &input[i], 1);
+				i++;
+			}
+			else if (input[i] == '>')
+			{
+				token.type = S_GT;
+				token.data = arena_strdup(arena, &input[i], 1);
+				i++;
+			}
+			else if (input[i] == '|')
+			{
+				token.type = PIPE;
+				token.data = arena_strdup(arena, &input[i], 1);
+				i++;
+			}
+			ft_vec_push(tokens, &token);
+			continue ;
+		}
+		// WORD 조합 처리 시작
+		buf_i = 0;
+		while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
+		{
+			if (input[i] == '\'') // 작은 따옴표
+			{
+				quote = input[i++];
+				while (input[i] && input[i] != quote)
+					buf[buf_i++] = input[i++];
+				if (input[i] == quote)
+					i++;
+				// env 확장 없음
+			}
+			else if (input[i] == '"')
+			{
+				quote = input[i++];
+				start = i;
+				while (input[i] && input[i] != quote)
+					i++;
+				temp = arena_strdup(arena, &input[start], i - start);
+				if (input[i] == quote)
+					i++;
+				temp = expand_env(arena, temp, env);
+				for (size_t j = 0; temp[j]; j++)
+					buf[buf_i++] = temp[j];
+			}
 			else // 일반 문자
 			{
 				if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
 				{
-					size_t var_start = ++i;
-					while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+					var_start = ++i;
+					while (input[i] && (ft_isalnum(input[i])
+							|| input[i] == '_'))
 						i++;
-
-					char *key = arena_strdup(arena, &input[var_start], i - var_start);
-					char *val = get_env_value(env, key);
+					key = arena_strdup(arena, &input[var_start], i - var_start);
+					val = get_env_value(env, key);
 					if (val)
 					{
 						for (size_t j = 0; val[j]; j++)
@@ -240,17 +239,14 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 					buf[buf_i++] = input[i++];
 				}
 			}
-        }
-        buf[buf_i] = '\0';
-
-        token.type = WORD;
-        token.data = arena_strdup(arena, buf, buf_i);
-        ft_vec_push(tokens, &token);
-    }
-    return 1;
+		}
+		buf[buf_i] = '\0';
+		token.type = WORD;
+		token.data = arena_strdup(arena, buf, buf_i);
+		ft_vec_push(tokens, &token);
+	}
+	return (1);
 }
-
-
 
 // int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 // {
@@ -260,10 +256,10 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 //     t_token token;
 
 //     if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
-//         return 0;
+//         return (0);
 
 //     if (!quote_check(input, &i))
-//         return 0;
+//         return (0);
 
 //     i = 0;
 //     while (input[i])
@@ -271,7 +267,7 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 //         if (ft_isspace(input[i]))
 //         {
 //             i++;
-//             continue;
+//             continue ;
 //         }
 //         if (deli_check(input[i]))
 //         {
@@ -306,7 +302,7 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 //                 i++;
 //             }
 //             ft_vec_push(tokens, &token);
-//             continue;
+//             continue ;
 //         }
 // 		if (input[i] == '\'')
 // 		{
@@ -344,12 +340,10 @@ int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 // 		}
 //         ft_vec_push(tokens, &token);
 //     }
-//     return 1;
+//     return (1);
 // }
 
-
-
-int quote_check(char *input, size_t *i)
+int	quote_check(char *input, size_t *i)
 {
 	int	s_sign;
 	int	d_sign;
@@ -372,11 +366,9 @@ int quote_check(char *input, size_t *i)
 	return (1);
 }
 
-int deli_check(char c)
+int	deli_check(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
 		return (1);
 	return (0);
 }
-
-

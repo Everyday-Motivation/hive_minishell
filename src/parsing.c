@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
+/*   Updated: 2025/09/29 12:31:23 by jaeklee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
-#include <fcntl.h>
-
-
 
 static int handle_redirection(t_arena *arena, t_token *tok, t_token *next, t_cmd *cmd)
 {
