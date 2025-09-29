@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/29 12:31:23 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:34:09 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,61 +40,113 @@ static int handle_redirection(t_arena *arena, t_token *tok, t_token *next, t_cmd
 
 static char **vec_to_argv(t_arena *arena, t_vec *argv)
 {
-    char **args;
-    size_t j;
+	char **args;
+	size_t j;
 	
 	args = arena_alloc(arena, sizeof(char *) * (argv->len + 1));
 	j= 0;
-    while (j < argv->len)
+	while (j < argv->len)
+	{
+		args[j] = *(char **)ft_vec_get(argv, j);
+		j++;
+	}
+	args[argv->len] = NULL;
+	return args;
+}
+
+static int process_tokens_in_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd, t_vec *argv)
+{
+    t_token *tok;
+    t_token *next;
+    char *tmp;
+
+    while (*i < tokens->len)
     {
-        args[j] = *(char **)ft_vec_get(argv, j);
-        j++;
+        tok = (t_token *)ft_vec_get(tokens, *i);
+        if (tok->type == PIPE)
+        {
+            (*i)++;
+            break;
+        }
+        else if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT || tok->type == D_GT)
+        {
+            next = ft_vec_get(tokens, *i + 1);
+            if (!handle_redirection(arena, tok, next, cmd))
+                return 0;
+            (*i) += 2;
+        }
+        else if (tok->type == WORD)
+        {
+            tmp = arena_strdup(arena, tok->data, strlen(tok->data));
+            if (!tmp)
+                return 0;
+            if (ft_vec_push(argv, &tmp) < 0)
+                return 0;
+            (*i)++;
+        }
+        else
+            (*i)++;
     }
-    args[argv->len] = NULL;
-    return args;
+    return 1;
 }
 
 static int parse_single_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
-	t_token *tok;
-	t_token *next;
-	t_vec argv;
-	char *tmp;
+    t_vec argv;
 
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
-	cmd->heredoc = 0;
+    cmd->input_fd = 0;
+    cmd->output_fd = 1;
+    cmd->heredoc = 0;
 
-	if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
-		return 0;
-	while (*i < tokens->len)
-	{
-		tok = (t_token *)ft_vec_get(tokens, *i);
-
-		if (tok->type == PIPE)
-		{
-			(*i)++;
-			break;
-		}
-		else if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT || tok->type == D_GT)
-		{
-			next = ft_vec_get(tokens, *i + 1);
-			if (!handle_redirection(arena, tok, next, cmd))
-				return 0;
-			(*i) += 2;
-		}
-		else if (tok->type == WORD)
-		{
-			tmp = arena_strdup(arena, tok->data, strlen(tok->data));
-			ft_vec_push(&argv, &tmp);
-			(*i)++;
-		}
-		else
-			(*i)++;
-	}
-	cmd->argv = vec_to_argv(arena, &argv);
-	return 1;
+    if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
+        return 0;
+    if (!process_tokens_in_command(arena, tokens, i, cmd, &argv))
+        return 0;
+    cmd->argv = vec_to_argv(arena, &argv);
+    return 1;
 }
+
+
+// static int parse_single_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
+// {
+// 	t_token *tok;
+// 	t_token *next;
+// 	t_vec argv;
+// 	char *tmp;
+
+// 	cmd->input_fd = 0;
+// 	cmd->output_fd = 1;
+// 	cmd->heredoc = 0;
+// 	if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
+// 		return 0;
+// 	while (*i < tokens->len)
+// 	{
+// 		tok = (t_token *)ft_vec_get(tokens, *i);
+// 		if (tok->type == PIPE)
+// 		{
+// 			(*i)++;
+// 			break;
+// 		}
+// 		else if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT || tok->type == D_GT)
+// 		{
+// 			next = ft_vec_get(tokens, *i + 1);
+// 			if (!handle_redirection(arena, tok, next, cmd))
+// 				return 0;
+// 			(*i) += 2;
+// 		}
+// 		else if (tok->type == WORD)
+// 		{
+// 			tmp = arena_strdup(arena, tok->data, strlen(tok->data));
+// 			ft_vec_push(&argv, &tmp);
+// 			(*i)++;
+// 		}
+// 		else
+// 			(*i)++;
+// 	}
+// 	cmd->argv = vec_to_argv(arena, &argv);
+// 	return 1;
+// }
+
 
 int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 {
@@ -110,6 +162,6 @@ int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 			return 0;
 		ft_vec_push(cmds, &cmd);
 	}
-
 	return 1;
 }
+

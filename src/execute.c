@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:31 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/29 12:30:38 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:34:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int execute_cmds(t_vec *cmds, t_vec *env)
 
         i++;
     }
-
     while (wait(NULL) > 0); // wait chind P
 
     return (1);
