@@ -6,16 +6,17 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 14:40:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 18:30:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+
 size_t	handle_single_quote(char *input, size_t *i, char *buf)
 {
-	char quote;
-	size_t buf_i;
+	char	quote;
+	size_t	buf_i;
 
 	quote = input[(*i)++];
 	buf_i = 0;
@@ -24,22 +25,22 @@ size_t	handle_single_quote(char *input, size_t *i, char *buf)
 	if (input[*i] == quote)
 		(*i)++;
 	buf[buf_i] = '\0';
-	return buf_i;
+	return (buf_i);
 }
 
-size_t	handle_double_quote(t_arena *arena, char *input, size_t *i, char *buf, t_vec *env)
+size_t	handle_double_quote(t_arena *arena, char *input, size_t *i, char *buf,
+		t_vec *env)
 {
-	char quote;
-	size_t start;
-	size_t buf_i;
-	char *temp;
+	char	quote;
+	size_t	start;
+	size_t	buf_i;
+	char	*temp;
 
 	quote = input[(*i)++];
 	start = *i;
 	buf_i = 0;
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
-
 	temp = arena_strdup(arena, &input[start], *i - start);
 	if (input[*i] == quote)
 		(*i)++;
@@ -50,15 +51,16 @@ size_t	handle_double_quote(t_arena *arena, char *input, size_t *i, char *buf, t_
 		buf_i++;
 	}
 	buf[buf_i] = '\0';
-	return buf_i;
+	return (buf_i);
 }
 
-size_t	handle_env_variable(t_arena *arena, char *input, size_t *i, char *buf, t_vec *env)
+size_t	handle_env_variable(t_arena *arena, char *input, size_t *i, char *buf,
+		t_vec *env)
 {
-	size_t var_start;
-	size_t buf_i;
-	char *key;
-	char *val;
+	size_t	var_start;
+	size_t	buf_i;
+	char	*key;
+	char	*val;
 
 	var_start = ++(*i);
 	buf_i = 0;
@@ -75,16 +77,18 @@ size_t	handle_env_variable(t_arena *arena, char *input, size_t *i, char *buf, t_
 		}
 	}
 	buf[buf_i] = '\0';
-	return buf_i;
+	return (buf_i);
 }
 
-void	process_word(t_arena *arena, char *input, size_t *i, t_vec *tokens, t_vec *env)
+void	process_word(t_arena *arena, char *input, size_t *i, t_vec *tokens,
+		t_vec *env)
 {
 	char	buf[1024];
-	size_t	buf_i = 0;
+	size_t	buf_i;
 	t_token	token;
-	size_t len;
+	size_t	len;
 
+	buf_i = 0;
 	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
 	{
 		len = 0;
@@ -97,7 +101,7 @@ void	process_word(t_arena *arena, char *input, size_t *i, t_vec *tokens, t_vec *
 		else
 		{
 			buf[buf_i++] = input[(*i)++];
-			continue;
+			continue ;
 		}
 		buf_i += len;
 	}
@@ -109,7 +113,7 @@ void	process_word(t_arena *arena, char *input, size_t *i, t_vec *tokens, t_vec *
 
 void	process_delimiter(t_arena *arena, char *input, size_t *i, t_vec *tokens)
 {
-	t_token token;
+	t_token	token;
 
 	if (input[*i] == '<' && input[*i + 1] == '<')
 	{
@@ -147,7 +151,7 @@ void	process_delimiter(t_arena *arena, char *input, size_t *i, t_vec *tokens)
 int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 {
 	size_t	i;
-	
+
 	i = 0;
 	if (ft_vec_new(tokens, 0, sizeof(t_token)) < 0)
 		return (0);
@@ -159,12 +163,12 @@ int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 		if (ft_isspace(input[i]))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (deli_check(input[i]))
 		{
 			process_delimiter(arena, input, &i, tokens);
-			continue;
+			continue ;
 		}
 		process_word(arena, input, &i, tokens, env);
 	}
@@ -200,7 +204,6 @@ int	deli_check(char c)
 		return (1);
 	return (0);
 }
-
 
 // int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 // {
@@ -413,4 +416,3 @@ int	deli_check(char c)
 //     }
 //     return (1);
 // }
-
