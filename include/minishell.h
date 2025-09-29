@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 12:31:17 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 12:46:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ int					init_env(t_vec *env, char **envp);
 int					copy_env(t_vec *env, char **envp);
 int					add_pwd(t_vec *env);
 int					increment_shlvl(t_vec *env);
+
+//env_expanding
+char				*get_env_value(t_vec *env, const char *var_name);
+char				*join_fragments_to_arena(t_vec *parts, t_arena *arena);
+char				*expand_env(t_arena *arena, const char *input, t_vec *env);
 
 // Tokenizing
 int					tokenizing(t_arena *arena, char *input, t_vec *tokens,

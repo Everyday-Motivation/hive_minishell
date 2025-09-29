@@ -6,145 +6,130 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 12:28:21 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/29 13:33:41 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*get_env_value(t_vec *env, const char *var_name)
+size_t	handle_single_quote(char *input, size_t *i, char *buf, size_t buf_i)
 {
-	size_t	i;
-	size_t	name_len;
-	char	*entry;
-
-	i = 0;
-	if (!var_name || var_name[0] == '\0')
-		return (NULL);
-	name_len = strlen(var_name);
-	while (i < env->len)
-	{
-		entry = *(char **)ft_vec_get(env, i);
-		if (entry && strncmp(entry, var_name, name_len) == 0
-			&& entry[name_len] == '=')
-			return (entry + name_len + 1);
-		i++;
-	}
-	return (NULL);
+	char quote = input[(*i)++];
+	while (input[*i] && input[*i] != quote)
+		buf[buf_i++] = input[(*i)++];
+	if (input[*i] == quote)
+		(*i)++;
+	return buf_i;
 }
 
-char *join_fragments_to_arena(t_vec *parts, t_arena *arena)
+size_t	handle_double_quote(t_arena *arena, char *input, size_t *i, char *buf, size_t buf_i, t_vec *env)
 {
-	char *result = arena->block + arena->size;
+	char quote = input[(*i)++];
+	size_t start = *i;
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+
+	char *temp = arena_strdup(arena, &input[start], *i - start);
+
+	if (input[*i] == quote)
+		(*i)++;
+
+	temp = expand_env(arena, temp, env);
+	
 	size_t j = 0;
+	while (temp[j])
+		buf[buf_i++] = temp[j++];
 
-	while (j < parts->len)
-	{
-		char *frag = *(char **)ft_vec_get(parts, j);
-		size_t k = 0;
-
-		while (frag[k])
-			arena->block[arena->size++] = frag[k++];
-
-		j++;
-	}
-
-	arena->block[arena->size++] = '\0';
-	return result;
+	return buf_i;
 }
-char *expand_env(t_arena *arena, const char *input, t_vec *env)
-{
-	t_vec parts;
-	size_t i = 0, start = 0;
-	char *key;
-	char *val;
 
-	if (ft_vec_new(&parts, 0, sizeof(char *)) < 0)
-		return (NULL);
-	while (input[i])
+size_t	handle_env_variable(t_arena *arena, char *input, size_t *i, char *buf, size_t buf_i, t_vec *env)
+{
+	size_t var_start = ++(*i);
+	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+		(*i)++;
+
+	char *key = arena_strdup(arena, &input[var_start], *i - var_start);
+	char *val = get_env_value(env, key);
+
+	if (val)
 	{
-		if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
-		{
-			start = ++i;
-			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
-				i++;
-			key = arena_strdup(arena, input + start, i - start);
-			val = get_env_value(env, key);
-			if (val)
-				ft_vec_push(&parts, &val);
-		}
+		size_t j = 0;
+		while (val[j])
+			buf[buf_i++] = val[j++];
+	}
+	return buf_i;
+}
+
+void	process_word(t_arena *arena, char *input, size_t *i, t_vec *tokens, t_vec *env)
+{
+	char	buf[1024];
+	size_t	buf_i = 0;
+	t_token	token;
+
+	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
+	{
+		if (input[*i] == '\'')
+			buf_i = handle_single_quote(input, i, buf, buf_i);
+		else if (input[*i] == '"')
+			buf_i = handle_double_quote(arena, input, i, buf, buf_i, env);
 		else
 		{
-			char *frag = arena_strdup(arena, &input[i], 1); // ⬅️ frag 선언 이동
-			ft_vec_push(&parts, &frag);
-			i++;
+			if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
+				buf_i = handle_env_variable(arena, input, i, buf, buf_i, env);
+			else
+				buf[buf_i++] = input[(*i)++];
 		}
 	}
-
-	char *result = join_fragments_to_arena(&parts, arena);
-	ft_vec_free(&parts);
-	return (result);
+	buf[buf_i] = '\0';
+	token.type = WORD;
+	token.data = arena_strdup(arena, buf, buf_i);
+	ft_vec_push(tokens, &token);
 }
 
+void	process_delimiter(t_arena *arena, char *input, size_t *i, t_vec *tokens)
+{
+	t_token token;
 
-// char *expand_env(t_arena *arena, const char *input, t_vec *env)
-// {
-// 	t_vec parts;
-// 	size_t i = 0, start = 0, total = 0;
-// 	char *key;
-// 	char *frag;
-
-// 	if (ft_vec_new(&parts, 0, sizeof(char *)) < 0)
-// 		return NULL;
-
-// 	while (input[i])
-// 	{
-// 		if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
-// 		{
-// 			start = ++i;
-// 			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
-// 				i++;
-
-// 			key = arena_strdup(arena, input + start, i - start);
-// 			char *val = get_env_value(env, key);
-// 			if (val)
-// 			{
-// 				// char *frag = arena_strdup(arena, val, ft_strlen(val));
-// 				ft_vec_push(&parts, &val);
-// 				total += ft_strlen(val);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			frag = arena_strdup(arena, &input[i], 1);
-// 			ft_vec_push(&parts, &frag);
-// 			total += 1;
-// 			i++;
-// 		}
-// 	}
-// 	char *result = join_fragments_to_arena(&parts, arena);
-// 	ft_vec_free(&parts);
-// 	return result;
-// }
-
-
-
+	if (input[*i] == '<' && input[*i + 1] == '<')
+	{
+		token.type = D_LT;
+		token.data = arena_strdup(arena, &input[*i], 2);
+		*i += 2;
+	}
+	else if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		token.type = D_GT;
+		token.data = arena_strdup(arena, &input[*i], 2);
+		*i += 2;
+	}
+	else if (input[*i] == '<')
+	{
+		token.type = S_LT;
+		token.data = arena_strdup(arena, &input[*i], 1);
+		(*i)++;
+	}
+	else if (input[*i] == '>')
+	{
+		token.type = S_GT;
+		token.data = arena_strdup(arena, &input[*i], 1);
+		(*i)++;
+	}
+	else if (input[*i] == '|')
+	{
+		token.type = PIPE;
+		token.data = arena_strdup(arena, &input[*i], 1);
+		(*i)++;
+	}
+	ft_vec_push(tokens, &token);
+}
 
 int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 {
 	size_t	i;
-	size_t	start;
-	char	quote;
-	t_token	token;
-	size_t	buf_i;
-	char	*temp;
-	size_t	var_start;
-	char	*key;
-	char	*val;
-
+	
 	i = 0;
-	char buf[1024]; // 간단한 임시 버퍼
-	if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
+	if (ft_vec_new(tokens, 0, sizeof(t_token)) < 0)
 		return (0);
 	if (!quote_check(input, &i))
 		return (0);
@@ -154,99 +139,165 @@ int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 		if (ft_isspace(input[i]))
 		{
 			i++;
-			continue ;
+			continue;
 		}
-		// 구분자 처리
 		if (deli_check(input[i]))
 		{
-			if (input[i] == '<' && input[i + 1] == '<')
-			{
-				token.type = D_LT;
-				token.data = arena_strdup(arena, &input[i], 2);
-				i += 2;
-			}
-			else if (input[i] == '>' && input[i + 1] == '>')
-			{
-				token.type = D_GT;
-				token.data = arena_strdup(arena, &input[i], 2);
-				i += 2;
-			}
-			else if (input[i] == '<')
-			{
-				token.type = S_LT;
-				token.data = arena_strdup(arena, &input[i], 1);
-				i++;
-			}
-			else if (input[i] == '>')
-			{
-				token.type = S_GT;
-				token.data = arena_strdup(arena, &input[i], 1);
-				i++;
-			}
-			else if (input[i] == '|')
-			{
-				token.type = PIPE;
-				token.data = arena_strdup(arena, &input[i], 1);
-				i++;
-			}
-			ft_vec_push(tokens, &token);
-			continue ;
+			process_delimiter(arena, input, &i, tokens);
+			continue;
 		}
-		// WORD 조합 처리 시작
-		buf_i = 0;
-		while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
-		{
-			if (input[i] == '\'') // 작은 따옴표
-			{
-				quote = input[i++];
-				while (input[i] && input[i] != quote)
-					buf[buf_i++] = input[i++];
-				if (input[i] == quote)
-					i++;
-				// env 확장 없음
-			}
-			else if (input[i] == '"')
-			{
-				quote = input[i++];
-				start = i;
-				while (input[i] && input[i] != quote)
-					i++;
-				temp = arena_strdup(arena, &input[start], i - start);
-				if (input[i] == quote)
-					i++;
-				temp = expand_env(arena, temp, env);
-				for (size_t j = 0; temp[j]; j++)
-					buf[buf_i++] = temp[j];
-			}
-			else // 일반 문자
-			{
-				if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
-				{
-					var_start = ++i;
-					while (input[i] && (ft_isalnum(input[i])
-							|| input[i] == '_'))
-						i++;
-					key = arena_strdup(arena, &input[var_start], i - var_start);
-					val = get_env_value(env, key);
-					if (val)
-					{
-						for (size_t j = 0; val[j]; j++)
-							buf[buf_i++] = val[j];
-					}
-				}
-				else
-				{
-					buf[buf_i++] = input[i++];
-				}
-			}
-		}
-		buf[buf_i] = '\0';
-		token.type = WORD;
-		token.data = arena_strdup(arena, buf, buf_i);
-		ft_vec_push(tokens, &token);
+		process_word(arena, input, &i, tokens, env);
 	}
 	return (1);
 }
+
+int	quote_check(char *input, size_t *i)
+{
+	int	s_sign;
+	int	d_sign;
+
+	s_sign = 0;
+	d_sign = 0;
+	while (input[*i])
+	{
+		if (input[*i] == '\'' && d_sign == 0)
+			s_sign = !s_sign;
+		else if (input[*i] == '"' && s_sign == 0)
+			d_sign = !d_sign;
+		(*i)++;
+	}
+	if (d_sign == 1 || s_sign == 1)
+	{
+		perror("Syntax error: quotations need to match.\n");
+		return (0);
+	}
+	return (1);
+}
+
+int	deli_check(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
+
+// int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
+// {
+// 	size_t	i;
+// 	size_t	start;
+// 	char	quote;
+// 	t_token	token;
+// 	size_t	buf_i;
+// 	char	*temp;
+// 	size_t	var_start;
+// 	char	*key;
+// 	char	*val;
+
+// 	i = 0;
+// 	char buf[1024];
+// 	if (ft_vec_new(tokens, 0, sizeof(token)) < 0)
+// 		return (0);
+// 	if (!quote_check(input, &i))
+// 		return (0);
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (ft_isspace(input[i]))
+// 		{
+// 			i++;
+// 			continue ;
+// 		}
+// 		if (deli_check(input[i]))
+// 		{
+// 			if (input[i] == '<' && input[i + 1] == '<')
+// 			{
+// 				token.type = D_LT;
+// 				token.data = arena_strdup(arena, &input[i], 2);
+// 				i += 2;
+// 			}
+// 			else if (input[i] == '>' && input[i + 1] == '>')
+// 			{
+// 				token.type = D_GT;
+// 				token.data = arena_strdup(arena, &input[i], 2);
+// 				i += 2;
+// 			}
+// 			else if (input[i] == '<')
+// 			{
+// 				token.type = S_LT;
+// 				token.data = arena_strdup(arena, &input[i], 1);
+// 				i++;
+// 			}
+// 			else if (input[i] == '>')
+// 			{
+// 				token.type = S_GT;
+// 				token.data = arena_strdup(arena, &input[i], 1);
+// 				i++;
+// 			}
+// 			else if (input[i] == '|')
+// 			{
+// 				token.type = PIPE;
+// 				token.data = arena_strdup(arena, &input[i], 1);
+// 				i++;
+// 			}
+// 			ft_vec_push(tokens, &token);
+// 			continue ;
+// 		}
+// 		// WORD 조합 처리 시작
+// 		buf_i = 0;
+// 		while (input[i] && !ft_isspace(input[i]) && !deli_check(input[i]))
+// 		{
+// 			if (input[i] == '\'') // 작은 따옴표
+// 			{
+// 				quote = input[i++];
+// 				while (input[i] && input[i] != quote)
+// 					buf[buf_i++] = input[i++];
+// 				if (input[i] == quote)
+// 					i++;
+// 				// env 확장 없음
+// 			}
+// 			else if (input[i] == '"')
+// 			{
+// 				quote = input[i++];
+// 				start = i;
+// 				while (input[i] && input[i] != quote)
+// 					i++;
+// 				temp = arena_strdup(arena, &input[start], i - start);
+// 				if (input[i] == quote)
+// 					i++;
+// 				temp = expand_env(arena, temp, env);
+// 				for (size_t j = 0; temp[j]; j++)
+// 					buf[buf_i++] = temp[j];
+// 			}
+// 			else
+// 			{
+// 				if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
+// 				{
+// 					var_start = ++i;
+// 					while (input[i] && (ft_isalnum(input[i])
+// 							|| input[i] == '_'))
+// 						i++;
+// 					key = arena_strdup(arena, &input[var_start], i - var_start);
+// 					val = get_env_value(env, key);
+// 					if (val)
+// 					{
+// 						for (size_t j = 0; val[j]; j++)
+// 							buf[buf_i++] = val[j];
+// 					}
+// 				}
+// 				else
+// 				{
+// 					buf[buf_i++] = input[i++];
+// 				}
+// 			}
+// 		}
+// 		buf[buf_i] = '\0';
+// 		token.type = WORD;
+// 		token.data = arena_strdup(arena, buf, buf_i);
+// 		ft_vec_push(tokens, &token);
+// 	}
+// 	return (1);
+// }
 
 // int tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 // {
@@ -343,32 +394,3 @@ int	tokenizing(t_arena *arena, char *input, t_vec *tokens, t_vec *env)
 //     return (1);
 // }
 
-int	quote_check(char *input, size_t *i)
-{
-	int	s_sign;
-	int	d_sign;
-
-	s_sign = 0;
-	d_sign = 0;
-	while (input[*i])
-	{
-		if (input[*i] == '\'' && d_sign == 0)
-			s_sign = !s_sign;
-		else if (input[*i] == '"' && s_sign == 0)
-			d_sign = !d_sign;
-		(*i)++;
-	}
-	if (d_sign == 1 || s_sign == 1)
-	{
-		perror("Syntax error: quotations need to match.\n");
-		return (0);
-	}
-	return (1);
-}
-
-int	deli_check(char c)
-{
-	if (c == '|' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
