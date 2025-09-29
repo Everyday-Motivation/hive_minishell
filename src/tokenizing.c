@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/26 13:34:25 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/09/26 13:54:22 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,29 @@ char *get_env_value(t_vec *env, const char *var_name)
     return NULL;
 }
 
+char *join_fragments_to_arena(t_vec *parts, t_arena *arena)
+{
+	char *result = arena->block + arena->size;
+	size_t j = 0;
 
+	while (j < parts->len)
+	{
+		char *frag = *(char **)ft_vec_get(parts, j);
+		size_t k = 0;
+
+		while (frag[k])
+			arena->block[arena->size++] = frag[k++];
+
+		j++;
+	}
+
+	arena->block[arena->size++] = '\0';
+	return result;
+}
 char *expand_env(t_arena *arena, const char *input, t_vec *env)
 {
 	t_vec parts;
-	size_t i = 0, start = 0, total = 0;
+	size_t i = 0, start = 0;
 	char *key;
 
 	if (ft_vec_new(&parts, 0, sizeof(char *)) < 0)
@@ -56,42 +74,61 @@ char *expand_env(t_arena *arena, const char *input, t_vec *env)
 			key = arena_strdup(arena, input + start, i - start);
 			char *val = get_env_value(env, key);
 			if (val)
-			{
-
-				char *frag = arena_strdup(arena, val, ft_strlen(val));
-				ft_vec_push(&parts, &frag);
-				total += ft_strlen(frag);
-			}
+				ft_vec_push(&parts, &val);
 		}
 		else
 		{
-			char *frag = arena_strdup(arena, &input[i], 1);
+			char *frag = arena_strdup(arena, &input[i], 1); // ⬅️ frag 선언 이동
 			ft_vec_push(&parts, &frag);
-			total += 1;
 			i++;
 		}
 	}
 
-	char *result = arena->block + arena->size;
-	size_t j = 0;
-	while (j < parts.len)
-	{
-		char *frag = *(char **)ft_vec_get(&parts, j);
-		size_t k = 0;
-		while (frag[k])
-		{
-			result[arena->size - (result - arena->block)] = frag[k];
-			arena->size++;
-			k++;
-		}
-		j++;
-	}
-	result[arena->size - (result - arena->block)] = '\0';
-	arena->size++;
-
+	char *result = join_fragments_to_arena(&parts, arena);
 	ft_vec_free(&parts);
 	return result;
 }
+
+
+// char *expand_env(t_arena *arena, const char *input, t_vec *env)
+// {
+// 	t_vec parts;
+// 	size_t i = 0, start = 0, total = 0;
+// 	char *key;
+// 	char *frag;
+
+// 	if (ft_vec_new(&parts, 0, sizeof(char *)) < 0)
+// 		return NULL;
+
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '$' && (i == 0 || input[i - 1] != '\\'))
+// 		{
+// 			start = ++i;
+// 			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+// 				i++;
+
+// 			key = arena_strdup(arena, input + start, i - start);
+// 			char *val = get_env_value(env, key);
+// 			if (val)
+// 			{
+// 				// char *frag = arena_strdup(arena, val, ft_strlen(val));
+// 				ft_vec_push(&parts, &val);
+// 				total += ft_strlen(val);
+// 			}
+// 		}
+// 		else
+// 		{
+// 			frag = arena_strdup(arena, &input[i], 1);
+// 			ft_vec_push(&parts, &frag);
+// 			total += 1;
+// 			i++;
+// 		}
+// 	}
+// 	char *result = join_fragments_to_arena(&parts, arena);
+// 	ft_vec_free(&parts);
+// 	return result;
+// }
 
 
 
