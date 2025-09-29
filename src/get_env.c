@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/28 12:17:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:36:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	init_env(t_vec *env, char **envp)
 			return (0);
 	if (!increment_shlvl(env))
 		return (0);
+	char *av[] = {"7a sd=","te st=","_=10", "adsdac1111=asd sdasd", "te-est=", "test", "PWD=test", NULL};
+	bi_export(av, env);
 	return (1);
 }
 

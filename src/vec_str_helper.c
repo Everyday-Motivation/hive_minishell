@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 10:45:57 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/28 17:32:16 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/28 19:21:46 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,23 @@ int	str_in_str_vec(t_vec *str_vec, char *str)
 	return (0);
 }
 
-void	print_str_vec(t_vec *str_vec)
+void	print_str_vec(t_vec *str_vec, char *prefix)
 {
 	size_t	i;
 	char	*line;
+	char	*prefix_line;
 
 	i = 0;
 	while (i < str_vec->len)
 	{
 		line = *(char **)ft_vec_get(str_vec, i);
-		ft_putendl_fd(line, 1);
+		prefix_line = ft_strjoin(prefix, line);
+		ft_putendl_fd(prefix_line, 1);
+		free(prefix_line);
 		i++;
 	}
 }
+
 int	vec_remove_str(t_vec *src, size_t index)
 {
 	char	*s;
