@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 20:04:12 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/29 20:08:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,6 @@ int	bi_export(char **av, t_vec *env)
 	return (1);
 }
 /*
-TODO: export does so alphabetically
-TODO: incomplete args
-
-TODO: invalid variable names
-TODO: Cannot contain spaces, hyphens, punctuation, or start with a number.
-
 TODO: Error message
 timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
 bash: export: `111=wwwwwww': not a valid identifier
