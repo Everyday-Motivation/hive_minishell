@@ -6,11 +6,12 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:31 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/29 17:34:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/01 17:39:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 int execute_cmds(t_vec *cmds, t_vec *env)
 {
@@ -54,7 +55,12 @@ int execute_cmds(t_vec *cmds, t_vec *env)
                 close(pipe_fd[0]);
                 close(pipe_fd[1]);
             }
-            execvp(cmd->argv[0], cmd->argv);
+			execvp(cmd->argv[0], cmd->argv);
+			if (execve(cmd->argv[0], cmd->argv, (char * const *)env->memory) == -1)
+			{
+				perror("execve");
+				_exit(1);
+			}
             perror("execvp"); // if fail
             _exit(1);
         }

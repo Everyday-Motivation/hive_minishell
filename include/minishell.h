@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 18:32:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/01 15:22:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ typedef enum e_token_type
 	PIPE
 }					t_token_type;
 
+typedef struct s_info {
+	t_arena *arena;
+	t_vec   *env;
+} t_info;
+
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -97,14 +103,17 @@ char				*join_fragments_to_arena(t_vec *parts, t_arena *arena);
 char				*expand_env(t_arena *arena, const char *input, t_vec *env);
 
 // Tokenizing
-int					tokenizing(t_arena *arena, char *input, t_vec *tokens,
-						t_vec *env);
-int					deli_check(char c);
-int					quote_check(char *input, size_t *i);
+int					tokenizing(t_info *info, char *input, t_vec *tokens);
 int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
 int					parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
+size_t				handle_single_quote(char *input, size_t *i, char *buf);
+size_t				handle_double_quote(t_info *info, char *input, size_t *i, char *buf);
+size_t				handle_env_variable(t_info *info, char *input, size_t *i, char *buf);
+void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
 
+//heredoc
+int	handle_heredoc(t_cmd *cmd, const char *limiter);
 // Prompt
 char				*read_line(int interactive);
 

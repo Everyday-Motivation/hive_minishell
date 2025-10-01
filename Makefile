@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/29 12:44:41 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/10/01 15:24:59 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,14 @@ src/get_env.c \
 src/get_input.c \
 src/data_arena.c \
 src/signal.c \
-src/tokenizing.c \
+src/tokenizing.c src/tokenizing2.c\
 src/error.c \
 src/prompt.c \
 src/execute.c \
 src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \
+src/heredoc.c \
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \

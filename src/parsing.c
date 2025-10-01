@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/29 17:34:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/01 15:52:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int handle_redirection(t_arena *arena, t_token *tok, t_token *next, t_cmd
 	else if (tok->type == D_LT)
 	{
 		cmd->heredoc = 1;
-		//  heredoc 처리
+		if (!handle_heredoc(cmd, next->data))
+			return 0;
 	}
 	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT) && (cmd->input_fd == -1 || cmd->output_fd == -1))
 	{
@@ -106,6 +107,23 @@ static int parse_single_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd 
     return 1;
 }
 
+int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
+{
+	t_cmd cmd;
+	size_t i = 0;
+
+	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
+		return 0;
+
+	while (i < tokens->len)
+	{
+		if (!parse_single_command(arena, tokens, &i, &cmd))
+			return 0;
+		ft_vec_push(cmds, &cmd);
+	}
+	return 1;
+}
+
 
 // static int parse_single_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 // {
@@ -147,21 +165,4 @@ static int parse_single_command(t_arena *arena, t_vec *tokens, size_t *i, t_cmd 
 // 	return 1;
 // }
 
-
-int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
-{
-	t_cmd cmd;
-	size_t i = 0;
-
-	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
-		return 0;
-
-	while (i < tokens->len)
-	{
-		if (!parse_single_command(arena, tokens, &i, &cmd))
-			return 0;
-		ft_vec_push(cmds, &cmd);
-	}
-	return 1;
-}
 
