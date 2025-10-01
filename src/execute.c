@@ -45,7 +45,7 @@ int execute_cmds(t_vec *cmds, t_vec *env)
                 close(pipe_fd[0]);
                 close(pipe_fd[1]);
             }
-            execvp(cmd->argv[0], cmd->argv);
+            execvp(cmd->argv[0], cmd->argv); //FORBIDDEN FUNCTION
             perror("execvp"); // if fail
             _exit(1);
         }

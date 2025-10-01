@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 11:19:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:27:05 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	bi_env(char **av, t_vec *env)
 }
 
 /* 
+TODO: Doesn't show variables without values
 TODO: Arguments passed are added to print out but not added to env. Same names get overwritten.
 
+env -i bash to start empty
  */

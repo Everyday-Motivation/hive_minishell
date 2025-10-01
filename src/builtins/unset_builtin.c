@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/28 17:42:04 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:22:07 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	bi_unset(char **av, t_vec *env)
 /*
 	TESTING
 	-----------
+
+	TODO: _ reject this
 
 	print_str_vec(env);
 	printf("\n----------------\n");

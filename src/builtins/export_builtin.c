@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 20:08:29 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:25:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	*get_key_val(char *line)
 	return (ft_substr(line, 0u, i + 1));
 }
 
-
-
 int	bi_export(char **av, t_vec *env)
 {
 	size_t	i;
@@ -71,16 +69,18 @@ int	bi_export(char **av, t_vec *env)
 			printf("key val: %s\n", key);
 			if (!str_in_str_vec(env, key))
 			{
-				ft_vec_push(env, key);
+				ft_vec_push(env, ft_strdup(av[i]));
 				printf("String added\n");
 			}
 			else
 			{
 				index = get_str_index(env, key);
 				line = (char **)ft_vec_get(env, index);
+				printf("We found: %s at index: %lu\n", *line, index);
+				free(*line);
+				*line = strdup(av[i]);
 				printf("String: %s replaced at index: %lu, with %s\n", *line,
 					index, av[i]);
-				*line = key;
 			}
 			free(key);
 		}
@@ -90,6 +90,10 @@ int	bi_export(char **av, t_vec *env)
 	return (1);
 }
 /*
+TODO: Alphabetical
+
+TODO: no args shows all keys even with null values
+
 TODO: Error message
 timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
 bash: export: `111=wwwwwww': not a valid identifier
