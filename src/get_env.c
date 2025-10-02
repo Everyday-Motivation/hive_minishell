@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/01 15:26:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/02 10:57:41 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	init_env(t_vec *env, char **envp)
 		"test",
 		"hey=hello",
 		"hey=hej",
+		"nihao=hey",
+		"hey=nihao",
 		"PWD=test",
 		"varname1111=valid",
 		"PWD=newtest",

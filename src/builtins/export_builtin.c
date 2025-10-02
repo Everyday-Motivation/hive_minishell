@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/01 15:25:16 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:21:53 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,48 +54,43 @@ int	bi_export(char **av, t_vec *env)
 	size_t	index;
 	char	*key;
 	char	**line;
+	char	*new_line;
 
-	if (!env)
-		return (0);
 	if (!av || !av[0])
-		print_str_vec(env, "declare -x ");
+		print_str_vec(env, "declare -x "); //Alphabetical printout
 	i = 0;
 	while (av[i])
 	{
-		printf("arg: %s valid: %i\n", av[i], valid_export(av[i]));
 		if (valid_export(av[i]))
 		{
 			key = get_key_val(av[i]);
-			printf("key val: %s\n", key);
+			new_line = ft_strdup(av[i]); //ignore after trailing space.
+			if(!new_line)
+				return (0);
 			if (!str_in_str_vec(env, key))
-			{
-				ft_vec_push(env, ft_strdup(av[i]));
-				printf("String added\n");
-			}
+				ft_vec_push(env, &new_line);
 			else
 			{
 				index = get_str_index(env, key);
 				line = (char **)ft_vec_get(env, index);
-				printf("We found: %s at index: %lu\n", *line, index);
 				free(*line);
-				*line = strdup(av[i]);
-				printf("String: %s replaced at index: %lu, with %s\n", *line,
-					index, av[i]);
+				*line = new_line;
 			}
 			free(key);
 		}
 		i++;
-		ft_putendl_fd("", 1);
 	}
+	// print_str_vec(env, "declare -x ");
 	return (1);
 }
 /*
+TODO: Trailing spaces
+
 TODO: Alphabetical
 
 TODO: no args shows all keys even with null values
 
 TODO: Error message
-timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
-bash: export: `111=wwwwwww': not a valid identifier
-
+	timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
+	bash: export: `111=wwwwwww': not a valid identifier
  */
