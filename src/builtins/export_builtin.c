@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/02 11:21:53 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:21:27 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	valid_export(char *line)
 	len = ft_strlen(line);
 	while ((i < len))
 	{
-		if (!((ft_isalnum(line[i])) || line[i] == '=' || line[i] == '_'))
+		if (!((ft_isalnum(line[i])) || line[i] == '=' || line[i] == '_' || line[i] == ' '))
 			return (0);
 		if (!has_equals && ft_isspace(line[i]))
 			return (0);
@@ -48,6 +48,25 @@ char	*get_key_val(char *line)
 	return (ft_substr(line, 0u, i + 1));
 }
 
+char *get_valid_entry(char *line)
+{
+	size_t i;
+	int has_equals;
+
+	i = 0;
+	has_equals = 0;
+	while(line[i])
+	{
+		if(line[i]== '=')
+			has_equals = 1;
+		if(has_equals && line[i] == ' ')
+			break;
+		i++;
+	}
+	return(ft_substr(line, 0u, i));
+}
+
+
 int	bi_export(char **av, t_vec *env)
 {
 	size_t	i;
@@ -64,7 +83,7 @@ int	bi_export(char **av, t_vec *env)
 		if (valid_export(av[i]))
 		{
 			key = get_key_val(av[i]);
-			new_line = ft_strdup(av[i]); //ignore after trailing space.
+			new_line = get_valid_entry(av[i]);
 			if(!new_line)
 				return (0);
 			if (!str_in_str_vec(env, key))
@@ -80,11 +99,10 @@ int	bi_export(char **av, t_vec *env)
 		}
 		i++;
 	}
-	// print_str_vec(env, "declare -x ");
+	print_str_vec(env, "declare -x ");
 	return (1);
 }
 /*
-TODO: Trailing spaces
 
 TODO: Alphabetical
 
