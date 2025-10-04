@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/04 18:07:37 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:57:38 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,50 @@ char	*get_valid_entry(char *line)
 	return (ft_substr(line, 0u, i));
 }
 
-void	sort_alpha(t_vec *v)
+int swap_vec_str(t_vec *v, size_t index_a, size_t index_b)
+{
+	char	*temp;
+	char	**line;
+	char	**next_line;
+
+	line = (char **)ft_vec_get(v, index_a);
+	next_line = (char **)ft_vec_get(v, index_b);
+	if (ft_strncmp(*line, *next_line, ft_strlen(*line)) > 0)
+	{
+		temp = ft_strdup(*line);
+		if(!temp)
+			return (0);
+		free(*line);
+		*line = ft_strdup(*next_line);
+		if(!*line)
+			return (0);
+		free(*next_line);
+		*next_line = strdup(temp);
+		if(!*next_line)
+			return (0);
+		free(temp);
+	}
+	return (1);
+}
+
+int	sort_alpha(t_vec *v)
 {
 	size_t	i;
 	size_t	j;
-	char	*temp;
-	char	**line;
-	char	**line_comp;
 
 	i = 0;
 	while (i < v->len + 1)
 	{
 		j = i + 1;
-		line = (char **)ft_vec_get(v, i);
 		while (j < v->len)
 		{
-			line_comp = (char **)ft_vec_get(v, j);
-			if (ft_strncmp(*line, *line_comp, ft_strlen(*line)) > 0)
-			{
-				temp = ft_strdup(*line);
-				free(*line);
-				*line = ft_strdup(*line_comp);
-				free(*line_comp);
-				*line_comp = strdup(temp);
-				free(temp);
-			}
+			if(!swap_vec_str(v, i, j))
+				return (0);
 			j++;
 		}
 		i++;
 	}
+	j++;
 }
 
 int	bi_export(char **av, t_vec *env)
@@ -109,7 +124,7 @@ int	bi_export(char **av, t_vec *env)
 	if (!av || !av[0])
 	{
 		sort_alpha(env);
-		print_str_vec(env, "declare -x "); // Alphabetical printout
+		print_str_vec(env, "declare -x ");
 	}
 	i = 0;
 	while (av[i])
@@ -133,15 +148,12 @@ int	bi_export(char **av, t_vec *env)
 		}
 		i++;
 	}
-	ft_putendl_fd("\n\n",1);
-	print_str_vec(env, "declare -x ");
+	// ft_putendl_fd("\n\n",1);
+	// print_str_vec(env, "declare -x ");
 	return (1);
 }
 /*
-
-TODO: Alphabetical
-
-TODO: no args shows all keys even with null values
+TODO: Alphabetize a copy?
 
 TODO: Error message
 	timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
