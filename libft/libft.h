@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:35:15 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/29 19:59:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:49:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int					ft_printfd(int fd, const char *s, ...);
 int					ft_putchar_fd(const char c, const int fd);
 int					char_handler(const int c);
 ssize_t				func_select(const char key, va_list *args);
-ssize_t				ft_str_len(const char *s);
 ssize_t				ft_putstr_fd(const char *s, const int fd);
 ssize_t				str_handler(const char *s);
 ssize_t				num_handler(const long num, const char *s);

@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/02 10:57:41 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:18:26 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ int	init_env(t_vec *env, char **envp)
 		"nihao=hey",
 		"hey=nihao",
 		"PWD=test",
+		"KeyNOval=",
+		"KeyNOvalQ=",
 		"varname1111=valid",
 		"PWD=newtest",
 		"PWD=test  extras",
+		"NOSPACE=testextras",
+		"SPACES=test extras",
 		NULL};
 	bi_export(av, env);
 	return (1);
