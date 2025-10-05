@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/09/28 12:40:01 by timurray         ###   ########.fr        #
+#    Updated: 2025/10/05 18:28:04 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ src/error.c \
 src/prompt.c \
 src/execute.c \
 src/parsing.c \
-src/vec_str_helper.c
+src/vec_str_helper.c \
+src/sort_vec_ptr.c
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \
@@ -32,6 +33,7 @@ $(BUILT_IN_DIR)/echo_builtin.c \
 $(BUILT_IN_DIR)/env_builtin.c \
 $(BUILT_IN_DIR)/exit_builtin.c \
 $(BUILT_IN_DIR)/export_builtin.c \
+$(BUILT_IN_DIR)/export_helper.c \
 $(BUILT_IN_DIR)/pwd_builtin.c \
 $(BUILT_IN_DIR)/unset_builtin.c
 

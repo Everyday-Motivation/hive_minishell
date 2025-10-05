@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/05 11:15:23 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:30:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	valid_export(char *line)
+static int	is_valid_export(char *line)
 {
 	size_t	i;
 	size_t	len;
@@ -39,102 +39,17 @@ int	valid_export(char *line)
 	return (0);
 }
 
-char	*get_key_val(char *line)
+static int	export_no_args(t_vec *env)
 {
-	size_t	i;
+	t_vec	env_cpy;
 
-	i = 0;
-	while (!(line[i] == '='))
-		i++;
-	return (ft_substr(line, 0u, i + 1));
-}
-
-char	*get_valid_entry(char *line)
-{
-	size_t	i;
-	int		has_equals;
-
-	i = 0;
-	has_equals = 0;
-	while (line[i])
-	{
-		if (line[i] == '=')
-			has_equals = 1;
-		if (has_equals && line[i] == ' ')
-			break ;
-		i++;
-	}
-	return (ft_substr(line, 0u, i));
-}
-
-int	swap_vec_str(t_vec *v, size_t index_a, size_t index_b)
-{
-	char	*temp;
-	char	**line;
-	char	**next_line;
-
-	line = (char **)ft_vec_get(v, index_a);
-	next_line = (char **)ft_vec_get(v, index_b);
-	if (ft_strncmp(*line, *next_line, ft_strlen(*line)) > 0)
-	{
-		temp = ft_strdup(*line);
-		if (!temp)
-			return (0);
-		free(*line);
-		*line = ft_strdup(*next_line);
-		if (!*line)
-			return (0);
-		free(*next_line);
-		*next_line = strdup(temp);
-		if (!*next_line)
-			return (0);
-		free(temp);
-	}
-	return (1);
-}
-
-int	sort_alpha(t_vec *v)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (i < v->len + 1)
-	{
-		j = i + 1;
-		while (j < v->len)
-		{
-			if (!swap_vec_str(v, i, j))
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	j++;
-	return (1);
-}
-
-static int	bi_add_line(t_vec *env, char *val)
-{
-	char	*key;
-	char	**line;
-	char	*new_line;
-	size_t	index;
-
-	key = get_key_val(val);
-	new_line = get_valid_entry(val);
-	if (!new_line)
+	ft_vec_new(&env_cpy, 0, sizeof(char *));
+	if (!copy_vec_str_ptr(&env_cpy, env))
 		return (0);
-	if (!str_in_str_vec(env, key))
-		ft_vec_push(env, &new_line);
-	else
-	{
-		index = get_str_index(env, key);
-		line = (char **)ft_vec_get(env, index);
-		free(*line);
-		*line = new_line;
-	}
-	free(key);
+	if (!sort_vec_str_ptr(&env_cpy))
+		return (0);
+	print_str_vec(&env_cpy, "declare -x ");
+	ft_vec_free(&env_cpy);
 	return (1);
 }
 
@@ -144,27 +59,52 @@ int	bi_export(char **av, t_vec *env)
 
 	if (!av || !av[0])
 	{
-		sort_alpha(env);
-		print_str_vec(env, "declare -x ");
+		if (!export_no_args(env))
+			return (0);
 	}
 	i = 0;
 	while (av[i])
 	{
-		if (valid_export(av[i]))
+		if (is_valid_export(av[i]))
 		{
-			if (!bi_add_line(env, av[i]))
+			if (!env_add_update_line(env, av[i]))
 				return (0);
 		}
+		else
+			ft_printf("minishell: export: `%s`: not a valid identifier\n",
+				av[i]);
 		i++;
 	}
-	ft_putendl_fd("\n\n", 1);
-	print_str_vec(env, "declare -x ");
 	return (1);
 }
-/*
-TODO: Alphabetize a copy?
 
-TODO: Error message
-	timurray@c1r1p5:~/Documents/projects$ export 111=wwwwwww
-	bash: export: `111=wwwwwww': not a valid identifier
+/*
+
+TODO: Remove
+
+TEST CASES
+sneak into init_env
+
+	char *ava[] = {
+		"7asd=invalid",
+		"te,st=invalid",
+		"_=valid", 
+		"te-est=invalid",
+		"test",
+		"hey=hello",
+		"hey=hej",
+		"nihao=hey",
+		"hey=nihao",
+		"PWD=test",
+		"KeyNOval=",
+		"KeyNOvalQ=",
+		"varname1111=valid",
+		"PWD=newtest",
+		"PWD=test  extras",
+		"NOSPACE=testextras",
+		"SPACES=test extras",
+		NULL};
+	bi_export(ava, env);
+	char *av[] = {NULL};
+	bi_export(av, env);
  */
