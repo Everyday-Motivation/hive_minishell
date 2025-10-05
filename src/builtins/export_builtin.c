@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/04 18:57:38 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/05 11:15:23 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_valid_entry(char *line)
 	return (ft_substr(line, 0u, i));
 }
 
-int swap_vec_str(t_vec *v, size_t index_a, size_t index_b)
+int	swap_vec_str(t_vec *v, size_t index_a, size_t index_b)
 {
 	char	*temp;
 	char	**line;
@@ -78,15 +78,15 @@ int swap_vec_str(t_vec *v, size_t index_a, size_t index_b)
 	if (ft_strncmp(*line, *next_line, ft_strlen(*line)) > 0)
 	{
 		temp = ft_strdup(*line);
-		if(!temp)
+		if (!temp)
 			return (0);
 		free(*line);
 		*line = ft_strdup(*next_line);
-		if(!*line)
+		if (!*line)
 			return (0);
 		free(*next_line);
 		*next_line = strdup(temp);
-		if(!*next_line)
+		if (!*next_line)
 			return (0);
 		free(temp);
 	}
@@ -104,22 +104,43 @@ int	sort_alpha(t_vec *v)
 		j = i + 1;
 		while (j < v->len)
 		{
-			if(!swap_vec_str(v, i, j))
+			if (!swap_vec_str(v, i, j))
 				return (0);
 			j++;
 		}
 		i++;
 	}
 	j++;
+	return (1);
+}
+
+static int	bi_add_line(t_vec *env, char *val)
+{
+	char	*key;
+	char	**line;
+	char	*new_line;
+	size_t	index;
+
+	key = get_key_val(val);
+	new_line = get_valid_entry(val);
+	if (!new_line)
+		return (0);
+	if (!str_in_str_vec(env, key))
+		ft_vec_push(env, &new_line);
+	else
+	{
+		index = get_str_index(env, key);
+		line = (char **)ft_vec_get(env, index);
+		free(*line);
+		*line = new_line;
+	}
+	free(key);
+	return (1);
 }
 
 int	bi_export(char **av, t_vec *env)
 {
 	size_t	i;
-	size_t	index;
-	char	*key;
-	char	**line;
-	char	*new_line;
 
 	if (!av || !av[0])
 	{
@@ -131,25 +152,13 @@ int	bi_export(char **av, t_vec *env)
 	{
 		if (valid_export(av[i]))
 		{
-			key = get_key_val(av[i]);
-			new_line = get_valid_entry(av[i]);
-			if (!new_line)
+			if (!bi_add_line(env, av[i]))
 				return (0);
-			if (!str_in_str_vec(env, key))
-				ft_vec_push(env, &new_line);
-			else
-			{
-				index = get_str_index(env, key);
-				line = (char **)ft_vec_get(env, index);
-				free(*line);
-				*line = new_line;
-			}
-			free(key);
 		}
 		i++;
 	}
-	// ft_putendl_fd("\n\n",1);
-	// print_str_vec(env, "declare -x ");
+	ft_putendl_fd("\n\n", 1);
+	print_str_vec(env, "declare -x ");
 	return (1);
 }
 /*
