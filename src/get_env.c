@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/05 18:30:54 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:00:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	init_env(t_vec *env, char **envp)
 			return (0);
 	if (!increment_shlvl(env))
 		return (0);
+	// char *av[] = {NULL};
+	// char *av[] = {"STARSHIP_SHELL=YEAH","c=","d=", NULL};
+	char *av[] = {"d", NULL};
+	bi_env(av, env);
 	return (1);
 }
 
