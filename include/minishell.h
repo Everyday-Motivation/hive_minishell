@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/01 15:22:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/07 14:40:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,25 @@ typedef struct s_info {
 	t_vec   *env;
 } t_info;
 
+typedef struct s_parse_state
+{
+	size_t	*i;
+	t_vec	*argv;
+}			t_parse_state;
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*data;
 }					t_token;
+
+typedef struct s_exec_info {
+    int prev_fd;
+    int pipe_fd[2];
+    size_t index;
+    size_t total_cmds;
+} t_exec_info;
+
 
 // Builtins
 int					cd_builtin(char **args);
