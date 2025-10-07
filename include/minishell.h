@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:40:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/07 15:16:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,14 @@ typedef struct s_exec_info {
 
 
 // Builtins
-int					cd_builtin(char **args);
-int					pwd_builtin(void);
+int					bi_unset(char **av, t_vec *env);
+int					bi_export(char **av, t_vec *env);
+
+// Utils
+int					sort_vec_str_ptr(t_vec *v);
+int					copy_vec_str_ptr(t_vec *env_cpy, t_vec *env);
+int					sort_vec_str_ptr(t_vec *v);
+int					env_add_update_line(t_vec *env, char *val);
 
 // Signal
 void				sigint_handler(int signal);
@@ -140,7 +146,9 @@ int					return_error(int e);
 // Vec helpers
 void				free_str_vec(t_vec *str_vec);
 int					str_in_str_vec(t_vec *str_vec, char *str);
-void				print_str_vec(t_vec *str_vec);
+void				print_str_vec(t_vec *str_vec, char *prefix);
+int					vec_remove_str(t_vec *src, size_t index);
+size_t				get_str_index(t_vec *src, char *s);
 
 #endif
 

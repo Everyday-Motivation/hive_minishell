@@ -6,21 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 15:47:01 by timurray          #+#    #+#             */
-/*   Updated: 2025/08/18 14:47:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:48:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-
-ssize_t	ft_str_len(const char *s)
-{
-	ssize_t	length;
-
-	length = 0;
-	while (*s++)
-		length += 1;
-	return (length);
-}
 
 int	ft_putchar_fd(const char c, const int fd)
 {

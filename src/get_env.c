@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/09/28 12:17:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:30:54 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	increment_shlvl(t_vec *env)
 	while (i < env->len)
 	{
 		entry = (char **)ft_vec_get(env, i);
-		if (strncmp(*entry, "SHLVL=", 6) == 0)
+		if (ft_strncmp(*entry, "SHLVL=", 6) == 0)
 		{
 			new_level = ft_itoa(ft_atoi(*entry + 6) + 1);
 			if (!new_level)

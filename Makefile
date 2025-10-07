@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/01 15:24:59 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/10/07 15:16:44 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \
 src/heredoc.c \
+src/sort_vec_ptr.c
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \
@@ -34,6 +35,7 @@ $(BUILT_IN_DIR)/echo_builtin.c \
 $(BUILT_IN_DIR)/env_builtin.c \
 $(BUILT_IN_DIR)/exit_builtin.c \
 $(BUILT_IN_DIR)/export_builtin.c \
+$(BUILT_IN_DIR)/export_helper.c \
 $(BUILT_IN_DIR)/pwd_builtin.c \
 $(BUILT_IN_DIR)/unset_builtin.c
 
