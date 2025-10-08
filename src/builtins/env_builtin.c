@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 17:06:06 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/08 12:51:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ static size_t	key_len(char *line)
 	while (line[i] != '=')
 		i++;
 	return (i);
+}
+
+int valid_env_key(char *line)
+{
+	size_t i;
+
+	i = 0;
+	while(line[i])
+	{
+		if(line[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	bi_env(char **av, t_vec *env)
@@ -40,7 +54,11 @@ int	bi_env(char **av, t_vec *env)
 		i_av = 0;
 		while (av[i_av])
 		{
-			//valid key?
+			if(!valid_env_key(av[i_av]))
+			{
+				printf("env: ‘%s’: No such file or directory\n", av[i_av]);
+				return (0);
+			}
 			if (ft_strncmp(line, av[i_av], key_len(line)) == 0)
 			{
 				overwrite = 1;
@@ -57,7 +75,6 @@ int	bi_env(char **av, t_vec *env)
 	i_av = 0;
 	while (av[i_av])
 	{
-		//valid key
 		found = 0;
 		i_env = 0;
 		while (i_env < env->len)
