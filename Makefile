@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/07 15:16:44 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/10/07 15:52:36 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ src/signal.c \
 src/tokenizing.c src/tokenizing2.c\
 src/error.c \
 src/prompt.c \
-src/execute.c \
+src/execute.c src/find_path.c \
 src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \

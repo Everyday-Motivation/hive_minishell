@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 15:16:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/07 15:53:34 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,13 @@ char				*read_line(int interactive);
 
 // execute
 int					execute_cmds(t_vec *cmds, t_vec *env);
+
+//find_path
+char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
+void	ft_free_split(char **arr);
+char	*get_path_env(t_vec *env);
+char	*find_executable_in_paths(char *path_env, char *cmd);
+char	*search_path(char *cmd, t_vec *env);
 
 // Error
 void				exit_clear_rl_history(void);
