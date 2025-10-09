@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:54:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:17:39 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ typedef struct s_token
 }					t_token;
 
 // Builtins
-int					bi_unset(char **av, t_vec *env);
-int					bi_export(char **av, t_vec *env);
 int					bi_env(char **av, t_vec *env);
+int					bi_export(char **av, t_vec *env);
+int					bi_unset(char **av, t_vec *env);
 
 // Utils
 int					sort_vec_str_ptr(t_vec *v);
@@ -116,11 +116,11 @@ void				exit_clear_rl_history(void);
 int					return_error(int e);
 
 // Vec helpers
-void				free_str_vec(t_vec *str_vec);
 int					str_in_str_vec(t_vec *str_vec, char *str);
-void				print_str_vec(t_vec *str_vec, char *prefix);
 int					vec_remove_str(t_vec *src, size_t index);
 size_t				get_str_index(t_vec *src, char *s);
+void				free_str_vec(t_vec *str_vec);
+void				print_str_vec(t_vec *str_vec, char *prefix);
 
 #endif
 

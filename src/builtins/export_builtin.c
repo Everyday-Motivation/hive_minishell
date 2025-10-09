@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:32:10 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:16:12 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	is_valid_export(char *line)
 {
+	int		has_equals;
 	size_t	i;
 	size_t	len;
-	int		has_equals;
 
 	if (!line || !((ft_isalpha(line[0])) || line[0] == '_'))
 		return (0);

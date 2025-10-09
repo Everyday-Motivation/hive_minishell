@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/09 12:10:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:17:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ static int	new_val_print(char **av, t_vec *env, int i_av)
 
 int	bi_env(char **av, t_vec *env)
 {
-	size_t	i_env;
 	size_t	i_av;
+	size_t	i_env;
 
 	if (!env || env->len == 0)
 		return (0);
