@@ -6,11 +6,25 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/09 12:16:12 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:24:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int	is_single_key(char *line)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isalnum(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static int	is_valid_export(char *line)
 {
@@ -34,7 +48,7 @@ static int	is_valid_export(char *line)
 			has_equals = 1;
 		i++;
 	}
-	if (has_equals)
+	if (has_equals || is_single_key(line))
 		return (1);
 	return (0);
 }
@@ -88,7 +102,7 @@ sneak into init_env
 	char *ava[] = {
 		"7asd=invalid",
 		"te,st=invalid",
-		"_=valid", 
+		"_=valid",
 		"te-est=invalid",
 		"test",
 		"hey=hello",
