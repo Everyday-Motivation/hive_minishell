@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/10 12:24:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:25:31 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	bi_export(char **av, t_vec *env)
 }
 
 /*
-TODO: should add var
 TODO: Remove
 
 TEST CASES

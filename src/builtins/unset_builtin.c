@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/01 13:22:07 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:52:53 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ int	bi_unset(char **av, t_vec *env)
 }
 
 /*
-	TESTING
-	-----------
+TESTING
+-----------
 
-	TODO: _ reject this
+TODO: _ reject this
 
-	print_str_vec(env);
-	printf("\n----------------\n");
-	char *t[] = {"PWD", "TERM", "HOME",  "SHLVL", NULL};
-	bi_unset(t, env);
-	print_str_vec(env);
+print_str_vec(env);
+printf("\n----------------\n");
+char *t[] = {"PWD", "TERM", "HOME",  "SHLVL", NULL};
+bi_unset(t, env);
+print_str_vec(env);
 
  */
