@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/09 12:17:39 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:41:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_token
 int					bi_env(char **av, t_vec *env);
 int					bi_export(char **av, t_vec *env);
 int					bi_unset(char **av, t_vec *env);
+int					pwd_builtin(void);
 
 // Utils
 int					sort_vec_str_ptr(t_vec *v);

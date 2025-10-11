@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:26:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:13:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	cd_builtin(char **av)
 			perror("minishell: cd: No such file or directory");
 			return (0);
 		}
-		else
-		{
-			//set pwd in env;
-		}
+		// else
+		// {
+		// 	//set pwd in env;
+		// }
 
 	}
 	return (1);

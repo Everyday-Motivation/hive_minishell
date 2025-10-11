@@ -6,14 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/10 13:50:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:42:13 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-int	pwd_builtin(char **av, t_vec *env)
+int	pwd_builtin(void)
 {
 	char	*pwd;
 
@@ -27,8 +26,3 @@ int	pwd_builtin(char **av, t_vec *env)
 	free(pwd);
 	return (0);
 }
-
-/* 
-TODO: pwd -L, 
-TODO: pwd -P 
-*/

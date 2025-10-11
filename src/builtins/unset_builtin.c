@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/10 13:52:53 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:58:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ TESTING
 -----------
 
 TODO: _ reject this
+TODO: plain vars?
 
 print_str_vec(env);
 printf("\n----------------\n");
