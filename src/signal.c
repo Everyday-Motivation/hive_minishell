@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 17:55:47 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/13 13:08:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	sigint_handler(int signal)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_signal = 1;
 	}
 }
 

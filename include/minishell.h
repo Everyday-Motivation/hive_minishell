@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/10 14:03:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/13 13:11:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <termios.h>
 # include <fcntl.h>
 
+extern volatile sig_atomic_t g_signal;
 
 enum				e_error_code
 {

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/01 12:48:13 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/13 13:11:34 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+volatile sig_atomic_t g_signal = 0;
 
 static void shell_loop(int interactive, t_info *info)
 {
