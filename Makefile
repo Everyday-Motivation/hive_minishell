@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/07 15:52:36 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/10/11 16:56:41 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \
 src/heredoc.c \
-src/sort_vec_ptr.c
+src/sort_vec_ptr.c \
+src/execution.c
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \
