@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/01 13:10:52 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/15 14:28:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,42 +67,6 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 	}
 	return (1);
 }
-// void	process_delimiter(t_info *info, char *input, size_t *i, t_vec *tokens)
-// {
-// 	t_token	token;
-
-// 	if (input[*i] == '<' && input[*i + 1] == '<')
-// 	{
-// 		token.type = D_LT;
-// 		token.data = arena_strdup(info->arena, &input[*i], 2);
-// 		*i += 2;
-// 	}
-// 	else if (input[*i] == '>' && input[*i + 1] == '>')
-// 	{
-// 		token.type = D_GT;
-// 		token.data = arena_strdup(info->arena, &input[*i], 2);
-// 		*i += 2;
-// 	}
-// 	else if (input[*i] == '<')
-// 	{
-// 		token.type = S_LT;
-// 		token.data = arena_strdup(info->arena, &input[*i], 1);
-// 		(*i)++;
-// 	}
-// 	else if (input[*i] == '>')
-// 	{
-// 		token.type = S_GT;
-// 		token.data = arena_strdup(info->arena, &input[*i], 1);
-// 		(*i)++;
-// 	}
-// 	else if (input[*i] == '|')
-// 	{
-// 		token.type = PIPE;
-// 		token.data = arena_strdup(info->arena, &input[*i], 1);
-// 		(*i)++;
-// 	}
-// 	ft_vec_push(tokens, &token);
-// }
 
 int	quote_check(char *input, size_t *i)
 {
