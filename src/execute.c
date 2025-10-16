@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:31 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/07 16:18:03 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/15 15:25:03 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ int	execute_cmd_loop(t_vec *cmds, t_vec *env, t_exec_info *info, size_t i)
 	return (1);
 }
 
-int	execute_cmds(t_vec *cmds, t_vec *env)
-{
-	size_t		i;
-	t_exec_info	info;
+// int	execute_cmds(t_vec *cmds, t_vec *env)
+// {
+// 	size_t		i;
+// 	t_exec_info	info;
 
-	i = 0;
-	info.prev_fd = -1;
-	info.total_cmds = cmds->len;
-	if (!execute_cmd_loop(cmds, env, &info, i))
-		return (0);
-	while (wait(NULL) > 0)
-		;
-	return (1);
-}
+// 	i = 0;
+// 	info.prev_fd = -1;
+// 	info.total_cmds = cmds->len;
+// 	if (!execute_cmd_loop(cmds, env, &info, i))
+// 		return (0);
+// 	while (wait(NULL) > 0)
+// 		;
+// 	return (1);
+// }
 // void child_process(t_cmd *cmd, t_vec *env, t_exec_info *info)
 // {
 //     char *exec_path;
@@ -258,7 +258,7 @@ int execute_cmds(t_vec *cmds, t_vec *env)
             }
             execve(exec_path, cmd->argv, (char * const *)env->memory);
             perror("execve");
-            _exit(1);
+            exit(1);
         }
         else if (pid < 0)
         {

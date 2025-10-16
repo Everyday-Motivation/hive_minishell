@@ -6,16 +6,17 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/15 14:33:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/16 18:16:03 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	handle_redirection(t_arena *arena, t_token *tok, t_token *next,
+static int	handle_redirection(t_token *tok, t_token *next,
 		t_cmd *cmd)
 {
-	(void)arena;
+	int pipe_read_end;
+	
 	if (!next || next->type != WORD)
 		return (0);
 	if (tok->type == S_LT)
@@ -26,9 +27,10 @@ static int	handle_redirection(t_arena *arena, t_token *tok, t_token *next,
 		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tok->type == D_LT)
 	{
-		cmd->heredoc = 1;
 		if (!handle_heredoc(cmd, next->data))
 			return (0);
+		if (ft_vec_push(&cmd->heredocs, &pipe_read_end) < 0)
+            return 0;
 	}
 	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT)
 		&& (cmd->input_fd == -1 || cmd->output_fd == -1))
@@ -67,7 +69,7 @@ static int	handle_token(t_arena *arena, t_vec *tokens, t_parse_state *state,
 		|| tok->type == D_GT)
 	{
 		next = ft_vec_get(tokens, *(state->i) + 1);
-		if (!handle_redirection(arena, tok, next, cmd))
+		if (!handle_redirection(tok, next, cmd))
 			return (0);
 		*(state->i) += 2;
 	}
@@ -112,9 +114,13 @@ static int	parse_single_command(t_arena *arena, t_vec *tokens, size_t *i,
 
 	cmd->input_fd = 0;
 	cmd->output_fd = 1;
-	cmd->heredoc = 0;
-	if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
+    
+	if (ft_vec_new(&cmd->heredocs, 0, sizeof(int)) < 0)
+        return 0;
+	
+		if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
 		return (0);
+		
 	state.i = i;
 	state.argv = &argv;
 	if (!process_tokens_in_command(arena, tokens, &state, cmd))
@@ -131,6 +137,7 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 	i = 0;
 	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
 		return (0);
+	
 	while (i < tokens->len)
 	{
 		if (!parse_single_command(arena, tokens, &i, &cmd))
