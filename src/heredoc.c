@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/01 15:53:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/16 19:37:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	handle_heredoc(t_cmd *cmd, const char *limiter)
 {
-	int		pipefd[2];
 	char	*line;
 	size_t	len;
+	int		fd;
 
-	if (pipe(pipefd) == -1)
+	if (cmd->heredoc_path == NULL)
 	{
-		perror("pipe");
-		return (0);
+		// cmd->heredoc_path = FUNCTION_THAT_CREATES UNIQUE_FILENAME; e.g. .heredoc-0, .heredoc-1...
+		cmd->heredoc_path = ".test";
 	}
+	fd = open(cmd->heredoc_path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 
 	while (1)
 	{
@@ -43,12 +44,12 @@ int	handle_heredoc(t_cmd *cmd, const char *limiter)
 			break;
 		}
 		// 입력 내용을 pipe에 쓰기
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
-	close(pipefd[1]);			 // write end
-	cmd->input_fd = pipefd[0];	 // read end를 명령어의 input으로 설정
+	close(fd);			 // write end
+	cmd->input_fd = fd;	 // read end를 명령어의 input으로 설정
 	return (1);
 }
 

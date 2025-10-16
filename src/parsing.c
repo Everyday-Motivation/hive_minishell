@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/16 18:16:03 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/16 19:26:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 static int	handle_redirection(t_token *tok, t_token *next,
 		t_cmd *cmd)
-{
-	int pipe_read_end;
-	
+{	
 	if (!next || next->type != WORD)
 		return (0);
 	if (tok->type == S_LT)
+	{
+		if (cmd->input_fd)
+			close(cmd->input_fd);
 		cmd->input_fd = open(next->data, O_RDONLY);
+	}
 	else if (tok->type == S_GT)
 		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (tok->type == D_GT)
 		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tok->type == D_LT)
 	{
+		
 		if (!handle_heredoc(cmd, next->data))
 			return (0);
-		if (ft_vec_push(&cmd->heredocs, &pipe_read_end) < 0)
-            return 0;
+		// if (ft_vec_push(&cmd->heredocs, &pipe_read_end) < 0)
+        //     return 0;
+		cmd->input_fd = open(cmd->heredoc_path, O_RDONLY);
 	}
 	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT)
 		&& (cmd->input_fd == -1 || cmd->output_fd == -1))
@@ -114,6 +118,7 @@ static int	parse_single_command(t_arena *arena, t_vec *tokens, size_t *i,
 
 	cmd->input_fd = 0;
 	cmd->output_fd = 1;
+	cmd->heredoc_path = NULL;
     
 	if (ft_vec_new(&cmd->heredocs, 0, sizeof(int)) < 0)
         return 0;

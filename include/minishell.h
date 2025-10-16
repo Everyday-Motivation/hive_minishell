@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/16 18:18:54 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/16 18:56:39 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_cmd
 	char			**argv;
 	int				input_fd;
 	int				output_fd;
+	char			*heredoc_path;
 	t_vec 			heredocs;
 }					t_cmd;
 
