@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/16 18:56:39 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/17 17:15:35 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_cmd
 	int				input_fd;
 	int				output_fd;
 	char			*heredoc_path;
-	t_vec 			heredocs;
 }					t_cmd;
 
 typedef struct s_arena
@@ -67,11 +66,7 @@ typedef struct s_info {
 	t_vec   *env;
 } t_info;
 
-typedef struct s_parse_state
-{
-	size_t	*i;
-	t_vec	*argv;
-}			t_parse_state;
+
 
 typedef struct s_token
 {
@@ -127,11 +122,9 @@ char				*expand_env(t_arena *arena, const char *input, t_vec *env);
 int					tokenizing(t_info *info, char *input, t_vec *tokens);
 int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
-int					parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
-size_t				handle_single_quote(char *input, size_t *i, char *buf);
-size_t				handle_double_quote(t_info *info, char *input, size_t *i, char *buf);
-size_t				handle_env_variable(t_info *info, char *input, size_t *i, char *buf);
-void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
+// parsing
+int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
+
 
 //heredoc
 int	handle_heredoc(t_cmd *cmd, const char *limiter);

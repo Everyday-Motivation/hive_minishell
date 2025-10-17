@@ -6,17 +6,43 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/16 19:26:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/17 17:18:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	handle_redirection(t_token *tok, t_token *next,
-		t_cmd *cmd)
-{	
+static int	count_word(t_vec *tokens, size_t start)
+{
+	size_t	i;
+	size_t	av;
+	t_token	*token;
+
+	i = start;
+	av = 0;
+	while (i < tokens->len)
+	{
+		token = (t_token *)ft_vec_get(tokens, i);
+		if (token->type == PIPE)
+			break ;
+		if (token->type == WORD)
+			av++;
+		if (token->type == S_LT || token->type == S_GT || token->type == D_LT
+			|| token->type == D_GT)
+			i += 2;
+		else
+			i++;
+	}
+	return (av);
+}
+
+static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
+{
 	if (!next || next->type != WORD)
+	{
+		perror("invalid token after redirection");
 		return (0);
+	}
 	if (tok->type == S_LT)
 	{
 		if (cmd->input_fd)
@@ -29,125 +55,142 @@ static int	handle_redirection(t_token *tok, t_token *next,
 		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tok->type == D_LT)
 	{
-		
 		if (!handle_heredoc(cmd, next->data))
 			return (0);
-		// if (ft_vec_push(&cmd->heredocs, &pipe_read_end) < 0)
-        //     return 0;
 		cmd->input_fd = open(cmd->heredoc_path, O_RDONLY);
 	}
-	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT)
-		&& (cmd->input_fd == -1 || cmd->output_fd == -1))
+	if (cmd->input_fd == -1 || cmd->output_fd == -1)
 	{
-		perror("open");
+		perror("fd error");
 		return (0);
 	}
 	return (1);
 }
 
-static char	**vec_to_argv(t_arena *arena, t_vec *argv)
+static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
+	int		num_of_av;
 	char	**args;
-	size_t	j;
-
-	args = arena_alloc(arena, sizeof(char *) * (argv->len + 1));
-	j = 0;
-	while (j < argv->len)
-	{
-		args[j] = *(char **)ft_vec_get(argv, j);
-		j++;
-	}
-	args[argv->len] = NULL;
-	return (args);
-}
-
-static int	handle_token(t_arena *arena, t_vec *tokens, t_parse_state *state,
-		t_cmd *cmd)
-{
+	size_t	args_i;
 	t_token	*tok;
 	t_token	*next;
-	char	*tmp;
 
-	tok = (t_token *)ft_vec_get(tokens, *(state->i));
-	if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
-		|| tok->type == D_GT)
+	args_i = 0;
+	num_of_av = count_word(tokens, *i);
+	args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
+	if (!args)
+		return (NULL);
+	while (*i < tokens->len)
 	{
-		next = ft_vec_get(tokens, *(state->i) + 1);
-		if (!handle_redirection(tok, next, cmd))
-			return (0);
-		*(state->i) += 2;
-	}
-	else if (tok->type == WORD)
-	{
-		tmp = arena_strdup(arena, tok->data, strlen(tok->data));
-		if (!tmp)
-			return (0);
-		if (ft_vec_push(state->argv, &tmp) < 0)
-			return (0);
-		(*(state->i))++;
-	}
-	else
-		(*(state->i))++;
-	return (1);
-}
-
-static int	process_tokens_in_command(t_arena *arena, t_vec *tokens,
-		t_parse_state *state, t_cmd *cmd)
-{
-	t_token	*tok;
-
-	while (*(state->i) < tokens->len)
-	{
-		tok = (t_token *)ft_vec_get(tokens, *(state->i));
+		tok = (t_token *)ft_vec_get(tokens, *i);
 		if (tok->type == PIPE)
 		{
-			(*(state->i))++;
+			(*i)++;
 			break ;
 		}
-		if (!handle_token(arena, tokens, state, cmd))
-			return (0);
+		if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
+			|| tok->type == D_GT)
+		{
+			next = (t_token *)ft_vec_get(tokens, *i + 1);
+			if (!handle_redirection(cmd, tok, next))
+			{
+				// free stuff ?? I dont't know yet
+				return (NULL);
+			}
+			*i += 2;
+		}
+		else if (tok->type == WORD)
+		{
+			args[args_i] = arena_strdup(arena, tok->data, ft_strlen(tok->data));
+			if (!args[args_i])
+			{
+				// free
+				return (NULL);
+			}
+			args_i++;
+			(*i)++;
+		}
 	}
-	return (1);
-}
-
-static int	parse_single_command(t_arena *arena, t_vec *tokens, size_t *i,
-		t_cmd *cmd)
-{
-	t_vec			argv;
-	t_parse_state	state;
-
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
-	cmd->heredoc_path = NULL;
-    
-	if (ft_vec_new(&cmd->heredocs, 0, sizeof(int)) < 0)
-        return 0;
-	
-		if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
-		return (0);
-		
-	state.i = i;
-	state.argv = &argv;
-	if (!process_tokens_in_command(arena, tokens, &state, cmd))
-		return (0);
-	cmd->argv = vec_to_argv(arena, &argv);
-	return (1);
+	args[args_i] = NULL;
+	return (args);
 }
 
 int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 {
-	t_cmd	cmd;
 	size_t	i;
+	t_cmd	cmd;
+	char	**args;
 
 	i = 0;
-	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
-		return (0);
-	
+	ft_vec_new(cmds, 0, sizeof(t_cmd));
 	while (i < tokens->len)
 	{
-		if (!parse_single_command(arena, tokens, &i, &cmd))
+		cmd.input_fd = 0;
+		cmd.output_fd = 1;
+		cmd.heredoc_path = NULL;
+		args = build_args(arena, tokens, &i, &cmd);
+		if (!args)
+			perror("get args are failed");
+		cmd.argv = args;
+		if (ft_vec_push(cmds, &cmd) < 0)
 			return (0);
-		ft_vec_push(cmds, &cmd);
 	}
 	return (1);
 }
+
+//  int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
+// {
+// 	size_t i = 0;
+// 	t_cmd cmd;
+// 	t_token *tok;
+// 	t_token *next;
+// 	int num_of_av;
+// 	char **args;
+// 	size_t args_i;
+
+// 	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
+// 		return (0);
+
+// 	while (i < tokens->len)
+// 	{
+// 		cmd.input_fd = 0;
+// 		cmd.output_fd = 1;
+// 		cmd.heredoc_path = NULL;
+// 		num_of_av = count_word(tokens, i);
+// 		args_i = 0;
+
+// 		args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
+// 		if (!args)
+// 			return (0);
+
+// 		while (i < tokens->len)
+// 		{
+// 			tok = (t_token *)ft_vec_get(tokens, i);
+// 			if (tok->type == PIPE)
+// 			{
+// 				i++;
+// 				break ;
+// 			}
+// 			if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
+				// || tok->type == D_GT)
+// 			{
+// 				next = (t_token *)ft_vec_get(tokens, i + 1);
+// 				handle_redirection(&cmd, tok, next);
+// 				i += 2;
+// 			}
+// 			else if (tok->type == WORD)
+// 			{
+// // 				args[args_i] = arena_strdup(arena, tok->data,
+// 						ft_strlen(tok->data));
+// 				if (!args[args_i])
+// 					return (0);
+// 				i++;
+// 			}
+// 		}
+// 		args[args_i++] = NULL;
+// 		cmd.argv = args;
+// 		if (ft_vec_push(cmds, &cmd) < 0)
+// 			return (0);
+// 	}
+// 	return (1);
+// }
