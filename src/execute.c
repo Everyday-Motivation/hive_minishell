@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:31 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/11 16:55:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:37:08 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	child_process(t_cmd *cmd, t_vec *env, t_exec_info *info)
 	}
 	execve(exec_path, cmd->argv, (char *const *)env->memory);
 	perror("execve");
-	_exit(1);
+	
+	exit(1);
 }
 
 int	handle_post_fork(pid_t pid, t_exec_info *info, size_t i, size_t total_cmds)
@@ -158,7 +159,7 @@ int	execute_cmd_loop(t_vec *cmds, t_vec *env, t_exec_info *info, size_t i)
 //     i = 0;
 //     while (paths[i])
 //     {
-//         full_path = ft_strjoin_3(paths[i], "/", cmd);
+        // full_path = ft_strjoin_3(paths[i], "/", cmd);
 //         if (!full_path)
 //         {
 //             ft_free_split(paths);

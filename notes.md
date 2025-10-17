@@ -8,6 +8,8 @@ echo hello > out.txt
 ## Test cases
 cd out of directory that has been deleted.
 ctrl + c in random cases.
+What if path is unset?
+What if everything is unset?
 
 ### Quote
 “           “

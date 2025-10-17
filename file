@@ -1,0 +1,10 @@
+test = /home/timurray/bin
+test1 = /home/timurray/bin/
+test2 = /home/timurray/bin/echo
+test = /usr/local/bin
+test1 = /usr/local/bin/
+test2 = /usr/local/bin/echo
+test = /usr/bin
+test1 = /usr/bin/
+test2 = /usr/bin/echo
+hello

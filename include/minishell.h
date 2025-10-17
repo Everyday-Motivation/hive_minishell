@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/11 16:54:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:57:10 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "../libft/libft.h"
 # include <dirent.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -27,8 +28,6 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
-# include <fcntl.h>
-
 
 enum				e_error_code
 {
@@ -61,16 +60,17 @@ typedef enum e_token_type
 	PIPE
 }					t_token_type;
 
-typedef struct s_info {
-	t_arena *arena;
-	t_vec   *env;
-} t_info;
+typedef struct s_info
+{
+	t_arena			*arena;
+	t_vec			*env;
+}					t_info;
 
 typedef struct s_parse_state
 {
-	size_t	*i;
-	t_vec	*argv;
-}			t_parse_state;
+	size_t			*i;
+	t_vec			*argv;
+}					t_parse_state;
 
 typedef struct s_token
 {
@@ -78,21 +78,21 @@ typedef struct s_token
 	char			*data;
 }					t_token;
 
-typedef struct s_exec_info {
-    int prev_fd;
-    int pipe_fd[2];
-    size_t index;
-    size_t total_cmds;
-} t_exec_info;
-
+typedef struct s_exec_info
+{
+	int				prev_fd;
+	int				pipe_fd[2];
+	size_t			index;
+	size_t			total_cmds;
+}					t_exec_info;
 
 // Builtins
-int					bi_unset(char **av, t_vec *env);
-int					bi_export(char **av, t_vec *env);
 int					bi_env(char **av, t_vec *env);
+int					bi_export(char **av, t_vec *env);
+int					bi_unset(char **av, t_vec *env);
 
 // Execution
-int executor(void);
+int					executor(void);
 
 // Utils
 int					sort_vec_str_ptr(t_vec *v);
@@ -120,7 +120,7 @@ int					copy_env(t_vec *env, char **envp);
 int					add_pwd(t_vec *env);
 int					increment_shlvl(t_vec *env);
 
-//env_expanding
+// env_expanding
 char				*get_env_value(t_vec *env, const char *var_name);
 char				*join_fragments_to_arena(t_vec *parts, t_arena *arena);
 char				*expand_env(t_arena *arena, const char *input, t_vec *env);
@@ -131,24 +131,27 @@ int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
 int					parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 size_t				handle_single_quote(char *input, size_t *i, char *buf);
-size_t				handle_double_quote(t_info *info, char *input, size_t *i, char *buf);
-size_t				handle_env_variable(t_info *info, char *input, size_t *i, char *buf);
-void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
+size_t				handle_double_quote(t_info *info, char *input, size_t *i,
+						char *buf);
+size_t				handle_env_variable(t_info *info, char *input, size_t *i,
+						char *buf);
+void				process_word(t_info *info, char *input, size_t *i,
+						t_vec *tokens);
 
-//heredoc
-int	handle_heredoc(t_cmd *cmd, const char *limiter);
+// heredoc
+int					handle_heredoc(t_cmd *cmd, const char *limiter);
 // Prompt
 char				*read_line(int interactive);
 
 // execute
 int					execute_cmds(t_vec *cmds, t_vec *env);
 
-//find_path
-char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
-void	ft_free_split(char **arr);
-char	*get_path_env(t_vec *env);
-char	*find_executable_in_paths(char *path_env, char *cmd);
-char	*search_path(char *cmd, t_vec *env);
+// find_path
+char				*ft_strjoin_3(const char *s1, const char *s2,
+						const char *s3);
+char				*get_path_env(t_vec *env);
+char				*find_executable_in_paths(char *path_env, char *cmd);
+char				*search_path(char *cmd, t_vec *env);
 
 // Error
 void				exit_clear_rl_history(void);

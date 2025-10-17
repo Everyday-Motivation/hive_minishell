@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:51:38 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/07 15:52:17 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/17 12:56:24 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,6 @@ char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 	ft_strlcat(res, s3, len);
 	printf("test2 = %s\n", res);
 	return (res);
-}
-
-void	ft_free_split(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
 }
 
 char	*get_path_env(t_vec *env)
