@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/11 16:55:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:51:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void shell_loop(int interactive, t_info *info)
 	t_vec tokens;
 	t_vec cmds;
 
-	executor();
+	// executor();
 
 	while (1)
 	{
@@ -56,7 +56,8 @@ static void shell_loop(int interactive, t_info *info)
 		}
 
 		// 4. 명령어 실행
-		execute_cmds(&cmds, info->env);
+		executor(&cmds);
+		// execute_cmds(&cmds, info->env);
 
 		free(line);
 		ft_vec_free(&tokens);

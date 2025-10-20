@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/17 12:57:10 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:50:10 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int					bi_export(char **av, t_vec *env);
 int					bi_unset(char **av, t_vec *env);
 
 // Execution
-int					executor(void);
+int					executor(t_vec *cmd);
 
 // Utils
 int					sort_vec_str_ptr(t_vec *v);
