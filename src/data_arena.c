@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/22 18:09:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 18:14:53 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ char    *arena_strdup(t_arena *arena, const char *s, size_t n)
 	{
         return (NULL);
 	}	
-	printf("hello1\n");
     dest = arena_alloc(arena, n + 1);
-	printf("hello2\n");
     ft_memcpy(dest, s, n);
     dest[n] = '\0';
 	// printf("dest = %s\n", dest);

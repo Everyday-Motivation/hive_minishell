@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/22 17:52:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 18:42:19 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char *buf)
 	return (buf_i);
 }
 
-size_t	handle_env_variable(t_info *info, char *input, size_t *i, char *buf)
+size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 {
 	size_t	var_start;
 	size_t	buf_i;
@@ -66,32 +66,26 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char *buf)
 	key = arena_strdup(info->arena, &input[var_start], *i - var_start);
 	printf("key = %s\n", key);
 	val = get_env_value(info->env, key);
-	printf("debug2\n");
+	// printf("val = %s\n", val);
 	if (val)
 	{
-		// int val_len = ft_strlen(val);
-		// char *temp = arena_alloc(info->arena, val_len + 1);
-		// ft_memcpy(temp, val, val_len);
-		// free(buf);
-		// buf = temp; 
-		while (val[buf_i])
-		{
-			buf[buf_i] = val[buf_i];
-			buf_i++;
-		}
+		int val_len = ft_strlen(val);
+		char *temp = arena_alloc(info->arena, val_len + 1);
+		ft_memcpy(temp, val, val_len);
+		*buf = temp;
+		return (val_len);
 	}
-	buf[buf_i] = '\0';
-	return (buf_i);
+	return (ft_strlen(key));
 }
 
 void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 {
-	char	buf[1024];
+	char	*buf;
 	size_t	buf_i;
 	t_token	token;
 
 	buf_i = 0;
-	// buf = arena_alloc(info->arena, ft_strlen(input));
+	buf = arena_alloc(info->arena, ft_strlen(input));
 	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
 	{
 		if (input[*i] == '\'')
@@ -99,11 +93,10 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 		else if (input[*i] == '"')
 			buf_i += handle_double_quote(info, input, i, &buf[buf_i]);
 		else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
-			buf_i += handle_env_variable(info, input, i, &buf[buf_i]);
+			buf_i += handle_env_variable(info, input, i, &buf);
 		else
 		{
 			buf[buf_i++] = input[(*i)++];
-			continue ;
 		}
 	}
 	buf[buf_i] = '\0';
