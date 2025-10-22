@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/22 18:42:19 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 18:44:46 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
 	key = arena_strdup(info->arena, &input[var_start], *i - var_start);
-	printf("key = %s\n", key);
 	val = get_env_value(info->env, key);
 	// printf("val = %s\n", val);
 	if (val)

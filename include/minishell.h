@@ -6,14 +6,14 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/22 18:07:28 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 19:13:00 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define ARENA_INIT_SIZE 4096
+# define ARENA_INIT_SIZE 16386
 
 # include "../libft/libft.h"
 # include <dirent.h>
@@ -58,6 +58,7 @@ typedef struct s_arena
     size_t          size;
     size_t          capacity;
 }                   t_arena;
+
 typedef enum e_token_type
 {
 	WORD,

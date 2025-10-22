@@ -6,12 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/22 18:14:53 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 19:26:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 
 int arena_init(t_arena *arena)
@@ -27,10 +26,22 @@ int arena_init(t_arena *arena)
 
 void    arena_free(t_arena *arena)
 {
-    free(arena->block);
-    arena->block = NULL;
-    arena->size = 0;
-    arena->capacity = 0;
+	t_arena *cur;
+	t_arena *next;
+	
+	cur = arena -> next;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		free(cur->block);
+		free(cur);
+		cur = next;
+	}
+	free(arena->block);
+	arena->block = NULL;
+	arena->size = 0;
+	arena->capacity = 0;
+	arena->next = NULL;
 }
 
 t_arena *arena_new_block(size_t n)

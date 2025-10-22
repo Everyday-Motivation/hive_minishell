@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/22 18:14:16 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 18:53:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ char	*get_env_value(t_vec *env, const char *var_name)
 
 	return (NULL);
 }
-
-// char *join_fragments_to_arena(t_vec *parts, t_arena *arena)
-// {
-//     size_t start = arena->size;  // 현재 위치 저장해놓기 (중요!)
-//     size_t j = 0;
-//     while (j < parts->len)
-//     {
-//         char *frag = *(char **)ft_vec_get(parts, j);
-//         size_t k = 0;
-//         while (frag[k])
-//             arena->block[arena->size++] = frag[k++];
-//         j++;
-//     }
-//     arena->block[arena->size++] = '\0';  // 널 종료
-
-//     return arena->block + start;  // 시작 위치 리턴해야 함
-// }
-
 
 char	*join_fragments_to_arena(t_vec *parts, t_arena *arena)
 {
