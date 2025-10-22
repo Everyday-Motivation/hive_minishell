@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/01 13:08:26 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 17:52:09 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,16 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char *buf)
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
 	key = arena_strdup(info->arena, &input[var_start], *i - var_start);
+	printf("key = %s\n", key);
 	val = get_env_value(info->env, key);
+	printf("debug2\n");
 	if (val)
 	{
+		// int val_len = ft_strlen(val);
+		// char *temp = arena_alloc(info->arena, val_len + 1);
+		// ft_memcpy(temp, val, val_len);
+		// free(buf);
+		// buf = temp; 
 		while (val[buf_i])
 		{
 			buf[buf_i] = val[buf_i];
@@ -84,6 +91,7 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	t_token	token;
 
 	buf_i = 0;
+	// buf = arena_alloc(info->arena, ft_strlen(input));
 	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
 	{
 		if (input[*i] == '\'')

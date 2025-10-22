@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/17 17:15:35 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/22 18:07:28 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,20 @@ typedef struct s_cmd
 	char			*heredoc_path;
 }					t_cmd;
 
+// typedef struct s_arena
+// {
+// 	char			*block;
+// 	size_t			size;
+// 	size_t			capacity;
+// }					t_arena;
+
 typedef struct s_arena
 {
-	char			*block;
-	size_t			size;
-	size_t			capacity;
-}					t_arena;
-
+    struct s_arena  *next;
+    char            *block;
+    size_t          size;
+    size_t          capacity;
+}                   t_arena;
 typedef enum e_token_type
 {
 	WORD,
@@ -122,6 +129,8 @@ char				*expand_env(t_arena *arena, const char *input, t_vec *env);
 int					tokenizing(t_info *info, char *input, t_vec *tokens);
 int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
+
+void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
 // parsing
 int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 
