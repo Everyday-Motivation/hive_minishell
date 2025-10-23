@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 12:22:53 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 18:19:02 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	if (val)
 	{
 		val_len = ft_strlen(val);
-		temp = arena_alloc(info->arena, val_len + 1);
-		ft_memcpy(temp, val, val_len);
+		temp = arena_alloc(info->arena, val_len + ft_strlen(*buf) + 1);
+		ft_memcpy(temp, *buf, ft_strlen(*buf));
+		ft_memcpy(temp + ft_strlen(*buf), val, val_len);
 		*buf = temp;
+		printf("buf = %s\n", *buf);
 		return (val_len);
 	}
 	return (ft_strlen(key));

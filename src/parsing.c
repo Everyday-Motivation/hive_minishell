@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 13:34:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 17:51:14 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,36 @@ static int	count_word(t_vec *tokens, size_t start)
 	return (words);
 }
 
+// static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
+// {
+// 	if (!next || next->type != WORD)
+// 	{
+// 		perror("invalid token after redirection");
+// 		return (0);
+// 	}
+// 	if (tok->type == S_LT)
+// 	{
+// 		cmd->file_name = next;
+// 		cmd->tok_type = tok->type;
+// 	}
+// 	else if (tok->type == S_GT)
+// 	{
+// 		cmd->file_name = next;
+// 		cmd->tok_type = tok->type;
+// 	}
+// 	else if (tok->type == D_GT)
+// 	{
+// 		cmd->file_name = next;
+// 		cmd->tok_type = tok->type;
+// 	}
+// 	else if (tok->type == D_LT)
+// 	{
+// 		if (!handle_heredoc(cmd, next->data))
+// 			return (0);
+// 	}
+// 	return (1);
+// }
+
 static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
 	if (!next || next->type != WORD)
@@ -45,8 +75,6 @@ static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	}
 	if (tok->type == S_LT)
 	{
-		if (cmd->input_fd)
-			close(cmd->input_fd);
 		cmd->input_fd = open(next->data, O_RDONLY);
 	}
 	else if (tok->type == S_GT)
@@ -94,7 +122,6 @@ static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 			next = (t_token *)ft_vec_get(tokens, *i + 1);
 			if (!handle_redirection(cmd, tok, next))
 			{
-				// free stuff ?? I dont't know yet
 				return (NULL);
 			}
 			*i += 2;
@@ -103,10 +130,7 @@ static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 		{
 			args[args_i] = tok->data;
 			if (!args[args_i])
-			{
-				// free
 				return (NULL);
-			}
 			args_i++;
 			(*i)++;
 		}
@@ -126,13 +150,11 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 	while (i < tokens->len)
 	{
 		ft_memset(&cmd, 0, sizeof(t_cmd));
-		cmd.input_fd = STDIN_FILENO;
-		cmd.output_fd = STDOUT_FILENO;
 		cmd.heredoc_path = NULL;
 		args = build_args(arena, tokens, &i, &cmd);
 		if (!args)
 			perror("get args are failed");
-		cmd.argv = args;
+		cmd.word = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
 			return (0);
 	}
