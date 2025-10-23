@@ -94,8 +94,6 @@ int parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 	return 1;
 }
 
-
-
 static int handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
 	if (!next || next->type != WORD)

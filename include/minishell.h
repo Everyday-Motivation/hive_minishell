@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/22 19:13:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 12:17:29 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ typedef struct s_cmd
 	int				output_fd;
 	char			*heredoc_path;
 }					t_cmd;
-
-// typedef struct s_arena
-// {
-// 	char			*block;
-// 	size_t			size;
-// 	size_t			capacity;
-// }					t_arena;
 
 typedef struct s_arena
 {
@@ -123,8 +116,7 @@ int					increment_shlvl(t_vec *env);
 
 //env_expanding
 char				*get_env_value(t_vec *env, const char *var_name);
-char				*join_fragments_to_arena(t_vec *parts, t_arena *arena);
-char				*expand_env(t_arena *arena, const char *input, t_vec *env);
+
 
 // Tokenizing
 int					tokenizing(t_info *info, char *input, t_vec *tokens);
@@ -132,6 +124,7 @@ int					deli_check(char c);
 int					quote_check(char *input, size_t *i);
 
 void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
+size_t				handle_env_variable(t_info *info, char *input, size_t *i, char **buf);
 // parsing
 int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 

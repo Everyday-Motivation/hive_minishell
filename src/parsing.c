@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/17 17:18:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 12:24:05 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,60 +137,3 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 	}
 	return (1);
 }
-
-//  int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
-// {
-// 	size_t i = 0;
-// 	t_cmd cmd;
-// 	t_token *tok;
-// 	t_token *next;
-// 	int num_of_av;
-// 	char **args;
-// 	size_t args_i;
-
-// 	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
-// 		return (0);
-
-// 	while (i < tokens->len)
-// 	{
-// 		cmd.input_fd = 0;
-// 		cmd.output_fd = 1;
-// 		cmd.heredoc_path = NULL;
-// 		num_of_av = count_word(tokens, i);
-// 		args_i = 0;
-
-// 		args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
-// 		if (!args)
-// 			return (0);
-
-// 		while (i < tokens->len)
-// 		{
-// 			tok = (t_token *)ft_vec_get(tokens, i);
-// 			if (tok->type == PIPE)
-// 			{
-// 				i++;
-// 				break ;
-// 			}
-// 			if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
-				// || tok->type == D_GT)
-// 			{
-// 				next = (t_token *)ft_vec_get(tokens, i + 1);
-// 				handle_redirection(&cmd, tok, next);
-// 				i += 2;
-// 			}
-// 			else if (tok->type == WORD)
-// 			{
-// // 				args[args_i] = arena_strdup(arena, tok->data,
-// 						ft_strlen(tok->data));
-// 				if (!args[args_i])
-// 					return (0);
-// 				i++;
-// 			}
-// 		}
-// 		args[args_i++] = NULL;
-// 		cmd.argv = args;
-// 		if (ft_vec_push(cmds, &cmd) < 0)
-// 			return (0);
-// 	}
-// 	return (1);
-// }
