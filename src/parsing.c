@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 12:24:05 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 13:34:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 static int	count_word(t_vec *tokens, size_t start)
 {
 	size_t	i;
-	size_t	av;
+	size_t	words;
 	t_token	*token;
 
 	i = start;
-	av = 0;
+	words = 0;
 	while (i < tokens->len)
 	{
 		token = (t_token *)ft_vec_get(tokens, i);
 		if (token->type == PIPE)
 			break ;
 		if (token->type == WORD)
-			av++;
+			words++;
 		if (token->type == S_LT || token->type == S_GT || token->type == D_LT
 			|| token->type == D_GT)
 			i += 2;
 		else
 			i++;
 	}
-	return (av);
+	return (words);
 }
 
 static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
@@ -101,7 +101,7 @@ static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 		}
 		else if (tok->type == WORD)
 		{
-			args[args_i] = arena_strdup(arena, tok->data, ft_strlen(tok->data));
+			args[args_i] = tok->data;
 			if (!args[args_i])
 			{
 				// free
@@ -125,8 +125,9 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 	ft_vec_new(cmds, 0, sizeof(t_cmd));
 	while (i < tokens->len)
 	{
-		cmd.input_fd = 0;
-		cmd.output_fd = 1;
+		ft_memset(&cmd, 0, sizeof(t_cmd));
+		cmd.input_fd = STDIN_FILENO;
+		cmd.output_fd = STDOUT_FILENO;
 		cmd.heredoc_path = NULL;
 		args = build_args(arena, tokens, &i, &cmd);
 		if (!args)

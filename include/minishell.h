@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/23 12:17:29 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 12:29:47 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int					increment_shlvl(t_vec *env);
 //env_expanding
 char				*get_env_value(t_vec *env, const char *var_name);
 
-
 // Tokenizing
 int					tokenizing(t_info *info, char *input, t_vec *tokens);
 int					deli_check(char c);
@@ -125,12 +124,16 @@ int					quote_check(char *input, size_t *i);
 
 void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
 size_t				handle_env_variable(t_info *info, char *input, size_t *i, char **buf);
+size_t				handle_double_quote(t_info *info, char *input, size_t *i, char **buf);
+size_t				handle_single_quote(char *input, size_t *i, char *buf);
+
 // parsing
 int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 
 
 //heredoc
 int	handle_heredoc(t_cmd *cmd, const char *limiter);
+
 // Prompt
 char				*read_line(int interactive);
 

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/22 18:51:02 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/23 12:26:46 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void shell_loop(int interactive, t_info *info)
 
 		// printf("read line: %s\n", line);
 
-		// 1. 토큰화
 		if (!tokenizing(info, line, &tokens))
 		{
 			printf("Tokenizing failed\n");
@@ -34,12 +33,12 @@ static void shell_loop(int interactive, t_info *info)
 			continue;
 		}
 
-		// 2. 파싱: tokens → cmds
+		//: tokens → cmds
 		if (!parse_tokens(info->arena, &tokens, &cmds))
 		{
 			printf("Parsing failed\n");
 			free(line);
-			ft_vec_free(&tokens); // 토큰 정리
+			ft_vec_free(&tokens);
 			continue;
 		}
 		
@@ -48,7 +47,6 @@ static void shell_loop(int interactive, t_info *info)
 		free(line);
 		ft_vec_free(&tokens);
 		ft_vec_free(&cmds);
-		// arena_free(info->arena);
 	}
 }
 
