@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 16:40:59 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/20 12:43:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/26 15:19:59 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,3 +187,32 @@ int	executor(t_vec *cmd)
 		{"wc","-l", NULL},
 		{NULL}
 	}; */
+
+
+
+/* static int	handle_redirection(t_arena *arena, t_token *tok, t_token *next,
+		t_cmd *cmd)
+{
+	(void)arena;
+	if (!next || next->type != WORD)
+		return (0);
+	if (tok->type == S_LT)
+		cmd->input_fd = open(next->data, O_RDONLY);
+	else if (tok->type == S_GT)
+		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (tok->type == D_GT)
+		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (tok->type == D_LT)
+	{
+		cmd->heredoc = 1;
+		if (!handle_heredoc(cmd, next->data))
+			return (0);
+	}
+	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT)
+		&& (cmd->input_fd == -1 || cmd->output_fd == -1))
+	{
+		perror("open");
+		return (0);
+	}
+	return (1);
+} */
