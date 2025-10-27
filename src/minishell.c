@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/23 12:26:46 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/27 17:15:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,15 @@ static void shell_loop(int interactive, t_info *info)
 			continue;
 		}
 		
-		execute_cmds(&cmds, info->env);
+		// test;
+		size_t j = 0;
+		while (j < cmds.len)
+		{
+			t_cmd *cmd = ft_vec_get(&cmds, j);
+			if (cmd->heredoc_str)
+				printf(" heredoc_str:\n%s\n", cmd->heredoc_str);
+			j++;
+		}
 
 		free(line);
 		ft_vec_free(&tokens);

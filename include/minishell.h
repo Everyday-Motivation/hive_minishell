@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/27 12:08:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/27 16:51:00 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,26 @@ enum				e_error_code
 	ENV_FAIL = 1,
 	ARENA_FAIL = 2,
 };
-typedef struct s_cmd
-{
-	char			**argv;
-	int				input_fd;
-	int				output_fd;
-	char			*heredoc_path;
-	int				heredoc_counter;
-	int				heredoc_fd;
-}					t_cmd;
-
 // typedef struct s_cmd
 // {
-// 	char			**word;
-// 	char			*file_name;
-// 	int				tok_type;
+// 	char			**argv;
+// 	int				input_fd;
+// 	int				output_fd;
 // 	char			*heredoc_path;
+// 	int				heredoc_counter;
+// 	int				heredoc_fd;
 // }					t_cmd;
+
+typedef struct s_cmd
+{
+	char						**argv;
+	char						*input_file;
+	char						*output_file;
+	char						*heredoc_str;
+	bool						append;
+	int 						heredoc_counter;
+	// int							heredoc_fd;
+}								t_cmd;
 
 typedef struct s_arena
 {
