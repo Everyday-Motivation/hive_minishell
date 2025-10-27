@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 17:51:14 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/27 12:08:36 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tok->type == D_LT)
 	{
+		cmd->heredoc_fd = STDIN_FILENO;
 		if (!handle_heredoc(cmd, next->data))
 			return (0);
-		cmd->input_fd = open(cmd->heredoc_path, O_RDONLY);
+		cmd->heredoc_counter++;
 	}
 	if (cmd->input_fd == -1 || cmd->output_fd == -1)
 	{
@@ -154,7 +155,7 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 		args = build_args(arena, tokens, &i, &cmd);
 		if (!args)
 			perror("get args are failed");
-		cmd.word = args;
+		cmd.argv = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
 			return (0);
 	}

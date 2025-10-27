@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/23 12:29:47 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/27 12:08:00 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,17 @@ typedef struct s_cmd
 	int				input_fd;
 	int				output_fd;
 	char			*heredoc_path;
+	int				heredoc_counter;
+	int				heredoc_fd;
 }					t_cmd;
+
+// typedef struct s_cmd
+// {
+// 	char			**word;
+// 	char			*file_name;
+// 	int				tok_type;
+// 	char			*heredoc_path;
+// }					t_cmd;
 
 typedef struct s_arena
 {
