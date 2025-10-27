@@ -6,11 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/20 11:50:10 by timurray         ###   ########.fr       */
-=======
-/*   Updated: 2025/10/27 10:22:53 by timurray         ###   ########.fr       */
->>>>>>> dev
+/*   Updated: 2025/10/27 18:14:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +31,20 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+enum							e_pipe_end
+{
+	READ_END = 0,
+	WRITE_END = 1
+};
+
 enum							e_error_code
 {
 	NO_BINARY = 0,
 	ENV_FAIL = 1,
 	ARENA_FAIL = 2,
 };
-typedef struct s_cmd
-{
-	char						**argv;
-	int							input_fd;
-	int							output_fd;
-	int							heredoc;
-}								t_cmd;
 
-/* typedef struct s_cmd
+typedef struct s_cmd
 {
 	char						**argv;
 	char						*input_file;
@@ -57,7 +52,7 @@ typedef struct s_cmd
 	bool						append;
 	char						*heredoc_str;
 }								t_cmd;
- */
+
 typedef struct s_arena
 {
 	char						*block;
@@ -170,7 +165,8 @@ char							*ft_strjoin_3(const char *s1, const char *s2,
 									const char *s3);
 void							ft_free_split(char **arr);
 char							*get_path_env(t_vec *env);
-char							*find_executable_in_paths(char *path_env, char *cmd);
+char							*find_executable_in_paths(char *path_env,
+									char *cmd);
 char							*search_path(char *cmd, t_vec *env);
 
 // Error
