@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 12:30:46 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/26 14:52:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/26 16:36:43 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,13 @@ int lsh_launch(char **args)
 }
 
 char *builtin_str[] = {
+	"cd",
+	"echo",
 	"env",
-	"unset",
-	"export"
+	"exit",
+	"export",
+	"pwd",
+	"unset"
 };
 
 int (*builtin_func[]) (char **) = {

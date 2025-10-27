@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 16:40:59 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/26 15:19:59 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/26 16:40:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ typedef struct s_info {
 
 // TODO: pass env
 // TODO: execute in parent cd, exit, export, unset, pwd, echo
+
+
+
 
 
 int	executor(t_vec *cmd) 

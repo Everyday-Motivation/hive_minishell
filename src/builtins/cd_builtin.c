@@ -6,16 +6,17 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:26:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/26 16:44:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	cd_builtin(char **av)
+int	bi_cd(char **av, t_vec *env)
 {
 	int result;
 
+	(void)env;
 	if (!av[0])
 		perror("Expected argument to cd");
 	else
