@@ -6,7 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/20 11:50:10 by timurray         ###   ########.fr       */
+=======
+/*   Updated: 2025/10/27 10:22:53 by timurray         ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +33,9 @@
 # include <termcap.h>
 # include <termios.h>
 
-enum				e_error_code
+extern volatile sig_atomic_t	g_signal;
+
+enum							e_error_code
 {
 	NO_BINARY = 0,
 	ENV_FAIL = 1,
@@ -37,18 +43,27 @@ enum				e_error_code
 };
 typedef struct s_cmd
 {
-	char			**argv;
-	int				input_fd;
-	int				output_fd;
-	int				heredoc;
-}					t_cmd;
+	char						**argv;
+	int							input_fd;
+	int							output_fd;
+	int							heredoc;
+}								t_cmd;
 
+/* typedef struct s_cmd
+{
+	char						**argv;
+	char						*input_file;
+	char						*output_file;
+	bool						append;
+	char						*heredoc_str;
+}								t_cmd;
+ */
 typedef struct s_arena
 {
-	char			*block;
-	size_t			size;
-	size_t			capacity;
-}					t_arena;
+	char						*block;
+	size_t						size;
+	size_t						capacity;
+}								t_arena;
 
 typedef enum e_token_type
 {
@@ -58,111 +73,116 @@ typedef enum e_token_type
 	S_GT,
 	D_GT,
 	PIPE
-}					t_token_type;
+}								t_token_type;
 
 typedef struct s_info
 {
-	t_arena			*arena;
-	t_vec			*env;
-}					t_info;
+	t_arena						*arena;
+	t_vec						*env;
+}								t_info;
 
 typedef struct s_parse_state
 {
-	size_t			*i;
-	t_vec			*argv;
-}					t_parse_state;
+	size_t						*i;
+	t_vec						*argv;
+}								t_parse_state;
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*data;
-}					t_token;
+	t_token_type				type;
+	char						*data;
+}								t_token;
 
 typedef struct s_exec_info
 {
-	int				prev_fd;
-	int				pipe_fd[2];
-	size_t			index;
-	size_t			total_cmds;
-}					t_exec_info;
+	int							prev_fd;
+	int							pipe_fd[2];
+	size_t						index;
+	size_t						total_cmds;
+}								t_exec_info;
 
 // Builtins
-int					bi_env(char **av, t_vec *env);
-int					bi_export(char **av, t_vec *env);
-int					bi_unset(char **av, t_vec *env);
-
-// Execution
-int					executor(t_vec *cmd);
+int								bi_unset(char **av, t_vec *env);
+int								bi_export(char **av, t_vec *env);
+int								bi_env(char **av, t_vec *env);
 
 // Utils
-int					sort_vec_str_ptr(t_vec *v);
-int					copy_vec_str_ptr(t_vec *env_cpy, t_vec *env);
-int					sort_vec_str_ptr(t_vec *v);
-int					env_add_update_line(t_vec *env, char *val);
+int								sort_vec_str_ptr(t_vec *v);
+int								copy_vec_str_ptr(t_vec *env_cpy, t_vec *env);
+int								sort_vec_str_ptr(t_vec *v);
+int								env_add_update_line(t_vec *env, char *val);
 
 // Signal
-void				sigint_handler(int signal);
-void				init_signals(void);
+void							sigint_handler(int signal);
+void							init_signals(void);
 
 // Arena
-int					arena_init(t_arena *arena);
-void				arena_free(t_arena *arena);
-void				*arena_alloc(t_arena *arena, size_t n);
-char				*arena_strdup(t_arena *arena, const char *s, size_t n);
+int								arena_init(t_arena *arena);
+void							arena_free(t_arena *arena);
+void							*arena_alloc(t_arena *arena, size_t n);
+char							*arena_strdup(t_arena *arena, const char *s,
+									size_t n);
 
 // Input
-int					get_input(t_arena *arena, char **input);
-int					check_input(t_arena *arena, char **input);
+int								get_input(t_arena *arena, char **input);
+int								check_input(t_arena *arena, char **input);
 
 // Env
-int					init_env(t_vec *env, char **envp);
-int					copy_env(t_vec *env, char **envp);
-int					add_pwd(t_vec *env);
-int					increment_shlvl(t_vec *env);
+int								init_env(t_vec *env, char **envp);
+int								copy_env(t_vec *env, char **envp);
+int								add_pwd(t_vec *env);
+int								increment_shlvl(t_vec *env);
 
 // env_expanding
-char				*get_env_value(t_vec *env, const char *var_name);
-char				*join_fragments_to_arena(t_vec *parts, t_arena *arena);
-char				*expand_env(t_arena *arena, const char *input, t_vec *env);
+char							*get_env_value(t_vec *env,
+									const char *var_name);
+char							*join_fragments_to_arena(t_vec *parts,
+									t_arena *arena);
+char							*expand_env(t_arena *arena, const char *input,
+									t_vec *env);
 
 // Tokenizing
-int					tokenizing(t_info *info, char *input, t_vec *tokens);
-int					deli_check(char c);
-int					quote_check(char *input, size_t *i);
-int					parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
-size_t				handle_single_quote(char *input, size_t *i, char *buf);
-size_t				handle_double_quote(t_info *info, char *input, size_t *i,
-						char *buf);
-size_t				handle_env_variable(t_info *info, char *input, size_t *i,
-						char *buf);
-void				process_word(t_info *info, char *input, size_t *i,
-						t_vec *tokens);
+int								tokenizing(t_info *info, char *input,
+									t_vec *tokens);
+int								deli_check(char c);
+int								quote_check(char *input, size_t *i);
+int								parse_tokens(t_arena *arena, t_vec *tokens,
+									t_vec *cmds);
+size_t							handle_single_quote(char *input, size_t *i,
+									char *buf);
+size_t							handle_double_quote(t_info *info, char *input,
+									size_t *i, char *buf);
+size_t							handle_env_variable(t_info *info, char *input,
+									size_t *i, char *buf);
+void							process_word(t_info *info, char *input,
+									size_t *i, t_vec *tokens);
 
 // heredoc
-int					handle_heredoc(t_cmd *cmd, const char *limiter);
+int								handle_heredoc(t_cmd *cmd, const char *limiter);
 // Prompt
-char				*read_line(int interactive);
+char							*read_line(int interactive);
 
 // execute
-int					execute_cmds(t_vec *cmds, t_vec *env);
+int								execute_cmds(t_vec *cmds, t_vec *env);
 
 // find_path
-char				*ft_strjoin_3(const char *s1, const char *s2,
-						const char *s3);
-char				*get_path_env(t_vec *env);
-char				*find_executable_in_paths(char *path_env, char *cmd);
-char				*search_path(char *cmd, t_vec *env);
+char							*ft_strjoin_3(const char *s1, const char *s2,
+									const char *s3);
+void							ft_free_split(char **arr);
+char							*get_path_env(t_vec *env);
+char							*find_executable_in_paths(char *path_env, char *cmd);
+char							*search_path(char *cmd, t_vec *env);
 
 // Error
-void				exit_clear_rl_history(void);
-int					return_error(int e);
+void							exit_clear_rl_history(void);
+int								return_error(int e);
 
 // Vec helpers
-void				free_str_vec(t_vec *str_vec);
-int					str_in_str_vec(t_vec *str_vec, char *str);
-void				print_str_vec(t_vec *str_vec, char *prefix);
-int					vec_remove_str(t_vec *src, size_t index);
-size_t				get_str_index(t_vec *src, char *s);
+void							free_str_vec(t_vec *str_vec);
+int								str_in_str_vec(t_vec *str_vec, char *str);
+void							print_str_vec(t_vec *str_vec, char *prefix);
+int								vec_remove_str(t_vec *src, size_t index);
+size_t							get_str_index(t_vec *src, char *s);
 
 #endif
 

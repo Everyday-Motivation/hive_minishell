@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:31 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/15 17:37:08 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:36:47 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	execute_cmd_loop(t_vec *cmds, t_vec *env, t_exec_info *info, size_t i)
 // 		;
 // 	return (1);
 // }
-
 
 // void child_process(t_cmd *cmd, t_vec *env, t_exec_info *info)
 // {

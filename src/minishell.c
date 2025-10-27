@@ -6,11 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/20 11:51:06 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:37:00 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+volatile sig_atomic_t g_signal = 0;
 
 static void shell_loop(int interactive, t_info *info)
 {
