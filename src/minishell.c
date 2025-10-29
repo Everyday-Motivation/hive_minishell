@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/27 17:15:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:29:01 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void shell_loop(int interactive, t_info *info)
 
 		// printf("read line: %s\n", line);
 
-		if (!tokenizing(info, line, &tokens))
+		if (tokenizing(info, line, &tokens))
 		{
 			printf("Tokenizing failed\n");
 			free(line);
@@ -34,9 +34,9 @@ static void shell_loop(int interactive, t_info *info)
 		}
 
 		//: tokens → cmds
-		if (!parse_tokens(info->arena, &tokens, &cmds))
+		if (parse_tokens(info->arena, &tokens, &cmds))
 		{
-			printf("Parsing failed\n");
+			ft_putendl_fd("parsing failed", 2);
 			free(line);
 			ft_vec_free(&tokens);
 			continue;
@@ -48,10 +48,10 @@ static void shell_loop(int interactive, t_info *info)
 		{
 			t_cmd *cmd = ft_vec_get(&cmds, j);
 			if (cmd->heredoc_str)
-				printf(" heredoc_str:\n%s\n", cmd->heredoc_str);
+				printf(" heredoc_str:%s", cmd->heredoc_str);
 			j++;
 		}
-
+		
 		free(line);
 		ft_vec_free(&tokens);
 		ft_vec_free(&cmds);

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/27 16:51:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:08:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,6 @@ enum				e_error_code
 	ENV_FAIL = 1,
 	ARENA_FAIL = 2,
 };
-// typedef struct s_cmd
-// {
-// 	char			**argv;
-// 	int				input_fd;
-// 	int				output_fd;
-// 	char			*heredoc_path;
-// 	int				heredoc_counter;
-// 	int				heredoc_fd;
-// }					t_cmd;
 
 typedef struct s_cmd
 {
@@ -54,7 +45,6 @@ typedef struct s_cmd
 	char						*heredoc_str;
 	bool						append;
 	int 						heredoc_counter;
-	// int							heredoc_fd;
 }								t_cmd;
 
 typedef struct s_arena
@@ -80,20 +70,11 @@ typedef struct s_info {
 	t_vec   *env;
 } t_info;
 
-
-
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*data;
 }					t_token;
-
-typedef struct s_exec_info {
-    int prev_fd;
-    int pipe_fd[2];
-    size_t index;
-    size_t total_cmds;
-} t_exec_info;
 
 
 // Builtins
@@ -142,11 +123,13 @@ size_t				handle_single_quote(char *input, size_t *i, char *buf);
 
 // parsing
 int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
-
+char				**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd);
+int 				handle_pipe(t_token *tok, size_t *i);
+int 				handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd);
 
 //heredoc
-int	handle_heredoc(t_cmd *cmd, const char *limiter);
-
+int					handle_heredoc(t_cmd *cmd, const char *limiter);
+void 				count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds);
 // Prompt
 char				*read_line(int interactive);
 

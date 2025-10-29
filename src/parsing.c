@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/27 17:07:50 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:36:15 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,53 +36,11 @@ static int	count_word(t_vec *tokens, size_t start)
 	return (words);
 }
 
-// static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
-// {
-// 	if (!next || next->type != WORD)
-// 	{
-// 		perror("invalid token after redirection");
-// 		return (0);
-// 	}
-// 	if (tok->type == S_LT)
-// 	{
-// 		cmd->input_file = next;
-// 	}
-// 	else if (tok->type == S_GT)
-// 	{
-// 		cmd->output_file = next;
-// 		cmd->append = false;
-// 	}
-// 	else if (tok->type == D_GT)
-// 	{
-// 		cmd->output_file = next;
-// 		cmd->append = true;
-// 	}
-// 	else if (tok->type == D_LT)
-// 	{
-// 		int i = 0;
-// 		i++;
-// 		bool last = false;
-// 		if (i = cmd->heredoc_counter)
-// 		{
-// 			last = true;
-// 		}
-// 		if (cmd->heredoc_counter > 16)
-// 		{
-// 			perror("too many heredocs");
-// 			return (0);
-// 		}
-// 		if (!handle_heredoc(cmd, next->data, last))
-// 			return (0);
-// 	}
-// 	return (1);
-// }
-
 static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
 	if (!next || next->type != WORD)
 	{
-		perror("invalid token after redirection");
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	if (tok->type == S_LT)
 	{
@@ -100,112 +58,40 @@ static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	}
 	else if (tok->type == D_LT)
 	{
-		cmd->heredoc_counter++;
-		if (cmd->heredoc_counter > 17)
-		{
-			perror("too many heredocs");
-			// free everything
-			exit (2);
-		}
 		if (!handle_heredoc(cmd, next->data))
-			return (0);
+			return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
-static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
+char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
 	int		num_of_av;
 	char	**args;
 	size_t	args_i;
 	t_token	*tok;
-	t_token	*next;
 
 	args_i = 0;
 	num_of_av = count_word(tokens, *i);
 	args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
 	if (!args)
 		return (NULL);
-	
 	while (*i < tokens->len)
 	{
-		tok = (t_token *)ft_vec_get(tokens, *i);
-		if (tok->type == PIPE)
-		{
-			(*i)++;
+		tok = ft_vec_get(tokens, *i);
+		if (handle_pipe(tok, i) == EXIT_SUCCESS)
 			break ;
-		}
-		if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT ||
-			tok->type == D_GT)
+		if (handle_ridir(tokens, tok, i, cmd) == -1)    
+			return (NULL);
+		if (tok->type == WORD)
 		{
-			next = (t_token *)ft_vec_get(tokens, *i + 1);
-			if (!handle_redirection(cmd, tok, next))
-			{
-				return (NULL);
-			}
-			*i += 2;
-		}
-		else if (tok->type == WORD)
-		{
-			args[args_i] = tok->data;
-			if (!args[args_i])
-				return (NULL);
-			args_i++;
+			args[args_i++] = tok->data;
 			(*i)++;
 		}
 	}
 	args[args_i] = NULL;
 	return (args);
 }
-
-
-
-// static char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
-// {
-// 	int		num_of_av;
-// 	char	**args;
-// 	size_t	args_i;
-// 	t_token	*tok;
-// 	t_token	*next;
-
-// 	args_i = 0;
-// 	num_of_av = count_word(tokens, *i);
-// 	args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
-// 	if (!args)
-// 		return (NULL);
-	
-// 	while (*i < tokens->len)
-// 	{
-// 		tok = (t_token *)ft_vec_get(tokens, *i);
-// 		if (tok->type == PIPE)
-// 		{
-// 			(*i)++;
-// 			break ;
-// 		}
-// 		if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
-// 			|| tok->type == D_GT)
-// 		{
-// 			next = (t_token *)ft_vec_get(tokens, *i + 1);
-// 			if (!handle_redirection(cmd, tok, next))
-// 			{
-// 				return (NULL);
-// 			}
-// 			*i += 2;
-// 		}
-// 		else if (tok->type == WORD)
-// 		{
-// 			args[args_i] = tok->data;
-// 			if (!args[args_i])
-// 				return (NULL);
-// 			args_i++;
-// 			(*i)++;
-// 		}
-// 	}
-// 	args[args_i] = NULL;
-// 	return (args);
-// }
-
-
 
 int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 {
@@ -215,15 +101,69 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 
 	i = 0;
 	ft_vec_new(cmds, 0, sizeof(t_cmd));
+	count_heredoc(arena, tokens, cmds);
 	while (i < tokens->len)
 	{
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		args = build_args(arena, tokens, &i, &cmd);
 		if (!args)
-			perror("get args are failed");
-		cmd.argv = args;
+		{
+			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
+			return (EXIT_FAILURE);
+		}
+			cmd.argv = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
-			return (0);
+			return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
+}
+
+void	count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds)
+{
+	t_token	*tok;
+	size_t	i;
+	size_t	heredoc_counter;
+
+	heredoc_counter = 0;
+	i = 0;
+	while (i < tokens->len)
+	{
+		tok = (t_token *)ft_vec_get(tokens, i);
+		if (tok->type == D_LT)
+			heredoc_counter++;
+		if (heredoc_counter > 16)
+		{
+			ft_putendl_fd("maximum here-document count exceeded", 2);
+			ft_vec_free(tokens);
+			ft_vec_free(cmds);
+			arena_free(arena);
+			exit(2);
+		}
+		i++;
+	}
+}
+
+int handle_pipe(t_token *tok, size_t *i)
+{
+	if (tok->type == PIPE)
+	{
+		(*i)++;
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
+
+int handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
+{
+	t_token	*next;
+	
+	if (tok->type == S_LT || tok->type == S_GT
+		|| tok->type == D_LT || tok->type == D_GT)
+	{
+		next = ft_vec_get(tokens, *i + 1);
+		if (handle_redirection(cmd, tok, next) == EXIT_FAILURE)
+			return (-1);
+		(*i) += 2;
+	}
+	return (EXIT_SUCCESS);
 }

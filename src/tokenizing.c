@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/16 12:18:34 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:00:56 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 
 	i = 0;
 	if (ft_vec_new(tokens, 0, sizeof(t_token)) < 0)
-		return (0);
-	if (!quote_check(input, &i))
+		return (EXIT_FAILURE);
+	if (quote_check(input, &i) == EXIT_FAILURE)
 		return (0);
 	i = 0;
 	while (input[i])
@@ -65,7 +65,7 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 		}
 		process_word(info, input, &i, tokens);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	quote_check(char *input, size_t *i)
@@ -86,9 +86,9 @@ int	quote_check(char *input, size_t *i)
 	if (d_sign == 1 || s_sign == 1)
 	{
 		perror("Syntax error: quotations need to match.\n");
-		return (0);
+		return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	deli_check(char c)

@@ -29,7 +29,7 @@ int	get_input(t_arena *arena, char **input)
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 		line[len - 1] = '\0';
-	*input = arena_strdup(arena, line,ft_strlen(line));
+	*input = arena_strdup(arena, line, ft_strlen(line));
 	if (!(*input))
 	{
 		if (isatty(STDIN_FILENO))

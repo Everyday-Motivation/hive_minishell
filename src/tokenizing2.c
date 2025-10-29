@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 18:19:02 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 12:19:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,23 @@ size_t	handle_single_quote(char *input, size_t *i, char *buf)
 size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 {
 	char	quote;
-	size_t	start;
 	size_t	buf_i;
-	char	*temp;
-	size_t	temp_i;
 
 	quote = input[(*i)++];
-	start = *i;
 	buf_i = 0;
 	while (input[*i] && input[*i] != quote)
-		(*i)++;
-	temp = arena_strdup(info->arena, &input[start], *i - start);
+	{
+		if (input[*i] == '$' && input[*i + 1])
+		{
+			buf_i += handle_env_variable(info, input, i, buf);
+		}
+		else
+		{
+			(*buf)[buf_i++] = input[(*i)++];
+		}
+	}
 	if (input[*i] == quote)
 		(*i)++;
-	if (temp[0] == '$')
-	{
-		temp_i = 0;
-		return (handle_env_variable(info, temp, &temp_i, buf));
-	}
-	while (temp[buf_i] && temp[buf_i] != '$')
-	{
-		(*buf)[buf_i] = temp[buf_i];
-		buf_i++;
-	}
 	return (buf_i);
 }
 
@@ -76,7 +70,6 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 		ft_memcpy(temp, *buf, ft_strlen(*buf));
 		ft_memcpy(temp + ft_strlen(*buf), val, val_len);
 		*buf = temp;
-		printf("buf = %s\n", *buf);
 		return (val_len);
 	}
 	return (ft_strlen(key));
@@ -104,6 +97,7 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 		}
 	}
 	buf[buf_i] = '\0';
+	printf("buf = %s\n", buf);
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	ft_vec_push(tokens, &token);
