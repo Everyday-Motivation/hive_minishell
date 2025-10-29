@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/29 17:41:44 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 17:53:45 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void shell_loop(int interactive, t_info *info)
 
 	while (1)
 	{
+		printf("g_signal has this value: %d\n", g_signal);
 		line = read_line(interactive);
 		if (!line)
 			break;

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/29 17:43:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 18:10:02 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,6 @@ typedef struct s_cmd
 	int 						heredoc_counter;
 }								t_cmd;
 
-/* typedef struct s_cmd
-{
-	char						**argv;
-	char						*input_file;
-	char						*output_file;
-	bool						append;
-	char						*heredoc_str;
-}								t_cmd;
- */
 typedef struct s_arena
 {
     struct s_arena  *next;
@@ -120,7 +111,6 @@ int								copy_env(t_vec *env, char **envp);
 int								add_pwd(t_vec *env);
 int								increment_shlvl(t_vec *env);
 
-<<<<<<< HEAD
 //env_expanding
 char				*get_env_value(t_vec *env, const char *var_name);
 
@@ -143,34 +133,6 @@ int 				handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd);
 //heredoc
 int					handle_heredoc(t_cmd *cmd, const char *limiter);
 void 				count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds);
-=======
-// env_expanding
-char							*get_env_value(t_vec *env,
-									const char *var_name);
-char							*join_fragments_to_arena(t_vec *parts,
-									t_arena *arena);
-char							*expand_env(t_arena *arena, const char *input,
-									t_vec *env);
-
-// Tokenizing
-int								tokenizing(t_info *info, char *input,
-									t_vec *tokens);
-int								deli_check(char c);
-int								quote_check(char *input, size_t *i);
-int								parse_tokens(t_arena *arena, t_vec *tokens,
-									t_vec *cmds);
-size_t							handle_single_quote(char *input, size_t *i,
-									char *buf);
-size_t							handle_double_quote(t_info *info, char *input,
-									size_t *i, char *buf);
-size_t							handle_env_variable(t_info *info, char *input,
-									size_t *i, char *buf);
-void							process_word(t_info *info, char *input,
-									size_t *i, t_vec *tokens);
-
-// heredoc
-int								handle_heredoc(t_cmd *cmd, const char *limiter);
->>>>>>> dev
 // Prompt
 char							*read_line(int interactive);
 
