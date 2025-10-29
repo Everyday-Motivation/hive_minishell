@@ -6,11 +6,13 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/29 16:29:01 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 17:41:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+volatile sig_atomic_t g_signal = 0;
 
 static void shell_loop(int interactive, t_info *info)
 {
