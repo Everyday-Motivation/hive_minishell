@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/29 17:53:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:59:40 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void shell_loop(int interactive, t_info *info)
 
 	while (1)
 	{
-		printf("g_signal has this value: %d\n", g_signal);
 		line = read_line(interactive);
 		if (!line)
 			break;
@@ -32,6 +31,7 @@ static void shell_loop(int interactive, t_info *info)
 		if (tokenizing(info, line, &tokens))
 		{
 			printf("Tokenizing failed\n");
+			g_signal = 0;
 			free(line);
 			continue;
 		}
@@ -40,6 +40,7 @@ static void shell_loop(int interactive, t_info *info)
 		if (parse_tokens(info->arena, &tokens, &cmds))
 		{
 			ft_putendl_fd("parsing failed", 2);
+			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);
 			continue;
@@ -54,7 +55,7 @@ static void shell_loop(int interactive, t_info *info)
 				printf(" heredoc_str:%s", cmd->heredoc_str);
 			j++;
 		}
-		
+		g_signal = 0;
 		free(line);
 		ft_vec_free(&tokens);
 		ft_vec_free(&cmds);

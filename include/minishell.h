@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/29 18:10:02 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:05:26 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int								env_add_update_line(t_vec *env, char *val);
 // Signal
 void							sigint_handler(int signal);
 void							init_signals(void);
+void							init_hd_signals(void);
+void							heredoc_sigint_handler(int signal);
 
 // Arena
 int								arena_init(t_arena *arena);
@@ -129,10 +131,12 @@ int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
 char				**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd);
 int 				handle_pipe(t_token *tok, size_t *i);
 int 				handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd);
+int					handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
 
 //heredoc
 int					handle_heredoc(t_cmd *cmd, const char *limiter);
 void 				count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds);
+void				heredoc_signal(void);
 // Prompt
 char							*read_line(int interactive);
 

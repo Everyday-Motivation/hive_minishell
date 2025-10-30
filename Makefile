@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/07 15:52:36 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/10/30 15:20:06 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ src/signal.c \
 src/tokenizing.c src/tokenizing2.c\
 src/error.c \
 src/prompt.c \
-src/execute.c src/find_path.c \
+src/parsing_helper.c src/find_path.c \
 src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \
@@ -48,7 +48,7 @@ LIBFT_DIR  = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft/
+CFLAGS = -Wall -Wextra -Werror -I libft/ -g
 VFLAGS = -g
 SFLAGS = -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
 LDFLAGS = -lreadline

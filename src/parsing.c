@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/29 16:36:15 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:51:45 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,12 @@ static int	count_word(t_vec *tokens, size_t start)
 	return (words);
 }
 
-static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
+int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
 	if (!next || next->type != WORD)
-	{
 		return (EXIT_FAILURE);
-	}
 	if (tok->type == S_LT)
-	{
 		cmd->input_file = next->data;
-	}
 	else if (tok->type == S_GT)
 	{
 		cmd->output_file = next->data;
@@ -58,8 +54,13 @@ static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	}
 	else if (tok->type == D_LT)
 	{
+		init_hd_signals();
 		if (!handle_heredoc(cmd, next->data))
+		{
+			init_signals();
 			return (EXIT_FAILURE);
+		}
+		init_signals();
 	}
 	return (EXIT_SUCCESS);
 }
@@ -81,7 +82,7 @@ char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 		tok = ft_vec_get(tokens, *i);
 		if (handle_pipe(tok, i) == EXIT_SUCCESS)
 			break ;
-		if (handle_ridir(tokens, tok, i, cmd) == -1)    
+		if (handle_ridir(tokens, tok, i, cmd) == -1)
 			return (NULL);
 		if (tok->type == WORD)
 		{
@@ -111,7 +112,7 @@ int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
 			return (EXIT_FAILURE);
 		}
-			cmd.argv = args;
+		cmd.argv = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
 			return (EXIT_FAILURE);
 	}
@@ -141,29 +142,4 @@ void	count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds)
 		}
 		i++;
 	}
-}
-
-int handle_pipe(t_token *tok, size_t *i)
-{
-	if (tok->type == PIPE)
-	{
-		(*i)++;
-		return (EXIT_SUCCESS);
-	}
-	return (EXIT_FAILURE);
-}
-
-int handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
-{
-	t_token	*next;
-	
-	if (tok->type == S_LT || tok->type == S_GT
-		|| tok->type == D_LT || tok->type == D_GT)
-	{
-		next = ft_vec_get(tokens, *i + 1);
-		if (handle_redirection(cmd, tok, next) == EXIT_FAILURE)
-			return (-1);
-		(*i) += 2;
-	}
-	return (EXIT_SUCCESS);
 }
