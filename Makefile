@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/11 16:56:41 by timurray         ###   ########.fr        #
+#    Updated: 2025/10/30 11:49:16 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ src/signal.c \
 src/tokenizing.c src/tokenizing2.c\
 src/error.c \
 src/prompt.c \
-src/execute.c src/find_path.c \
+src/find_path.c \
 src/parsing.c \
 src/vec_str_helper.c \
 src/env_exp.c \

@@ -6,136 +6,164 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/03 16:52:54 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:36:15 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	handle_redirection(t_arena *arena, t_token *tok, t_token *next,
-		t_cmd *cmd)
+static int	count_word(t_vec *tokens, size_t start)
 {
-	(void)arena;
+	size_t	i;
+	size_t	words;
+	t_token	*token;
+
+	i = start;
+	words = 0;
+	while (i < tokens->len)
+	{
+		token = (t_token *)ft_vec_get(tokens, i);
+		if (token->type == PIPE)
+			break ;
+		if (token->type == WORD)
+			words++;
+		if (token->type == S_LT || token->type == S_GT || token->type == D_LT
+			|| token->type == D_GT)
+			i += 2;
+		else
+			i++;
+	}
+	return (words);
+}
+
+static int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
+{
 	if (!next || next->type != WORD)
-		return (0);
+	{
+		return (EXIT_FAILURE);
+	}
 	if (tok->type == S_LT)
-		cmd->input_fd = open(next->data, O_RDONLY);
+	{
+		cmd->input_file = next->data;
+	}
 	else if (tok->type == S_GT)
-		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	{
+		cmd->output_file = next->data;
+		cmd->append = false;
+	}
 	else if (tok->type == D_GT)
-		cmd->output_fd = open(next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	{
+		cmd->output_file = next->data;
+		cmd->append = true;
+	}
 	else if (tok->type == D_LT)
 	{
-		cmd->heredoc = 1;
 		if (!handle_heredoc(cmd, next->data))
-			return (0);
+			return (EXIT_FAILURE);
 	}
-	if ((tok->type == S_LT || tok->type == S_GT || tok->type == D_GT)
-		&& (cmd->input_fd == -1 || cmd->output_fd == -1))
-	{
-		perror("open");
-		return (0);
-	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
-static char	**vec_to_argv(t_arena *arena, t_vec *argv)
+char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
+	int		num_of_av;
 	char	**args;
-	size_t	j;
-
-	args = arena_alloc(arena, sizeof(char *) * (argv->len + 1));
-	j = 0;
-	while (j < argv->len)
-	{
-		args[j] = *(char **)ft_vec_get(argv, j);
-		j++;
-	}
-	args[argv->len] = NULL;
-	return (args);
-}
-
-static int	handle_token(t_arena *arena, t_vec *tokens, t_parse_state *state,
-		t_cmd *cmd)
-{
-	t_token	*tok;
-	t_token	*next;
-	char	*tmp;
-
-	tok = (t_token *)ft_vec_get(tokens, *(state->i));
-	if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
-		|| tok->type == D_GT)
-	{
-		next = ft_vec_get(tokens, *(state->i) + 1);
-		if (!handle_redirection(arena, tok, next, cmd))
-			return (0);
-		*(state->i) += 2;
-	}
-	else if (tok->type == WORD)
-	{
-		tmp = arena_strdup(arena, tok->data, strlen(tok->data));
-		if (!tmp)
-			return (0);
-		if (ft_vec_push(state->argv, &tmp) < 0)
-			return (0);
-		(*(state->i))++;
-	}
-	else
-		(*(state->i))++;
-	return (1);
-}
-
-static int	process_tokens_in_command(t_arena *arena, t_vec *tokens,
-		t_parse_state *state, t_cmd *cmd)
-{
+	size_t	args_i;
 	t_token	*tok;
 
-	while (*(state->i) < tokens->len)
+	args_i = 0;
+	num_of_av = count_word(tokens, *i);
+	args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
+	if (!args)
+		return (NULL);
+	while (*i < tokens->len)
 	{
-		tok = (t_token *)ft_vec_get(tokens, *(state->i));
-		if (tok->type == PIPE)
-		{
-			(*(state->i))++;
+		tok = ft_vec_get(tokens, *i);
+		if (handle_pipe(tok, i) == EXIT_SUCCESS)
 			break ;
+		if (handle_ridir(tokens, tok, i, cmd) == -1)    
+			return (NULL);
+		if (tok->type == WORD)
+		{
+			args[args_i++] = tok->data;
+			(*i)++;
 		}
-		if (!handle_token(arena, tokens, state, cmd))
-			return (0);
 	}
-	return (1);
-}
-
-static int	parse_single_command(t_arena *arena, t_vec *tokens, size_t *i,
-		t_cmd *cmd)
-{
-	t_vec			argv;
-	t_parse_state	state;
-
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
-	cmd->heredoc = 0;
-	if (ft_vec_new(&argv, 0, sizeof(char *)) < 0)
-		return (0);
-	state.i = i;
-	state.argv = &argv;
-	if (!process_tokens_in_command(arena, tokens, &state, cmd))
-		return (0);
-	cmd->argv = vec_to_argv(arena, &argv);
-	return (1);
+	args[args_i] = NULL;
+	return (args);
 }
 
 int	parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds)
 {
-	t_cmd	cmd;
 	size_t	i;
+	t_cmd	cmd;
+	char	**args;
 
 	i = 0;
-	if (ft_vec_new(cmds, 0, sizeof(t_cmd)) < 0)
-		return (0);
+	ft_vec_new(cmds, 0, sizeof(t_cmd));
+	count_heredoc(arena, tokens, cmds);
 	while (i < tokens->len)
 	{
-		if (!parse_single_command(arena, tokens, &i, &cmd))
-			return (0);
-		ft_vec_push(cmds, &cmd);
+		ft_memset(&cmd, 0, sizeof(t_cmd));
+		args = build_args(arena, tokens, &i, &cmd);
+		if (!args)
+		{
+			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
+			return (EXIT_FAILURE);
+		}
+			cmd.argv = args;
+		if (ft_vec_push(cmds, &cmd) < 0)
+			return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
+}
+
+void	count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds)
+{
+	t_token	*tok;
+	size_t	i;
+	size_t	heredoc_counter;
+
+	heredoc_counter = 0;
+	i = 0;
+	while (i < tokens->len)
+	{
+		tok = (t_token *)ft_vec_get(tokens, i);
+		if (tok->type == D_LT)
+			heredoc_counter++;
+		if (heredoc_counter > 16)
+		{
+			ft_putendl_fd("maximum here-document count exceeded", 2);
+			ft_vec_free(tokens);
+			ft_vec_free(cmds);
+			arena_free(arena);
+			exit(2);
+		}
+		i++;
+	}
+}
+
+int handle_pipe(t_token *tok, size_t *i)
+{
+	if (tok->type == PIPE)
+	{
+		(*i)++;
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
+
+int handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
+{
+	t_token	*next;
+	
+	if (tok->type == S_LT || tok->type == S_GT
+		|| tok->type == D_LT || tok->type == D_GT)
+	{
+		next = ft_vec_get(tokens, *i + 1);
+		if (handle_redirection(cmd, tok, next) == EXIT_FAILURE)
+			return (-1);
+		(*i) += 2;
+	}
+	return (EXIT_SUCCESS);
 }

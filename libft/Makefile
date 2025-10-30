@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 16:30:13 by timurray          #+#    #+#              #
-#    Updated: 2025/09/23 15:15:36 by timurray         ###   ########.fr        #
+#    Updated: 2025/10/22 18:08:25 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

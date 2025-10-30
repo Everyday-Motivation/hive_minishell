@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:51:38 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/17 12:56:24 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/30 11:48:43 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 		return (NULL);
 	res[0] = '\0';
 	ft_strlcpy(res, s1, len);
-	printf("test = %s\n", res);
 	ft_strlcat(res, s2, len);
-	printf("test1 = %s\n", res);
 	ft_strlcat(res, s3, len);
-	printf("test2 = %s\n", res);
 	return (res);
 }
 
