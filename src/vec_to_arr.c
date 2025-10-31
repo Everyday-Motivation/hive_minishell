@@ -6,12 +6,17 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 16:44:13 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/31 16:48:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:56:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/**
+	@brief Vector of char * to char **. No duping.
+	@param v The char * vector.
+	@return Null terminated array of char *.
+ */
 char	**vec_to_arr(t_vec *v)
 {
 	char	**arr;
