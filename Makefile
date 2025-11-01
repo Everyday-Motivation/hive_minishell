@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/10/30 11:49:16 by timurray         ###   ########.fr        #
+#    Updated: 2025/11/01 18:32:29 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ src/vec_str_helper.c \
 src/env_exp.c \
 src/heredoc.c \
 src/sort_vec_ptr.c \
-src/execution.c
+src/exec.c \
+src/vec_to_arr.c
 
 BUILT_IN_DIR = src/builtins
 BUILT_INS = \

@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/30 11:49:07 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/01 18:56:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void shell_loop(int interactive, t_info *info)
 				printf(" heredoc_str:%s", cmd->heredoc_str);
 			j++;
 		}
+
+		execute(&cmds, info->env);
 		
 		free(line);
 		ft_vec_free(&tokens);

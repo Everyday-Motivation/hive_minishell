@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/31 16:49:57 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/01 18:55:51 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ enum							e_pipe_end
 	WRITE_END = 1
 };
 
+enum e_child
+{
+	CHILD = 0
+};
+
 enum							e_error_code
 {
 	NO_BINARY = 0,
@@ -54,14 +59,6 @@ typedef struct s_cmd
 	int							heredoc_counter;
 }								t_cmd;
 
-typedef struct s_arena
-{
-	struct s_arena				*next;
-	char						*block;
-	size_t						size;
-	size_t						capacity;
-}								t_arena;
-
 typedef enum e_token_type
 {
 	WORD,
@@ -71,6 +68,13 @@ typedef enum e_token_type
 	D_GT,
 	PIPE
 }								t_token_type;
+typedef struct s_arena
+{
+	struct s_arena				*next;
+	char						*block;
+	size_t						size;
+	size_t						capacity;
+}								t_arena;
 
 typedef struct s_info
 {
@@ -152,7 +156,7 @@ void							count_heredoc(t_arena *arena, t_vec *tokens,
 char							*read_line(int interactive);
 
 // execute
-int								execute_cmds(t_vec *cmds, t_vec *env);
+int								execute(t_vec *cmds, t_vec *env);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,
