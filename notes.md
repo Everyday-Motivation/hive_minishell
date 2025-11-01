@@ -52,3 +52,14 @@ cat | cat | cat | cat > out.txt < in.txt
 
 ## Links
 (Noel's Minishell Notes)[https://docs.google.com/document/d/1s4wMZveKFOlRsZxNinlzhRAKeUIjM6l2Ze_XBC2Ge2k/edit?tab=t.0]
+
+## Additional tests
+sigint in the command prompt, exit status at all, 
+sigquit in the command prompt printout
+Syntax errors set exit status to 0, 
+"exit -" exists with 0 instead of non-numeric, 
+export allows a plus at the end of the identifier 
+terminating a process early (sigint or sigquit) exit status?
+fd leak from commands like "cat < Makefile > asdasd > ./NON/out1", 
+and the environment memory-leaks from 
+"yes | $valgrind_with_flags ./minishell | head -n 5"
