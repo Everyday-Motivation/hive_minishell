@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/09 12:10:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:04 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static size_t	key_len(char *line)
 {

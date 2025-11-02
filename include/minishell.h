@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/01 18:55:51 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:03:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ extern volatile sig_atomic_t	g_signal;
 enum							e_pipe_end
 {
 	READ_END = 0,
-	WRITE_END = 1
+	WRITE_END = 1,
+	PREV_READ = 2
 };
 
 enum e_child

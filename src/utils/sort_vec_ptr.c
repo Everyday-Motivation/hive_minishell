@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 17:49:12 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/15 16:22:11 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:59 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static int	swap_vec_str_ptr(t_vec *v, size_t index_a, size_t index_b)
 {

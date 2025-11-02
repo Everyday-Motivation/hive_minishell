@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/29 12:19:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:51 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 size_t	handle_single_quote(char *input, size_t *i, char *buf)
 {
@@ -97,7 +97,6 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 		}
 	}
 	buf[buf_i] = '\0';
-	printf("buf = %s\n", buf);
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	ft_vec_push(tokens, &token);

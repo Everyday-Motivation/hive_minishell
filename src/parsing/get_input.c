@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:55:13 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/07 16:16:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:40 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	get_input(t_arena *arena, char **input)
 {

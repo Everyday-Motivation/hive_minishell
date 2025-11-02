@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 14:32:10 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:12 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static int	is_valid_export(char *line)
 {

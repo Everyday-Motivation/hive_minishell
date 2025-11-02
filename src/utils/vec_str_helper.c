@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 10:45:57 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/05 18:20:12 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:24:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void	free_str_vec(t_vec *str_vec)
 {

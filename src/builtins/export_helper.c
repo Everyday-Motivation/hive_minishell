@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 17:47:02 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/05 18:21:12 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 int	copy_vec_str_ptr(t_vec *env_cpy, t_vec *env)
 {

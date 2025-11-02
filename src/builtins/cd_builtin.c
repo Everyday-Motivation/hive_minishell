@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/26 16:44:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:22:40 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 int	bi_cd(char **av, t_vec *env)
 {

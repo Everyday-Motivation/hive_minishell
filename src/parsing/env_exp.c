@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_exp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 12:46:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 char	*get_env_value(t_vec *env, const char *key)
 {
