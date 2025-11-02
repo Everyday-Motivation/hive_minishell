@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_helper.c                                   :+:      :+:    :+:   */
+/*   execution_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 18:47:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 19:02:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void close_pipes(int pipefd[2])
+void	close_pipes(int pipefd[2])
 {
 	close(pipefd[READ_END]);
 	close(pipefd[WRITE_END]);

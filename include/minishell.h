@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 18:29:40 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 19:01:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ char							*read_line(int interactive);
 // execute
 int								execute(t_vec *cmds, t_vec *env);
 void							process_heredoc_str(t_cmd *cmd);
+void							close_pipes(int pipefd[2]);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,
