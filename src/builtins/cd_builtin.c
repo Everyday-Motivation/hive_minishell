@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:22:40 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 18:07:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	bi_cd(char **av, t_vec *env)
 		else
 		{
 			//set pwd in env;
+			//set oldpwd in env
+			// think about switch, home, root
 		}
 
 	}

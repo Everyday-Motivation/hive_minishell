@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 18:26:33 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int	execute(t_vec *cmds, t_vec *env)
 			exit(1);
 		}
 
+		
 		last_pid = pid;
 
 		if (pipefd[PREV_READ] != -1)
@@ -183,9 +184,7 @@ int	execute(t_vec *cmds, t_vec *env)
 			pipefd[PREV_READ] = p_read;
 		}
 		else
-		{
 			p_read = -1;
-		}
 
 		i++;
 	}
