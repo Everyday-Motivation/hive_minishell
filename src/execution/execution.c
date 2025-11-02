@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 18:26:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 18:50:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ int	execute(t_vec *cmds, t_vec *env)
 				close(out_fd);
 			}
 
-			//HEREDOC
+			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
+				process_heredoc_str(cmd);
 
 			env_arr = vec_to_arr(env);
 
@@ -201,10 +202,9 @@ int	execute(t_vec *cmds, t_vec *env)
 	return (EXIT_SUCCESS);
 }
 
-// TODO: heredoc functionality
-// TODO: built ins in parent
 // TODO: reaping the pids
-// TODO; shrink
+// TODO: built ins in parent
+// TODO; shrink functions
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
