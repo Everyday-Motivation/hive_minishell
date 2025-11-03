@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 11:50:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:12:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,18 @@ int	execute(t_vec *cmds, t_vec *env)
 	pid_t	pid;
 	int		status;
 	
-	int		in_fd;
-	int		out_fd;
+	int		in_fd; //just for in file
+	int		out_fd; // just for out file
 	int		pipefd[3];
-	int		p_read;
-	int 	p_write;
-
+	
 	pid_t last_pid;
 	
 	char **env_arr;
 	char *cmd_path;
 
 	pipefd[PREV_READ] = -1;
-	p_read = -1;
-	p_write = -1;
+	pipefd[READ_END] = -1;
+	pipefd[WRITE_END] = -1;
 
 	if (!cmds)
 		return (EXIT_FAILURE);
@@ -53,13 +51,11 @@ int	execute(t_vec *cmds, t_vec *env)
 					close(pipefd[PREV_READ]);
 				return (EXIT_FAILURE);
 			}
-			p_read = pipefd[READ_END];
-			p_write = pipefd[WRITE_END];
 		}
 		else
 		{
-			p_read = -1;
-			p_write = -1;
+			pipefd[READ_END] = -1;
+			pipefd[WRITE_END] = -1;
 		}
 
 
@@ -69,8 +65,8 @@ int	execute(t_vec *cmds, t_vec *env)
 			perror("fork issue");
 			if(i + 1 < cmds->len)
 			{
-				close(p_read);
-				close(p_write);
+				close(pipefd[READ_END]);
+				close(pipefd[WRITE_END]);
 			}
 			if(pipefd[PREV_READ] != -1)
 			{
@@ -89,35 +85,35 @@ int	execute(t_vec *cmds, t_vec *env)
 					perror("dup2 STDIN no in no here");
 					if(pipefd[PREV_READ] != -1)
 						close(pipefd[PREV_READ]);
-					if(p_read != -1)
-						close(p_read);
-					if(p_write != -1)
-						close(p_write);
+					if(pipefd[READ_END] != -1)
+						close(pipefd[READ_END]);
+					if(pipefd[WRITE_END] != -1)
+						close(pipefd[WRITE_END]);
 					exit(1);
 				}
 			}
 
 			if(cmd->output_file == NULL && (i + 1 <cmds->len ))
 			{
-				if(dup2(p_write, STDOUT_FILENO) == -1)
+				if(dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 				{
 					perror("dup2 STDOUT no out");
 					if(pipefd[PREV_READ] != -1)
 						close(pipefd[PREV_READ]);
-					if(p_read != -1)
-						close(p_read);
-					if(p_write != -1)
-						close(p_write);
+					if(pipefd[READ_END] != -1)
+						close(pipefd[READ_END]);
+					if(pipefd[WRITE_END] != -1)
+						close(pipefd[WRITE_END]);
 					exit(1);
 				}
 			}
 
 			if(pipefd[PREV_READ] != -1)
 				close(pipefd[PREV_READ]);
-			if(p_read != -1)
-				close(p_read);
-			if(p_write != -1)
-				close(p_write);
+			if(pipefd[READ_END] != -1)
+				close(pipefd[READ_END]);
+			if(pipefd[WRITE_END] != -1)
+				close(pipefd[WRITE_END]);
 
 
 			if (cmd->input_file)
@@ -182,11 +178,11 @@ int	execute(t_vec *cmds, t_vec *env)
 		}
 		if(i + 1 < cmds->len)
 		{
-			close(p_write);
-			pipefd[PREV_READ] = p_read;
+			close(pipefd[WRITE_END]);
+			pipefd[PREV_READ] = pipefd[READ_END];
 		}
 		else
-			p_read = -1;
+			pipefd[READ_END] = -1;
 
 		i++;
 	}
