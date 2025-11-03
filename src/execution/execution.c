@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 18:50:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:50:26 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	execute(t_vec *cmds, t_vec *env)
 	pid_t last_pid;
 	
 	char **env_arr;
+	char *cmd_path;
 
 	pipefd[PREV_READ] = -1;
 	p_read = -1;
@@ -163,7 +164,7 @@ int	execute(t_vec *cmds, t_vec *env)
 
 			env_arr = vec_to_arr(env);
 
-			char *cmd_path;
+
 			cmd_path = search_path(cmd->argv[0], env);
 			
 			execve(cmd_path, cmd->argv, env_arr);
@@ -204,7 +205,10 @@ int	execute(t_vec *cmds, t_vec *env)
 
 // TODO: reaping the pids
 // TODO: built ins in parent
+// TODO: free things? 
 // TODO; shrink functions
+
+
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
