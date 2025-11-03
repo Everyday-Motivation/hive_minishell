@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 19:12:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:28:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@ int	execute(t_vec *cmds, t_vec *env)
 	
 	pid_t	pid;
 	int		status;
-	
-	int		in_fd; //just for in file
-	int		out_fd; // just for out file
-	int		pipefd[3];
-	
 	pid_t last_pid;
 	
+	int		pipefd[3];
+		
 	char **env_arr;
 	char *cmd_path;
 
-	pipefd[PREV_READ] = -1;
 	pipefd[READ_END] = -1;
 	pipefd[WRITE_END] = -1;
+	pipefd[PREV_READ] = -1;
 
 	if (!cmds)
 		return (EXIT_FAILURE);
@@ -118,41 +115,41 @@ int	execute(t_vec *cmds, t_vec *env)
 
 			if (cmd->input_file)
 			{
-				in_fd = open(cmd->input_file, O_RDONLY);
-				if (in_fd == -1)
+				pipefd[PREV_READ] = open(cmd->input_file, O_RDONLY);
+				if (pipefd[PREV_READ] == -1)
 				{
 					perror("open in file issue");
 					exit(1);
 				}
-				if (dup2(in_fd, STDIN_FILENO) == -1)
+				if (dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
 				{
 					perror("dup2 in file issue");
-					close(in_fd);
+					close(pipefd[PREV_READ]);
 					exit(1);
 				}
-				close(in_fd);
+				close(pipefd[PREV_READ]);
 			}
 
 			if (cmd->output_file)
 			{
 				if (cmd->append)
-					out_fd = open(cmd->output_file,
+					pipefd[WRITE_END] = open(cmd->output_file,
 							O_WRONLY | O_CREAT | O_APPEND, 0644);
 				else
-					out_fd = open(cmd->output_file,
+					pipefd[WRITE_END] = open(cmd->output_file,
 							O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (out_fd == -1)
+				if (pipefd[WRITE_END] == -1)
 				{
 					perror("open outfile issue");
 					exit(1);
 				}
-				if (dup2(out_fd, STDOUT_FILENO) == -1)
+				if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 				{
 					perror("dup2 out");
-					close(out_fd);
+					close(pipefd[WRITE_END]);
 					exit(1);
 				}
-				close(out_fd);
+				close(pipefd[WRITE_END]);
 			}
 
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
