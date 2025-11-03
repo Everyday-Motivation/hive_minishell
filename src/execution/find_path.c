@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:51:38 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/16 17:29:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:30 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 {
@@ -26,21 +26,6 @@ char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 	ft_strlcat(res, s2, len);
 	ft_strlcat(res, s3, len);
 	return (res);
-}
-
-void	ft_free_split(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
 }
 
 char	*get_path_env(t_vec *env)

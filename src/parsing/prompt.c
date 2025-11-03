@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:56:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/09/16 19:48:34 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:24:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static char	*get_prompt(void)
 {

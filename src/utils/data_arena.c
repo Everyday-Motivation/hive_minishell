@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   data_arena.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/23 12:20:58 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	arena_init(t_arena *arena)
 {

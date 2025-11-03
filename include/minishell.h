@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/30 16:05:26 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/03 11:30:51 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+enum							e_pipe_end
+{
+	READ_END = 0,
+	WRITE_END = 1,
+	PREV_READ = 2
+};
+
+enum							e_child
+{
+	CHILD = 0
+};
+
 enum							e_error_code
 {
 	NO_BINARY = 0,
@@ -45,16 +57,8 @@ typedef struct s_cmd
 	char						*output_file;
 	char						*heredoc_str;
 	bool						append;
-	int 						heredoc_counter;
+	int							heredoc_counter;
 }								t_cmd;
-
-typedef struct s_arena
-{
-    struct s_arena  *next;
-    char            *block;
-    size_t          size;
-    size_t          capacity;
-}                   t_arena;
 
 typedef enum e_token_type
 {
@@ -65,6 +69,13 @@ typedef enum e_token_type
 	D_GT,
 	PIPE
 }								t_token_type;
+typedef struct s_arena
+{
+	struct s_arena				*next;
+	char						*block;
+	size_t						size;
+	size_t						capacity;
+}								t_arena;
 
 typedef struct s_info
 {
@@ -74,10 +85,9 @@ typedef struct s_info
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*data;
-}					t_token;
-
+	t_token_type				type;
+	char						*data;
+}								t_token;
 
 // Builtins
 int								bi_unset(char **av, t_vec *env);
@@ -113,35 +123,45 @@ int								copy_env(t_vec *env, char **envp);
 int								add_pwd(t_vec *env);
 int								increment_shlvl(t_vec *env);
 
-//env_expanding
-char				*get_env_value(t_vec *env, const char *var_name);
+// env_expanding
+char							*get_env_value(t_vec *env,
+									const char *var_name);
 
 // Tokenizing
-int					tokenizing(t_info *info, char *input, t_vec *tokens);
-int					deli_check(char c);
-int					quote_check(char *input, size_t *i);
+int								tokenizing(t_info *info, char *input,
+									t_vec *tokens);
+int								deli_check(char c);
+int								quote_check(char *input, size_t *i);
 
-void				process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
-size_t				handle_env_variable(t_info *info, char *input, size_t *i, char **buf);
-size_t				handle_double_quote(t_info *info, char *input, size_t *i, char **buf);
-size_t				handle_single_quote(char *input, size_t *i, char *buf);
+void							process_word(t_info *info, char *input,
+									size_t *i, t_vec *tokens);
+size_t							handle_env_variable(t_info *info, char *input,
+									size_t *i, char **buf);
+size_t							handle_double_quote(t_info *info, char *input,
+									size_t *i, char **buf);
+size_t							handle_single_quote(char *input, size_t *i,
+									char *buf);
 
 // parsing
-int 				parse_tokens(t_arena *arena, t_vec *tokens, t_vec *cmds);
-char				**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd);
-int 				handle_pipe(t_token *tok, size_t *i);
-int 				handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd);
-int					handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
-
-//heredoc
-int					handle_heredoc(t_cmd *cmd, const char *limiter);
-void 				count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds);
-void				heredoc_signal(void);
+int								parse_tokens(t_arena *arena, t_vec *tokens,
+									t_vec *cmds);
+char							**build_args(t_arena *arena, t_vec *tokens,
+									size_t *i, t_cmd *cmd);
+int								handle_pipe(t_token *tok, size_t *i);
+int								handle_ridir(t_vec *tokens, t_token *tok,
+									size_t *i, t_cmd *cmd);
+int								handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
+// heredoc
+int								handle_heredoc(t_cmd *cmd, const char *limiter);
+void							count_heredoc(t_arena *arena, t_vec *tokens,
+									t_vec *cmds);
 // Prompt
 char							*read_line(int interactive);
 
 // execute
-int								execute_cmds(t_vec *cmds, t_vec *env);
+int								execute(t_vec *cmds, t_vec *env);
+void							process_heredoc_str(t_cmd *cmd);
+void							close_pipes(int pipefd[2]);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,
@@ -162,6 +182,7 @@ int								str_in_str_vec(t_vec *str_vec, char *str);
 void							print_str_vec(t_vec *str_vec, char *prefix);
 int								vec_remove_str(t_vec *src, size_t index);
 size_t							get_str_index(t_vec *src, char *s);
+char							**vec_to_arr(t_vec *v);
 
 #endif
 

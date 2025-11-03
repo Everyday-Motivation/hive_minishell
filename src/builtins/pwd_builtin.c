@@ -6,11 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/07 16:35:04 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/02 15:23:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 
 // int	pwd_builtin(char **av, t_vec *env)
