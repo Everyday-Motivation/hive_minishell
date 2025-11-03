@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:51 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:23:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	char	*buf;
 	size_t	buf_i;
 	t_token	token;
+	size_t	start;
 
 	buf_i = 0;
+	start = *i;
 	buf = arena_alloc(info->arena, ft_strlen(input));
 	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
 	{
@@ -99,5 +101,6 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	buf[buf_i] = '\0';
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
+	token.raw_data = arena_strdup(info->arena, &input[start], *i - start);
 	ft_vec_push(tokens, &token);
 }

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/03 13:46:52 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/03 13:53:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
 	return (EXIT_SUCCESS);
 }
 
-int	open_heredoc_file_rdonly(const char *file_name)
+int	open_heredoc_file_rdonly(char *file_name)
 {
 	int	fd;
 

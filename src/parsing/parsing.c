@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/03 12:18:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/03 17:11:02 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	else if (tok->type == D_LT)
 	{
 		init_hd_signals();
-		if (!handle_heredoc(cmd, next->data))
+		printf("test raw_test = %s\n", next->raw_data);
+		if (!handle_heredoc(cmd, next))
 		{
 			init_signals();
 			return (EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:19:13 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,13 @@ int	quote_check(char *input, size_t *i)
 	}
 	if (d_sign == 1 || s_sign == 1)
 	{
-		perror("Syntax error: quotations need to match.\n");
+		ft_putendl_fd("Syntax error: quotations need to match.\n", 2);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
+//&& d_sign == 0 → 현재 큰따옴표 안이면 작은따옴표는 토글하지 말라는 의미
+//반대로 && s_sign == 0 → 현재 작은따옴표 안이면 큰따옴표는 토글하지 말라는 의미
 
 int	deli_check(char c)
 {
