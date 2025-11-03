@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:24:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:04:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,4 @@ void	init_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
+//TODO: May be necessary to make g_signal = SIGINT and other signals
