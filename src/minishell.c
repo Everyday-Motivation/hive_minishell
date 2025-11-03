@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 11:30:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/03 12:04:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void shell_loop(int interactive, t_info *info)
 			continue;
 		}
 
-		if (parse_tokens(info->arena, &tokens, &cmds))
+		if (parse_tokens(info, &tokens, &cmds))
 		{
 			ft_putendl_fd("parsing failed", 2);
 			g_signal = 0;
@@ -42,8 +42,9 @@ static void shell_loop(int interactive, t_info *info)
 			ft_vec_free(&tokens);
 			continue;
 		}
+
 		
-		execute(&cmds, info->env); // return result?
+		// execute(&cmds, info->env); // return result?
 		
 		free(line);
 		ft_vec_free(&tokens);

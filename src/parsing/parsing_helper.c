@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 10:49:09 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/10/30 10:49:38 by jaeklee          ###   ########.fr       */
+/*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
+/*   Updated: 2025/11/03 13:46:52 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,14 @@ int	handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
 		(*i) += 2;
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	open_heredoc_file_rdonly(const char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+		perror("heredoc fd error");
+	return (fd);
 }
