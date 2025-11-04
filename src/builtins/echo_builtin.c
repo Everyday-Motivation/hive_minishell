@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 15:13:52 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:03:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int bi_echo(char **av, t_vec *env)
 }
 /* 
 TODO: write content
-TODO: write content if "-n" is detecgted
+TODO: write content if "-n" is detected
  */

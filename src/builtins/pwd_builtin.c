@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:54:08 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:03:41 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	bi_pwd(char **av, t_vec *env)
 {
 	char	*pwd;
 
+	(void)av;
+	(void)env;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{
