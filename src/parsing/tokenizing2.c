@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/03 17:23:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 12:10:43 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ void	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 		else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
 			buf_i += handle_env_variable(info, input, i, &buf);
 		else
-		{
 			buf[buf_i++] = input[(*i)++];
-		}
 	}
 	buf[buf_i] = '\0';
 	token.type = WORD;

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 16:07:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 12:45:31 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_signals(void)
 	struct sigaction	sa;
 
 	rl_done = false;
+	g_signal = 0;
 	rl_catch_signals = 0;
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = sigint_handler;
