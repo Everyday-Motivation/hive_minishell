@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 12:50:47 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:04:56 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	limiter_check(char *limiter)
 	int		check;
 	int		sign;
 
-	printf("limit1 = %s\n", limiter);
 	sign = 0;
 	i = 0;
 	while (limiter[i] != '\0')

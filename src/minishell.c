@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:01:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:05:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void shell_loop(int interactive, t_info *info)
 			ft_vec_free(&tokens);
 			continue;
 		}
-		printf("g_sig_test = %d\n", g_signal);
 		
 		execute(&cmds, info->env); // return result?
 		

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 13:48:36 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:05:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 	unlink(file_name);
 	if (!cmd->heredoc_str)
 		return (0);
-	printf("HEREDOC CONTENT:%s", cmd->heredoc_str);
 	return (1);
 }
 
