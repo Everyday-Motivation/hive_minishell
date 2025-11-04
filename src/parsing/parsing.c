@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 12:45:34 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:59:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 	while (*i < tokens->len)
 	{
 		tok = ft_vec_get(tokens, *i);
-		if (handle_pipe(tok, i) == EXIT_SUCCESS)
+		if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
 			break ;
+		if (handle_pipe(tokens, tok, i) == -1)
+			return (NULL);
 		if (handle_ridir(tokens, tok, i, cmd) == -1)
 			return (NULL);
 		if (tok->type == WORD)
@@ -110,7 +112,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		args = build_args(info->arena, tokens, &i, &cmd);
 		if (!args)
 		{
-			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
+			ft_putendl_fd("syntax error near unexpected token", 2);
 			return (EXIT_FAILURE);
 		}
 		cmd.argv = args;

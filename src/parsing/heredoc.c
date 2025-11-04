@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 13:48:36 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:15:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	*read_heredoc_content(char *file_name)
 	gnl = get_next_line(fd);
 	while (gnl != NULL)
 	{
-		temp = ft_strjoin(result, gnl); 
+		temp = ft_strjoin(result, gnl);
 		free(result);
 		free(gnl);
 		result = temp;
@@ -115,7 +115,6 @@ int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 	unlink(file_name);
 	if (!cmd->heredoc_str)
 		return (0);
-	printf("HEREDOC CONTENT:%s", cmd->heredoc_str);
 	return (1);
 }
 

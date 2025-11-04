@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:01:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:04:28 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void shell_loop(int interactive, t_info *info)
 
 	while (1)
 	{
+		printf("g_ sig = %d\n", g_signal);
 		line = read_line(interactive);
 		if (!line)
 			break;
@@ -33,10 +34,10 @@ static void shell_loop(int interactive, t_info *info)
 			free(line);
 			continue;
 		}
+		printf("g_ sig = %d\n", g_signal);
 
 		if (parse_tokens(info, &tokens, &cmds))
 		{
-			ft_putendl_fd("parsing failed", 2);
 			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);

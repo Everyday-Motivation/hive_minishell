@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 12:51:14 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:20:12 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,10 @@ size_t							handle_single_quote(char *input, size_t *i,
 									char *buf);
 
 // parsing
-
 int								parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds);
 char							**build_args(t_arena *arena, t_vec *tokens,
 									size_t *i, t_cmd *cmd);
-int								handle_pipe(t_token *tok, size_t *i);
+int								handle_pipe(t_vec *tokens, t_token *tok, size_t *i);
 int								handle_ridir(t_vec *tokens, t_token *tok,
 									size_t *i, t_cmd *cmd);
 int								handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
