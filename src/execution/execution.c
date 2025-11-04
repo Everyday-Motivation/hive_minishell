@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 15:30:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:32:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,6 @@ int	execute(t_vec *cmds, t_vec *env)
 // TODO: built ins in parent
 // TODO: free things? 
 // TODO; shrink functions
-
-
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?

@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:22:59 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:13:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int builtin_echo(char **av, t_vec *env)
+int bi_echo(char **av, t_vec *env)
 {
 	size_t i;
 
@@ -25,4 +25,7 @@ int builtin_echo(char **av, t_vec *env)
 	}
 	return (0);
 }
-
+/* 
+TODO: write content
+TODO: write content if "-n" is detecgted
+ */

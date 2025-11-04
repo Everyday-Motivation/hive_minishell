@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:53:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit_builtin(char **av, t_vec *env)
+int	bi_exit(char **av, t_vec *env)
 {
 	(void)av;
 	(void)env;

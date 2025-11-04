@@ -6,27 +6,26 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:54:08 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	bi_pwd(char **av, t_vec *env)
+{
+	char	*pwd;
 
-// int	pwd_builtin(char **av, t_vec *env)
-// {
-// 	char	*pwd;
-
-// 	pwd = getcwd(NULL, 0);
-// 	if (pwd == NULL)
-// 	{
-// 		perror("pwd error.");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	printf("%s\n", pwd);
-// 	free(pwd);
-// 	return (0);
-// }
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		perror("pwd error.");
+		return (EXIT_FAILURE);
+	}
+	printf("%s\n", pwd);
+	free(pwd);
+	return (0);
+}
 
 /* 
 pwd -L, 
