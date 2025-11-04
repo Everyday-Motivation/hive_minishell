@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 19:28:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:30:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,19 +115,19 @@ int	execute(t_vec *cmds, t_vec *env)
 
 			if (cmd->input_file)
 			{
-				pipefd[PREV_READ] = open(cmd->input_file, O_RDONLY);
-				if (pipefd[PREV_READ] == -1)
+				pipefd[READ_END] = open(cmd->input_file, O_RDONLY);
+				if (pipefd[READ_END] == -1)
 				{
 					perror("open in file issue");
 					exit(1);
 				}
-				if (dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
+				if (dup2(pipefd[READ_END], STDIN_FILENO) == -1)
 				{
 					perror("dup2 in file issue");
-					close(pipefd[PREV_READ]);
+					close(pipefd[READ_END]);
 					exit(1);
 				}
-				close(pipefd[PREV_READ]);
+				close(pipefd[READ_END]);
 			}
 
 			if (cmd->output_file)
