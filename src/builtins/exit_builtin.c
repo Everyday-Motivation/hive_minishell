@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:53:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:18:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	bi_exit(char **av, t_vec *env)
 {
 	(void)av;
 	(void)env;
+	
 
 	return (1);
 }
+
+/*
+TODO: Should clean up things.
+TODO: Handle arguments (numeric, non-numeric, too many)
+*/
