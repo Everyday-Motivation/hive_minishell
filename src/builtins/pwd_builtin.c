@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 16:03:41 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:24:53 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,5 @@ int	bi_pwd(char **av, t_vec *env)
 	}
 	printf("%s\n", pwd);
 	free(pwd);
-	return (0);
+	return (EXIT_SUCCESS);
 }
-
-/* 
-pwd -L, 
-pwd -P 
-*/
