@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:05:20 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:30:56 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static void shell_loop(int interactive, t_info *info)
 		line = read_line(interactive);
 		if (!line)
 			break;
-
+		if (g_signal == SIGINT)
+		{
+			info->exit_code = 130;
+		}
 		if (tokenizing(info, line, &tokens))
 		{
 			printf("Tokenizing failed\n");
@@ -36,7 +39,6 @@ static void shell_loop(int interactive, t_info *info)
 
 		if (parse_tokens(info, &tokens, &cmds))
 		{
-			ft_putendl_fd("parsing failed", 2);
 			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);
@@ -69,6 +71,7 @@ int	main(int ac, char **av, char **envp)
 
 	info.arena = &arena;
 	info.env = &env;
+	info.exit_code = 0;
 
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &info);
@@ -76,3 +79,6 @@ int	main(int ac, char **av, char **envp)
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }
+
+//exit code need to be updated by waitpid 
+//and exit with (info -> exit_code);

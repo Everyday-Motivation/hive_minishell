@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 12:10:43 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:07:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,25 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 	return (buf_i);
 }
 
+size_t	handle_exit_status_variable(t_info *info, size_t *i, char **buf)
+{
+	char	*val;
+	int		val_len;
+	char	*temp;
+	size_t	buf_len;
+
+	(*i)++;
+	val = ft_itoa(info->exit_code);
+	val_len = ft_strlen(val);
+	buf_len = ft_strlen(*buf);
+	temp = arena_alloc(info->arena, buf_len + val_len + 1);
+	ft_memcpy(temp, *buf, buf_len);
+	ft_memcpy(temp + buf_len, val, val_len);
+	temp[buf_len + val_len] = '\0';
+	*buf = temp;
+	return (val_len);
+}
+
 size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 {
 	size_t	start;
@@ -59,6 +78,8 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	char	*temp;
 
 	start = ++(*i);
+	if (input[*i] == '?')
+		return (handle_exit_status_variable(info, i, buf));
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
 	key = arena_strdup(info->arena, &input[start], *i - start);

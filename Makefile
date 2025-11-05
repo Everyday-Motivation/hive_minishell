@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/03 11:30:31 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/11/05 16:27:21 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,12 @@ $(PARS_DIR)/env_exp.c \
 $(PARS_DIR)/get_env.c \
 $(PARS_DIR)/get_input.c \
 $(PARS_DIR)/heredoc.c \
+$(PARS_DIR)/heredoc_helper.c \
 $(PARS_DIR)/parsing.c \
 $(PARS_DIR)/parsing_helper.c \
 $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
-$(PARS_DIR)/tokenizing2.c
+$(PARS_DIR)/tokenizing2.c 
 
 EXEC_DIR = src/execution
 EXEC_SRC = \

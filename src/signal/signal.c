@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 12:45:31 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/05 14:14:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	init_hd_signals(void)
 {
 	struct sigaction	sa;
 
+	g_signal = 0;
 	rl_event_hook = heredoc_event_hook;
 	rl_catch_signals = 0;
 	ft_bzero(&sa, sizeof(sa));

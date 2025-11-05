@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/04 12:45:34 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:16:48 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,21 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 
 char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
-	int		num_of_av;
 	char	**args;
 	size_t	args_i;
 	t_token	*tok;
 
 	args_i = 0;
-	num_of_av = count_word(tokens, *i);
-	args = arena_alloc(arena, sizeof(char *) * (num_of_av + 1));
+	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
 	if (!args)
 		return (NULL);
 	while (*i < tokens->len)
 	{
 		tok = ft_vec_get(tokens, *i);
-		if (handle_pipe(tok, i) == EXIT_SUCCESS)
+		if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
 			break ;
+		if (handle_pipe(tokens, tok, i) == -1)
+			return (NULL);
 		if (handle_ridir(tokens, tok, i, cmd) == -1)
 			return (NULL);
 		if (tok->type == WORD)
@@ -102,7 +102,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 
 	i = 0;
 	ft_vec_new(cmds, 0, sizeof(t_cmd));
-	count_heredoc(info->arena, tokens, cmds);
+	count_heredoc(info, tokens, cmds);
 	while (i < tokens->len)
 	{
 		ft_memset(&cmd, 0, sizeof(t_cmd));
@@ -110,7 +110,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		args = build_args(info->arena, tokens, &i, &cmd);
 		if (!args)
 		{
-			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
+			ft_putendl_fd("syntax error near unexpected token", 2);
 			return (EXIT_FAILURE);
 		}
 		cmd.argv = args;
@@ -120,7 +120,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 	return (EXIT_SUCCESS);
 }
 
-void	count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds)
+void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 {
 	t_token	*tok;
 	size_t	i;
@@ -138,7 +138,7 @@ void	count_heredoc(t_arena *arena, t_vec *tokens, t_vec *cmds)
 			ft_putendl_fd("maximum here-document count exceeded", 2);
 			ft_vec_free(tokens);
 			ft_vec_free(cmds);
-			arena_free(arena);
+			arena_free(info->arena);
 			exit(2);
 		}
 		i++;
