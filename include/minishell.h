@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 15:20:12 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:27:43 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <termios.h>
 
 extern volatile sig_atomic_t	g_signal;
-typedef struct s_arena t_arena;
 
 enum							e_pipe_end
 {
@@ -51,11 +50,19 @@ enum							e_error_code
 	ARENA_FAIL = 2,
 };
 
+typedef struct s_arena
+{
+	struct s_arena				*next;
+	char						*block;
+	size_t						size;
+	size_t						capacity;
+}								t_arena;
 typedef struct s_info
 {
 	t_arena						*arena;
 	t_vec						*env;
 	int							q_sign;
+	int							exit_code;
 }								t_info;
 
 typedef struct s_cmd
@@ -78,13 +85,7 @@ typedef enum e_token_type
 	D_GT,
 	PIPE
 }								t_token_type;
-typedef struct s_arena
-{
-	struct s_arena				*next;
-	char						*block;
-	size_t						size;
-	size_t						capacity;
-}								t_arena;
+
 
 
 typedef struct s_token
@@ -156,11 +157,10 @@ int								handle_ridir(t_vec *tokens, t_token *tok,
 									size_t *i, t_cmd *cmd);
 int								handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
 // heredoc
-
+void							close_unlink_heredoc(int fd, char *file_name);
 int								limiter_check(char *limiter);
 int								handle_heredoc(t_cmd *cmd, t_token *limiter);
-void							count_heredoc(t_arena *arena, t_vec *tokens,
-									t_vec *cmds);
+void							count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds);
 int								open_heredoc_file_rdonly(char *file_name);
 char							*expand_env_in_heredoc_line(t_info *info, char *input);
 // Prompt
