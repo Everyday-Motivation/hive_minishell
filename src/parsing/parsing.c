@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/05 16:16:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/06 18:28:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 		if (heredoc_counter > 16)
 		{
 			ft_putendl_fd("maximum here-document count exceeded", 2);
+			free_str_vec(info->env);
 			ft_vec_free(tokens);
 			ft_vec_free(cmds);
 			arena_free(info->arena);

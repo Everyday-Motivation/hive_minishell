@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:56:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:24:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:09:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ char	*read_line(int interactive)
 		line = readline(prompt);
 		free(prompt);
 		if (!line)
+		{
 			exit_clear_rl_history();
+			return (NULL);
+		}
 		if (*line)
 			add_history(line);
 		return (line);

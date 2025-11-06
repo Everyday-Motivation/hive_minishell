@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/05 16:04:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/06 14:13:02 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void shell_loop(int interactive, t_info *info)
 		}
 		if (tokenizing(info, line, &tokens))
 		{
-			printf("Tokenizing failed\n");
 			g_signal = 0;
 			free(line);
 			continue;
@@ -46,10 +45,11 @@ static void shell_loop(int interactive, t_info *info)
 		}
 		
 		execute(&cmds, info->env); // return result?
-		
 		free(line);
 		ft_vec_free(&tokens);
+		free_str_vec(&tokens);
 		ft_vec_free(&cmds);
+		arena_free(info->arena);
 	}
 }
 
@@ -75,7 +75,7 @@ int	main(int ac, char **av, char **envp)
 
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &info);
-
+	free_str_vec(&env);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }

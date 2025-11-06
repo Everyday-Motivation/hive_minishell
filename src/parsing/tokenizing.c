@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 17:19:13 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/06 13:44:49 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 			process_delimiter(info, input, &i, tokens);
 			continue ;
 		}
-		process_word(info, input, &i, tokens);
+		if (process_word(info, input, &i, tokens))
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -85,7 +86,7 @@ int	quote_check(char *input, size_t *i)
 	}
 	if (d_sign == 1 || s_sign == 1)
 	{
-		ft_putendl_fd("Syntax error: quotations need to match.\n", 2);
+		ft_putendl_fd("Syntax error: quotations need to match.", 2);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

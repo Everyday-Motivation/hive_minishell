@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/05 16:28:50 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/06 10:35:50 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	open_heredoc_file_rdonly(char *file_name)
 
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
-		perror("heredoc fd error");
+		ft_putendl_fd("heredoc fd error", 2);
 	return (fd);
 }
 

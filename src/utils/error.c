@@ -17,7 +17,6 @@ void	exit_clear_rl_history(void)
 {
 	ft_putendl_fd("exit", 2);
 	rl_clear_history();
-	exit(EXIT_SUCCESS);
 }
 
 int	return_error(int e)
