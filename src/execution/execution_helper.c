@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 19:02:01 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:50:39 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	process_heredoc_str(t_cmd *cmd)
 		close_pipes(pipefd);
 		exit(1);
 	}
+	free(cmd->heredoc_str);
 	close_pipes(pipefd);
 }
