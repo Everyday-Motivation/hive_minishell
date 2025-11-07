@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 11:45:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 13:06:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,15 @@ void	process_delimiter(t_info *info, char *input, size_t *i, t_vec *tokens)
 	ft_vec_push(tokens, &token);
 }
 
-static void	check_semicolon(t_info *info, char *input, size_t i)
+static int	check_semicolon(t_info *info, char *input, size_t i)
 {
 	if (input[i] == ';' && i == 0)
 	{
-		free(input);
-		free_str_vec(info->env);
-		arena_free(info->arena);
+		info->exit_code = 2;
 		ft_putendl_fd("Syntax error", 2);
-		exit(2);
+		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	tokenizing(t_info *info, char *input, t_vec *tokens)
@@ -65,7 +64,8 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 	i = 0;
 	while (input[i])
 	{
-		check_semicolon(info, input, i);
+		if (check_semicolon(info, input, i) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		if (ft_isspace(input[i]))
 		{
 			i++;

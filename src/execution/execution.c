@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/03 19:28:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/07 13:01:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	execute(t_vec *cmds, t_vec *env)
 
 		
 		last_pid = pid;
-
+		(void)last_pid;
 		if (pipefd[PREV_READ] != -1)
 		{
 			close(pipefd[PREV_READ]);
