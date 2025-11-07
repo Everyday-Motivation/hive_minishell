@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/07 12:32:36 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 13:31:58 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	limiter_check(char *limiter)
 	}
 	if (sign == 0)
 		return (0);
-	check = quote_check(limiter, &i);
+	check = quote_check(limiter);
 	if (check == 0)
 		return (1);
 	return (0);
