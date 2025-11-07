@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 11:58:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 12:38:40 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ typedef enum e_token_type
 	PIPE
 }								t_token_type;
 
-
-
 typedef struct s_token
 {
 	t_token_type				type;
@@ -138,8 +136,10 @@ int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
 int								deli_check(char c);
 int								quote_check(char *input, size_t *i);
-void							init_word_token(size_t *buf_i, size_t *start, size_t i);
-int								process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
+void							init_word_token(size_t *buf_i, size_t *start,
+									size_t i);
+int								process_word(t_info *info, char *input,
+									size_t *i, t_vec *tokens);
 size_t							handle_env_variable(t_info *info, char *input,
 									size_t *i, char **buf);
 size_t							handle_double_quote(t_info *info, char *input,
@@ -148,20 +148,25 @@ size_t							handle_single_quote(char *input, size_t *i,
 									char *buf);
 
 // parsing
-int								parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds);
+int								parse_tokens(t_info *info, t_vec *tokens,
+									t_vec *cmds);
 char							**build_args(t_arena *arena, t_vec *tokens,
 									size_t *i, t_cmd *cmd);
-int								handle_pipe(t_vec *tokens, t_token *tok, size_t *i);
+int								handle_pipe(t_vec *tokens, t_token *tok,
+									size_t *i);
 int								handle_ridir(t_vec *tokens, t_token *tok,
 									size_t *i, t_cmd *cmd);
-int								handle_redirection(t_cmd *cmd, t_token *tok, t_token *next);
+int								handle_redirection(t_cmd *cmd, t_token *tok,
+									t_token *next);
 // heredoc
 void							close_unlink_heredoc(int fd, char *file_name);
 int								limiter_check(char *limiter);
 int								handle_heredoc(t_cmd *cmd, t_token *limiter);
-void							count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds);
+void							count_heredoc(t_info *info, t_vec *tokens,
+									t_vec *cmds);
 int								open_heredoc_file_rdonly(char *file_name);
-char							*expand_env_in_heredoc_line(t_info *info, char *input);
+char							*expand_env_in_heredoc_line(t_info *info,
+									char *input);
 // Prompt
 char							*read_line(int interactive);
 
