@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_arena.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:27:58 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*arena_strdup(t_arena *arena, const char *s, size_t n)
 		return (NULL);
 	}
 	dest = arena_alloc(arena, n + 1);
-	ft_memcpy(dest, s, n);
+	ft_memmove(dest, s, n);
 	dest[n] = '\0';
 	return (dest);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/03 11:21:22 by timurray         ###   ########.fr        #
+#    Updated: 2025/11/07 12:31:23 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,12 +33,13 @@ PARS_DIR := src/parsing
 PARS_SRC := \
 $(PARS_DIR)/env_exp.c \
 $(PARS_DIR)/get_env.c \
-$(PARS_DIR)/get_input.c \
 $(PARS_DIR)/heredoc.c \
+$(PARS_DIR)/heredoc_helper.c \
 $(PARS_DIR)/parsing.c \
+$(PARS_DIR)/parsing_helper.c \
 $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
-$(PARS_DIR)/tokenizing2.c
+$(PARS_DIR)/tokenizing2.c 
 
 EXEC_DIR := src/execution
 EXEC_SRC := \

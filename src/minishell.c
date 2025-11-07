@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 15:24:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/07 12:32:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,31 @@ static void shell_loop(int interactive, t_info *info)
 		line = read_line(interactive);
 		if (!line)
 			break;
-
+		if (g_signal == SIGINT)
+		{
+			info->exit_code = 130;
+		}
 		if (tokenizing(info, line, &tokens))
 		{
-			printf("Tokenizing failed\n");
+			g_signal = 0;
 			free(line);
 			continue;
 		}
 
-		if (parse_tokens(info->arena, &tokens, &cmds))
+		if (parse_tokens(info, &tokens, &cmds))
 		{
-			ft_putendl_fd("parsing failed", 2);
+			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);
 			continue;
 		}
 		
 		execute(&cmds, info->env); // return result?
-		
 		free(line);
 		ft_vec_free(&tokens);
+		free_str_vec(&tokens);
 		ft_vec_free(&cmds);
+		arena_free(info->arena);
 	}
 }
 
@@ -67,10 +71,14 @@ int	main(int ac, char **av, char **envp)
 
 	info.arena = &arena;
 	info.env = &env;
+	info.exit_code = 0;
 
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &info);
-
+	free_str_vec(&env);
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }
+
+//exit code need to be updated by waitpid 
+//and exit with (info -> exit_code);

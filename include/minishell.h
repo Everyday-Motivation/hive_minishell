@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/04 14:56:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/07 12:40:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ enum							e_error_code
 	ARENA_FAIL = 2,
 };
 
+typedef struct s_arena
+{
+	struct s_arena				*next;
+	char						*block;
+	size_t						size;
+	size_t						capacity;
+}								t_arena;
+typedef struct s_info
+{
+	t_arena						*arena;
+	t_vec						*env;
+	int							q_sign;
+	int							exit_code;
+}								t_info;
+
 typedef struct s_cmd
 {
 	char						**argv;
@@ -58,6 +73,7 @@ typedef struct s_cmd
 	char						*heredoc_str;
 	bool						append;
 	int							heredoc_counter;
+	t_info						*info;
 }								t_cmd;
 
 typedef enum e_token_type
@@ -69,24 +85,12 @@ typedef enum e_token_type
 	D_GT,
 	PIPE
 }								t_token_type;
-typedef struct s_arena
-{
-	struct s_arena				*next;
-	char						*block;
-	size_t						size;
-	size_t						capacity;
-}								t_arena;
-
-typedef struct s_info
-{
-	t_arena						*arena;
-	t_vec						*env;
-}								t_info;
 
 typedef struct s_token
 {
 	t_token_type				type;
 	char						*data;
+	char						*raw_data;
 }								t_token;
 
 // Builtins
@@ -107,6 +111,8 @@ int								env_add_update_line(t_vec *env, char *val);
 // Signal
 void							sigint_handler(int signal);
 void							init_signals(void);
+void							init_hd_signals(void);
+void							heredoc_sigint_handler(int signal);
 
 // Arena
 int								arena_init(t_arena *arena);
@@ -134,8 +140,9 @@ int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
 int								deli_check(char c);
 int								quote_check(char *input, size_t *i);
-
-void							process_word(t_info *info, char *input,
+void							init_word_token(size_t *buf_i, size_t *start,
+									size_t i);
+int								process_word(t_info *info, char *input,
 									size_t *i, t_vec *tokens);
 size_t							handle_env_variable(t_info *info, char *input,
 									size_t *i, char **buf);
@@ -145,18 +152,25 @@ size_t							handle_single_quote(char *input, size_t *i,
 									char *buf);
 
 // parsing
-int								parse_tokens(t_arena *arena, t_vec *tokens,
+int								parse_tokens(t_info *info, t_vec *tokens,
 									t_vec *cmds);
 char							**build_args(t_arena *arena, t_vec *tokens,
 									size_t *i, t_cmd *cmd);
-int								handle_pipe(t_token *tok, size_t *i);
+int								handle_pipe(t_vec *tokens, t_token *tok,
+									size_t *i);
 int								handle_ridir(t_vec *tokens, t_token *tok,
 									size_t *i, t_cmd *cmd);
-
+int								handle_redirection(t_cmd *cmd, t_token *tok,
+									t_token *next);
 // heredoc
-int								handle_heredoc(t_cmd *cmd, const char *limiter);
-void							count_heredoc(t_arena *arena, t_vec *tokens,
+void							close_unlink_heredoc(int fd, char *file_name);
+int								limiter_check(char *limiter);
+int								handle_heredoc(t_cmd *cmd, t_token *limiter);
+void							count_heredoc(t_info *info, t_vec *tokens,
 									t_vec *cmds);
+int								open_heredoc_file_rdonly(char *file_name);
+char							*expand_env_in_heredoc_line(t_info *info,
+									char *input);
 // Prompt
 char							*read_line(int interactive);
 
