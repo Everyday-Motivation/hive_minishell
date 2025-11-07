@@ -6,25 +6,31 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/05 16:27:21 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/11/07 12:18:17 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME := minishell
+CC := cc
+CPPFLAGS := -Ilibft -Iinclude
+CFLAGS := -Wall -Wextra -Werror
+VFLAGS := -g
+SFLAGS := -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
+LDLIBS := -lreadline
 
-SOURCES = \
+SOURCES := \
 src/minishell.c 
 
-UTIL_DIR = src/utils
-UTIL_SRC = \
+UTIL_DIR := src/utils
+UTIL_SRC := \
 $(UTIL_DIR)/data_arena.c \
 $(UTIL_DIR)/sort_vec_ptr.c \
 $(UTIL_DIR)/vec_str_helper.c \
 $(UTIL_DIR)/vec_to_arr.c \
 $(UTIL_DIR)/error.c
 
-PARS_DIR = src/parsing
-PARS_SRC = \
+PARS_DIR := src/parsing
+PARS_SRC := \
 $(PARS_DIR)/env_exp.c \
 $(PARS_DIR)/get_env.c \
 $(PARS_DIR)/get_input.c \
@@ -36,14 +42,14 @@ $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
 $(PARS_DIR)/tokenizing2.c 
 
-EXEC_DIR = src/execution
-EXEC_SRC = \
+EXEC_DIR := src/execution
+EXEC_SRC := \
 $(EXEC_DIR)/execution.c \
 $(EXEC_DIR)/execution_helper.c\
 $(EXEC_DIR)/find_path.c
 
-BTIN_DIR = src/builtins
-BTIN_SRC = \
+BTIN_DIR := src/builtins
+BTIN_SRC := \
 $(BTIN_DIR)/cd_builtin.c \
 $(BTIN_DIR)/echo_builtin.c \
 $(BTIN_DIR)/env_builtin.c \
@@ -53,8 +59,8 @@ $(BTIN_DIR)/export_helper.c \
 $(BTIN_DIR)/pwd_builtin.c \
 $(BTIN_DIR)/unset_builtin.c
 
-SIGN_DIR = src/signal
-SIGN_SRC = \
+SIGN_DIR := src/signal
+SIGN_SRC := \
 $(SIGN_DIR)/signal.c
 
 SOURCES += ${PARS_SRC}
@@ -63,18 +69,12 @@ SOURCES += ${BTIN_SRC}
 SOURCES += ${SIGN_SRC}
 SOURCES += ${UTIL_SRC}
 
-OBJ_DIR = obj
-OBJECTS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
+OBJ_DIR := obj
+OBJECTS := $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
-LIBFT_DIR  = ./libft
-LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_DIR  := ./libft
+LIBFT := $(LIBFT_DIR)/libft.a
 
-CC = cc
-CPPFLAGS = -I libft -I include
-CFLAGS = -Wall -Wextra -Werror
-VFLAGS = -g
-SFLAGS = -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
-LDLIBS = -lreadline
 
 debug ?= 0
 ifeq (${debug}, 1)

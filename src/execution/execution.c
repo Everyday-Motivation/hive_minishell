@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/02 18:50:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:28:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,16 @@ int	execute(t_vec *cmds, t_vec *env)
 	
 	pid_t	pid;
 	int		status;
-	
-	int		in_fd;
-	int		out_fd;
-	int		pipefd[3];
-	int		p_read;
-	int 	p_write;
-
 	pid_t last_pid;
 	
+	int		pipefd[3];
+		
 	char **env_arr;
+	char *cmd_path;
 
+	pipefd[READ_END] = -1;
+	pipefd[WRITE_END] = -1;
 	pipefd[PREV_READ] = -1;
-	p_read = -1;
-	p_write = -1;
 
 	if (!cmds)
 		return (EXIT_FAILURE);
@@ -52,13 +48,11 @@ int	execute(t_vec *cmds, t_vec *env)
 					close(pipefd[PREV_READ]);
 				return (EXIT_FAILURE);
 			}
-			p_read = pipefd[READ_END];
-			p_write = pipefd[WRITE_END];
 		}
 		else
 		{
-			p_read = -1;
-			p_write = -1;
+			pipefd[READ_END] = -1;
+			pipefd[WRITE_END] = -1;
 		}
 
 
@@ -68,8 +62,8 @@ int	execute(t_vec *cmds, t_vec *env)
 			perror("fork issue");
 			if(i + 1 < cmds->len)
 			{
-				close(p_read);
-				close(p_write);
+				close(pipefd[READ_END]);
+				close(pipefd[WRITE_END]);
 			}
 			if(pipefd[PREV_READ] != -1)
 			{
@@ -88,74 +82,74 @@ int	execute(t_vec *cmds, t_vec *env)
 					perror("dup2 STDIN no in no here");
 					if(pipefd[PREV_READ] != -1)
 						close(pipefd[PREV_READ]);
-					if(p_read != -1)
-						close(p_read);
-					if(p_write != -1)
-						close(p_write);
+					if(pipefd[READ_END] != -1)
+						close(pipefd[READ_END]);
+					if(pipefd[WRITE_END] != -1)
+						close(pipefd[WRITE_END]);
 					exit(1);
 				}
 			}
 
 			if(cmd->output_file == NULL && (i + 1 <cmds->len ))
 			{
-				if(dup2(p_write, STDOUT_FILENO) == -1)
+				if(dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 				{
 					perror("dup2 STDOUT no out");
 					if(pipefd[PREV_READ] != -1)
 						close(pipefd[PREV_READ]);
-					if(p_read != -1)
-						close(p_read);
-					if(p_write != -1)
-						close(p_write);
+					if(pipefd[READ_END] != -1)
+						close(pipefd[READ_END]);
+					if(pipefd[WRITE_END] != -1)
+						close(pipefd[WRITE_END]);
 					exit(1);
 				}
 			}
 
 			if(pipefd[PREV_READ] != -1)
 				close(pipefd[PREV_READ]);
-			if(p_read != -1)
-				close(p_read);
-			if(p_write != -1)
-				close(p_write);
+			if(pipefd[READ_END] != -1)
+				close(pipefd[READ_END]);
+			if(pipefd[WRITE_END] != -1)
+				close(pipefd[WRITE_END]);
 
 
 			if (cmd->input_file)
 			{
-				in_fd = open(cmd->input_file, O_RDONLY);
-				if (in_fd == -1)
+				pipefd[PREV_READ] = open(cmd->input_file, O_RDONLY);
+				if (pipefd[PREV_READ] == -1)
 				{
 					perror("open in file issue");
 					exit(1);
 				}
-				if (dup2(in_fd, STDIN_FILENO) == -1)
+				if (dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
 				{
 					perror("dup2 in file issue");
-					close(in_fd);
+					close(pipefd[PREV_READ]);
 					exit(1);
 				}
-				close(in_fd);
+				close(pipefd[PREV_READ]);
 			}
 
 			if (cmd->output_file)
 			{
 				if (cmd->append)
-					out_fd = open(cmd->output_file,
+					pipefd[WRITE_END] = open(cmd->output_file,
 							O_WRONLY | O_CREAT | O_APPEND, 0644);
 				else
-					out_fd = open(cmd->output_file,
+					pipefd[WRITE_END] = open(cmd->output_file,
 							O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (out_fd == -1)
+				if (pipefd[WRITE_END] == -1)
 				{
 					perror("open outfile issue");
 					exit(1);
 				}
-				if (dup2(out_fd, STDOUT_FILENO) == -1)
+				if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 				{
 					perror("dup2 out");
-					close(out_fd);
+					close(pipefd[WRITE_END]);
 					exit(1);
 				}
-				close(out_fd);
+				close(pipefd[WRITE_END]);
 			}
 
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
@@ -163,7 +157,7 @@ int	execute(t_vec *cmds, t_vec *env)
 
 			env_arr = vec_to_arr(env);
 
-			char *cmd_path;
+
 			cmd_path = search_path(cmd->argv[0], env);
 			
 			execve(cmd_path, cmd->argv, env_arr);
@@ -181,11 +175,11 @@ int	execute(t_vec *cmds, t_vec *env)
 		}
 		if(i + 1 < cmds->len)
 		{
-			close(p_write);
-			pipefd[PREV_READ] = p_read;
+			close(pipefd[WRITE_END]);
+			pipefd[PREV_READ] = pipefd[READ_END];
 		}
 		else
-			p_read = -1;
+			pipefd[READ_END] = -1;
 
 		i++;
 	}
@@ -204,7 +198,10 @@ int	execute(t_vec *cmds, t_vec *env)
 
 // TODO: reaping the pids
 // TODO: built ins in parent
+// TODO: free things? 
 // TODO; shrink functions
+
+
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
