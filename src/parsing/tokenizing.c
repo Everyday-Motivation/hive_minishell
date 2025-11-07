@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 11:45:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 13:19:53 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,15 @@ void	process_delimiter(t_info *info, char *input, size_t *i, t_vec *tokens)
 	ft_vec_push(tokens, &token);
 }
 
-static void	check_semicolon(t_info *info, char *input, size_t i)
+static int	check_semicolon(t_info *info, char *input, size_t i)
 {
 	if (input[i] == ';' && i == 0)
 	{
-		free(input);
-		free_str_vec(info->env);
-		arena_free(info->arena);
+		info->exit_code = 2;
 		ft_putendl_fd("Syntax error", 2);
-		exit(2);
+		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	tokenizing(t_info *info, char *input, t_vec *tokens)
@@ -60,12 +59,12 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 	i = 0;
 	if (ft_vec_new(tokens, 0, sizeof(t_token)) < 0)
 		return (EXIT_FAILURE);
-	if (quote_check(input, &i) == EXIT_FAILURE)
+	if (quote_check(input) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	i = 0;
 	while (input[i])
 	{
-		check_semicolon(info, input, i);
+		if (check_semicolon(info, input, i) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		if (ft_isspace(input[i]))
 		{
 			i++;
@@ -82,20 +81,22 @@ int	tokenizing(t_info *info, char *input, t_vec *tokens)
 	return (EXIT_SUCCESS);
 }
 
-int	quote_check(char *input, size_t *i)
+int	quote_check(char *input)
 {
-	int	s_sign;
-	int	d_sign;
+	int		s_sign;
+	int		d_sign;
+	size_t	i;
 
+	i = 0;
 	s_sign = 0;
 	d_sign = 0;
-	while (input[*i])
+	while (input[i])
 	{
-		if (input[*i] == '\'' && d_sign == 0)
+		if (input[i] == '\'' && d_sign == 0)
 			s_sign = !s_sign;
-		else if (input[*i] == '"' && s_sign == 0)
+		else if (input[i] == '"' && s_sign == 0)
 			d_sign = !d_sign;
-		(*i)++;
+		(i)++;
 	}
 	if (d_sign == 1 || s_sign == 1)
 	{
