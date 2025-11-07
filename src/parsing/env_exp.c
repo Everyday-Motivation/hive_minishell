@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_exp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:35 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/07 11:56:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,10 @@ char	*get_env_value(t_vec *env, const char *key)
 		i++;
 	}
 	return (NULL);
+}
+
+void	init_word_token(size_t *buf_i, size_t *start, size_t i)
+{
+	*buf_i = 0;
+	*start = i;
 }

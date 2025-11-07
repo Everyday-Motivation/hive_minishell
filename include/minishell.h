@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/06 14:08:51 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 11:58:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,8 @@ int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
 int								deli_check(char c);
 int								quote_check(char *input, size_t *i);
-
-// void							process_word(t_info *info, char *input,
-// 									size_t *i, t_vec *tokens);
-int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
+void							init_word_token(size_t *buf_i, size_t *start, size_t i);
+int								process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
 size_t							handle_env_variable(t_info *info, char *input,
 									size_t *i, char **buf);
 size_t							handle_double_quote(t_info *info, char *input,
