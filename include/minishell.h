@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 11:58:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/07 13:20:38 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ char							*arena_strdup(t_arena *arena, const char *s,
 									size_t n);
 
 // Input
-int								get_input(t_arena *arena, char **input);
-int								check_input(t_arena *arena, char **input);
 
 // Env
 int								init_env(t_vec *env, char **envp);
@@ -137,7 +135,7 @@ char							*get_env_value(t_vec *env,
 int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
 int								deli_check(char c);
-int								quote_check(char *input, size_t *i);
+int								quote_check(char *input);
 void							init_word_token(size_t *buf_i, size_t *start, size_t i);
 int								process_word(t_info *info, char *input, size_t *i, t_vec *tokens);
 size_t							handle_env_variable(t_info *info, char *input,
