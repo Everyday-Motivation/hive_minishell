@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:35:15 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/04 13:49:06 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:22:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 void				ft_free_split(char **arr);
 int					ft_atoi_check(const char *nptr, int *num);
-
+int					ft_strcmp(const char *s1, const char *s2);
 int					ft_vec_new(t_vec *dst, size_t init_len, size_t elem_size);
 int					ft_vec_resize(t_vec *src, size_t target_len);
 void				ft_vec_free(t_vec *src);
@@ -99,4 +99,5 @@ void				*ft_vec_get(t_vec *src, size_t index);
 int					ft_vec_from(t_vec *dst, void *src, size_t len,
 						size_t elem_size);
 void				*vec_find(t_vec *src, bool (*f)(void *));
+
 #endif
