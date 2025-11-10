@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 13:27:56 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:44:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute(t_vec *cmds, t_vec *env)
 	
 	pid_t	pid;
 	int		status;
-	pid_t last_pid; // this makes compile error?
+	pid_t last_pid;
 	
 	int		pipefd[3];
 		
@@ -167,7 +167,7 @@ int	execute(t_vec *cmds, t_vec *env)
 
 		
 		last_pid = pid;
-		(void)last_pid ; // I temporarily voided it for testing.
+	
 		if (pipefd[PREV_READ] != -1)
 		{
 			close(pipefd[PREV_READ]);

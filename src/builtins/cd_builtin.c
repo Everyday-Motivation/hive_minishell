@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/05 15:01:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:42:57 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,15 @@
 int	bi_cd(char **av, t_vec *env)
 {
 	int result;
+	char *cur_dir;
 
 	(void)env;
+	cur_dir = getcwd(NULL, 0);
+	if (cur_dir == NULL)
+	{
+		perror("getcwd error");
+		return (0);
+	}	
 	if (!av[0])
 		perror("Expected argument to cd");
 	else
@@ -29,18 +36,24 @@ int	bi_cd(char **av, t_vec *env)
 		}
 		else
 		{
-			//set oldpwd in env
-			//set pwd in env;
-			// think about switch, home, root
+			bi_export((char *[]){ "OLDPWD=", cur_dir, NULL }, env);
+			free(cur_dir);
+			cur_dir = getcwd(NULL, 0);
+			if (cur_dir == NULL)
+			{
+				perror("getcwd error");
+				return (0);
+			}
+			bi_export((char *[]){ "PWD=", cur_dir, NULL }, env);
+			free(cur_dir);
 		}
-
 	}
 	return (1);
 }
 
 
 /* 
-TASKS
-TODO: update PWD?
-TODO: - , ~.
+TODO: no args?
+TODO: - , ~ think about switch, home, root
+TODO: too many arguments
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 14:08:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 12:25:00 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void shell_loop(int interactive, t_info *info)
 			ft_vec_free(&tokens);
 			continue;
 		}
-		
-		execute(&cmds, info->env); // return result?
+		if(cmds.len != 0)
+			execute(&cmds, info->env);
 		free(line);
 		ft_vec_free(&tokens);
 		free_str_vec(&tokens);
