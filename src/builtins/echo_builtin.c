@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 12:05:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:45:57 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	bi_echo(char **av, t_vec *env)
 	int		newline;
 
 	(void)env;
-	i = 0;
+	i = 1;
 	if (valid_n_flag(av[i]))
 	{
 		newline = false;
@@ -44,7 +44,7 @@ int	bi_echo(char **av, t_vec *env)
 		newline = true;
 	while (av[i])
 	{
-		printf("%s", av[i]);
+		printf("yo %s", av[i]);
 		i++;
 	}
 	if (newline)

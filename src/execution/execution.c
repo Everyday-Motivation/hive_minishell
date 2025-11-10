@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 15:52:16 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:45:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,25 @@ static int is_bi(char *cmd)
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (1);
 	return (0);
+}
+
+static int run_bi(char **argv, t_vec *env)
+{
+	if (ft_strcmp(argv[0], "cd") == 0)
+		return (bi_cd(argv, env));
+	if (ft_strcmp(argv[0], "echo") == 0)
+		return (bi_echo(argv, env));
+	if (ft_strcmp(argv[0], "env") == 0)
+		return (bi_env(argv, env));
+	if (ft_strcmp(argv[0], "exit") == 0)
+		return (bi_exit(argv, env));
+	if (ft_strcmp(argv[0], "export") == 0)
+		return (bi_export(argv, env));
+	if (ft_strcmp(argv[0], "pwd") == 0)
+		return (bi_pwd(argv, env));
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (bi_unset(argv, env));
+	return (EXIT_FAILURE);
 }
 
 int	execute(t_vec *cmds, t_vec *env)
@@ -59,6 +78,7 @@ int	execute(t_vec *cmds, t_vec *env)
 
 		if (is_bi(cmd->argv[0]) == 1)
 		{
+			run_bi(cmd->argv, env);
 			printf("bi found\n");
 		}
 
