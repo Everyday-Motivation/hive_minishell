@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/07 13:31:58 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 12:07:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*expand_env_in_heredoc_line(t_info *info, char *input)
 	while (input[i])
 	{
 		if (input[i] == '"')
-			buf_i = handle_double_quote(info, input, &i, &buf);
+			buf_i = double_quote_heredoc(info, input, &i, &buf);
 		else if (input[i] == '$')
 			buf_i = handle_env_variable(info, input, &i, &buf);
 		else
