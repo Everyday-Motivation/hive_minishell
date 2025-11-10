@@ -6,11 +6,30 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 12:43:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:52:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int is_bi(char *cmd)
+{
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	return (0);
+}
 
 int	execute(t_vec *cmds, t_vec *env)
 {
@@ -38,6 +57,10 @@ int	execute(t_vec *cmds, t_vec *env)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
+		if (is_bi(cmd->argv[0]) == 1)
+		{
+			printf("bi found\n");
+		}
 
 		if (i + 1 < cmds->len)
 		{
