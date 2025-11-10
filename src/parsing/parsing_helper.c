@@ -6,11 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/10 12:07:55 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 13:02:13 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	handle_pipe(t_vec *tokens, t_token *tok, size_t *i)
 {
