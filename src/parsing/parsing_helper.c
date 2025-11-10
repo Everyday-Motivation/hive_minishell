@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/07 13:31:58 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:31:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	handle_pipe(t_vec *tokens, t_token *tok, size_t *i)
 {
