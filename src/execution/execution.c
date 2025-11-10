@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 11:44:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:43:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute(t_vec *cmds, t_vec *env)
 	
 	pid_t	pid;
 	int		status;
-	pid_t last_pid;
+	// pid_t last_pid;
 	
 	int		pipefd[3];
 		
@@ -166,7 +166,7 @@ int	execute(t_vec *cmds, t_vec *env)
 		}
 
 		
-		last_pid = pid;
+		// last_pid = pid;
 	
 		if (pipefd[PREV_READ] != -1)
 		{
