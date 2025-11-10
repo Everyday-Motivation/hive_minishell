@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/07 12:32:21 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/10 16:51:26 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 	while (g_signal != SIGINT)
 	{
 		line = readline("> ");
+		printf("line = %s\n", line);
 		if (!line)
 		{
 			write(STDERR_FILENO, "warning: heredoc delimited by end-of-file\n",
@@ -53,7 +54,8 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 		if (quote_flag == 0)
 			expanded = expand_env_in_heredoc_line(cmd->info, line);
 		if (!expanded)
-			expanded = ft_strdup(line);
+			expanded = ft_strdup(line); // need to be free after
+		printf("line2 = %s\n", line);
 		write_to_fd(expanded, fd, line);
 	}
 	return (0);
@@ -89,15 +91,39 @@ static char	*read_heredoc_content(char *file_name)
 }
 // AFRER HEREDOC = free(temp), free(result);
 
+static int	create_heredoc_file(char *file_name)
+{
+	int	fd_file_name;
+	int	fd;
+
+	fd_file_name = open("/proc/sys/kernel/random/uuid", O_RDONLY);
+	if (fd_file_name < 0)
+	{
+		perror("open /proc/sys/kernel/random/uuid failed");
+		return (-1);
+	}
+	file_name[36] = '\0';
+	if (read(fd_file_name, file_name, 36) <= 0)
+	{
+		perror("read uuid failed");
+		close(fd_file_name);
+		return (-1);
+	}
+	close(fd_file_name);
+	fd = open_heredoc_file(file_name);
+	if (fd < 0)
+		return (-1);
+	return (fd);
+}
+
 int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 {
-	char	*file_name;
+	char	file_name[37];
 	int		fd;
 	int		quote_flag;
 
 	quote_flag = limiter_check(limiter->raw_data);
-	file_name = "./heredoc_tmp";
-	fd = open_heredoc_file(file_name);
+	fd = create_heredoc_file(file_name);
 	if (fd < 0)
 		return (0);
 	if (g_signal == SIGINT)

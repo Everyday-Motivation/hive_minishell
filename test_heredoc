@@ -1,0 +1,63 @@
+export VAR='"    G  "'
+cat << eof
+testing without quotes "
+$VAR
+$VAR$VAR
+$VAR"$VAR"
+"$VAR"
+'$VAR'
+asd"$VAR"
+'$VAR'asd
+"$VAR"'$VAR'
+'$VAR'"$VAR"
+eof
+echo
+export VAR="'    G1  '"
+cat << eof
+testing without quotes '
+$VAR
+$VAR$VAR
+$VAR"$VAR"
+"$VAR"
+'$VAR'
+asd"$VAR"
+'$VAR'asd
+"$VAR"'$VAR'
+'$VAR'"$VAR"
+eof
+echo
+export VAR='"    H  "'
+cat << eof""
+testing with double quotes
+$VAR
+$VAR$VAR
+$VAR"$VAR"
+"$VAR"
+'$VAR'
+asd"$VAR"
+'$VAR'asd
+"$VAR"'$VAR'
+'$VAR'"$VAR"
+eof
+echo
+export VAR='"    I  "'
+cat << eof''
+testing with single quotes
+$VAR
+$VAR$VAR
+$VAR"$VAR"
+"$VAR"
+'$VAR'
+asd"$VAR"
+'$VAR'asd
+"$VAR"'$VAR'
+'$VAR'"$VAR"
+eof
+echo
+cat << eof << eof << eof
+1
+eof
+2
+eof
+3
+eof
