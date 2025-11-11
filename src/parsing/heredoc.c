@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/11 13:15:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 13:40:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 		if (quote_flag == 0)
 			expanded = expand_env_in_heredoc_line(cmd->info, line);
 		if (!expanded)
-			expanded = ft_strdup(line);
+			expanded = arena_strdup(cmd->info->arena, line, ft_strlen(line));
 		write_to_fd(expanded, fd, line);
 	}
 	return (0);
