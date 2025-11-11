@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 11:55:41 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 13:35:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int								open_heredoc_file_rdonly(char *file_name);
 char							*expand_env_in_heredoc_line(t_info *info,
 									char *input);
 void							double_quote_heredoc(t_info *info, char *input,
-								size_t *i, char **buf);
+								size_t *i, char **buf); //Function doesn't exist (yet?)?
 								
 // Prompt
 char							*read_line(int interactive);
