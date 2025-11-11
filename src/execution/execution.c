@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 13:26:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:25:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int	execute(t_vec *cmds, t_vec *env)
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1) //redirs?
 		{
 			run_bi(cmd->argv, env);
-			printf("bi found\n");
+			// printf("bi found\n");
+			break;
 		}
 
 		if (i + 1 < cmds->len)

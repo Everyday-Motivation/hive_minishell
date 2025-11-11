@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 17:45:57 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:30:44 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ int	bi_echo(char **av, t_vec *env)
 		newline = true;
 	while (av[i])
 	{
-		printf("yo %s", av[i]);
+		printf("%s", av[i]);
+		if (av[i+1] != NULL)
+			printf(" ");
 		i++;
 	}
 	if (newline)
