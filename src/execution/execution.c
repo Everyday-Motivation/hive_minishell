@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 17:45:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:26:26 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int run_bi(char **argv, t_vec *env)
 	return (EXIT_FAILURE);
 }
 
+
 int	execute(t_vec *cmds, t_vec *env)
 {
 	size_t	i;
@@ -76,7 +77,7 @@ int	execute(t_vec *cmds, t_vec *env)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
-		if (is_bi(cmd->argv[0]) == 1)
+		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1) //redirs?
 		{
 			run_bi(cmd->argv, env);
 			printf("bi found\n");
@@ -198,9 +199,9 @@ int	execute(t_vec *cmds, t_vec *env)
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
 				process_heredoc_str(cmd);
 
+			// bi run in child
+
 			env_arr = vec_to_arr(env);
-
-
 			cmd_path = search_path(cmd->argv[0], env);
 			
 			execve(cmd_path, cmd->argv, env_arr);
