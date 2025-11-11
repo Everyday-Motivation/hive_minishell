@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizing2.c                                      :+:      :+:    :+:   */
+/*   tokenizing_helper.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/07 11:58:08 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 11:09:42 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	size_t	start;
 	char	*key;
 	char	*val;
-	int		val_len;
 	char	*temp;
 
 	start = ++(*i);
@@ -92,14 +91,15 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	val = get_env_value(info->env, key);
 	if (val)
 	{
-		val_len = ft_strlen(val);
-		temp = arena_alloc(info->arena, val_len + ft_strlen(*buf) + 1);
+		temp = arena_alloc(info->arena, ft_strlen(val) + ft_strlen(*buf) + 1);
 		ft_memmove(temp, *buf, ft_strlen(*buf));
-		ft_memmove(temp + ft_strlen(*buf), val, val_len);
-		temp[ft_strlen(*buf) + val_len] = '\0';
+		ft_memmove(temp + ft_strlen(*buf), val, ft_strlen(val));
+		temp[ft_strlen(*buf) + ft_strlen(val)] = '\0';
 		*buf = temp;
-		return (val_len);
+		return (ft_strlen(val));
 	}
+	else
+		return (0);
 	return (ft_strlen(key));
 }
 
