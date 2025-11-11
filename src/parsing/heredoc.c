@@ -6,19 +6,37 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/11 10:52:23 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 13:15:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	open_heredoc_file(char *file_name)
+static int	create_heredoc_file(char *file_name)
 {
+	int	fd_file_name;
 	int	fd;
 
+	fd_file_name = open("/proc/sys/kernel/random/uuid", O_RDONLY);
+	if (fd_file_name < 0)
+	{
+		ft_putendl_fd("open /proc/sys/kernel/random/uuid failed", 2);
+		return (-1);
+	}
+	file_name[36] = '\0';
+	if (read(fd_file_name, file_name, 36) <= 0)
+	{
+		ft_putendl_fd("read uuid failed", 2);
+		close(fd_file_name);
+		return (-1);
+	}
+	close(fd_file_name);
 	fd = open(file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
+	{
 		ft_putendl_fd("heredoc fd error", 2);
+		return (-1);
+	}
 	return (fd);
 }
 
@@ -35,11 +53,9 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 	char	*line;
 	char	*expanded;
 
-	expanded = NULL;
 	while (g_signal != SIGINT)
 	{
 		line = readline("> ");
-		printf("line = %s\n", line);
 		if (!line)
 		{
 			write(STDERR_FILENO, "warning: heredoc delimited by end-of-file\n",
@@ -51,15 +67,16 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 			free(line);
 			break ;
 		}
+		expanded = NULL;
 		if (quote_flag == 0)
 			expanded = expand_env_in_heredoc_line(cmd->info, line);
 		if (!expanded)
-			expanded = ft_strdup(line); // need to be free after
-		printf("line2 = %s\n", line);
+			expanded = ft_strdup(line);
 		write_to_fd(expanded, fd, line);
 	}
 	return (0);
 }
+// expanded need to be free after
 
 static char	*read_heredoc_content(char *file_name)
 {
@@ -90,31 +107,6 @@ static char	*read_heredoc_content(char *file_name)
 	return (result);
 }
 // AFRER HEREDOC = free(temp), free(result);
-
-static int	create_heredoc_file(char *file_name)
-{
-	int	fd_file_name;
-	int	fd;
-
-	fd_file_name = open("/proc/sys/kernel/random/uuid", O_RDONLY);
-	if (fd_file_name < 0)
-	{
-		perror("open /proc/sys/kernel/random/uuid failed");
-		return (-1);
-	}
-	file_name[36] = '\0';
-	if (read(fd_file_name, file_name, 36) <= 0)
-	{
-		perror("read uuid failed");
-		close(fd_file_name);
-		return (-1);
-	}
-	close(fd_file_name);
-	fd = open_heredoc_file(file_name);
-	if (fd < 0)
-		return (-1);
-	return (fd);
-}
 
 int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 {

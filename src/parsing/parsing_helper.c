@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/10 13:02:13 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 11:06:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,6 @@ int	handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
 		(*i) += 2;
 	}
 	return (EXIT_SUCCESS);
-}
-
-char	*expand_env_in_heredoc_line(t_info *info, char *input)
-{
-	size_t	i;
-	size_t	buf_i;
-	char	*buf;
-
-	buf = arena_alloc(info->arena, ft_strlen(input));
-	i = 0;
-	buf_i = 0;
-	while (input[i])
-	{
-		if (input[i] == '"')
-			buf_i = double_quote_heredoc(info, input, &i, &buf);
-		else if (input[i] == '$')
-			buf_i = handle_env_variable(info, input, &i, &buf);
-		else
-			buf[buf_i++] = input[i++];
-	}
-	buf[buf_i] = '\0';
-	return (buf);
 }
 
 int	open_heredoc_file_rdonly(char *file_name)

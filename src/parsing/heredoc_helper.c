@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:25:32 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/10 12:09:15 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 13:07:10 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,28 @@ void	close_unlink_heredoc(int fd, char *file_name)
 	unlink(file_name);
 }
 
-size_t	double_quote_heredoc(t_info *info, char *input, size_t *i, char **buf)
+char	*expand_env_in_heredoc_line(t_info *info, char *input)
 {
-	char	quote;
-	size_t	buf_i;
+	size_t	i;
+	char	*buf;
+	char	*temp;
+	size_t	old_len;
 
-	quote = input[(*i)++];
-	buf_i = ft_strlen(*buf);
-	(*buf)[buf_i++] = quote;
-	while (input[*i] && input[*i] != quote)
+	buf = arena_alloc(info->arena, ft_strlen(input));
+	i = 0;
+	while (input[i])
 	{
-		if (input[*i] == '$' && input[*i + 1])
-			buf_i += handle_env_variable(info, input, i, buf);
+		if (input[i] == '$')
+			handle_env_variable(info, input, &i, &buf);
 		else
-			(*buf)[buf_i++] = input[(*i)++];
+		{
+			old_len = ft_strlen(buf);
+			temp = arena_alloc(info->arena, old_len + 2);
+			ft_memmove(temp, buf, old_len);
+			temp[old_len] = input[i++];
+			temp[old_len + 1] = '\0';
+			buf = temp;
+		}
 	}
-	if (input[*i] == quote)
-		(*buf)[buf_i++] = input[(*i)++];
-	return (buf_i);
+	return (buf);
 }
