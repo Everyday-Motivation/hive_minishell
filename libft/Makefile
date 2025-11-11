@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 16:30:13 by timurray          #+#    #+#              #
-#    Updated: 2025/10/22 18:08:25 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/11/10 15:23:15 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS = \
 	base/ft_memchr.c base/ft_memset.c base/ft_split.c \
 	base/ft_strjoin.c base/ft_strmapi.c base/ft_strtrim.c \
 	base/ft_free_split.c base/ft_atoi_check.c base/ft_strlen.c \
+	base/ft_strcmp.c \
 	get_next_line/get_next_line.c \
 	printf/ft_printf.c printf/ft_printf_char_utils.c \
 	printf/ft_printf_num_utils.c \
