@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 14:54:26 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 15:15:34 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ void							*arena_alloc(t_arena *arena, size_t n);
 char							*arena_strdup(t_arena *arena, const char *s,
 									size_t n);
 
-// Input
-
 // Env
 int								init_env(t_vec *env, char **envp);
 int								copy_env(t_vec *env, char **envp);
@@ -169,7 +167,7 @@ void							count_heredoc(t_info *info, t_vec *tokens,
 int								open_heredoc_file_rdonly(char *file_name);
 char							*expand_env_in_heredoc_line(t_info *info,
 									char *input);
-								
+
 // Prompt
 char							*read_line(int interactive);
 

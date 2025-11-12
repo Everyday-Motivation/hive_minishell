@@ -6,11 +6,50 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 12:43:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:25:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int is_bi(char *cmd)
+{
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	return (0);
+}
+
+static int run_bi(char **argv, t_vec *env)
+{
+	if (ft_strcmp(argv[0], "cd") == 0)
+		return (bi_cd(argv, env));
+	if (ft_strcmp(argv[0], "echo") == 0)
+		return (bi_echo(argv, env));
+	if (ft_strcmp(argv[0], "env") == 0)
+		return (bi_env(argv, env));
+	if (ft_strcmp(argv[0], "exit") == 0)
+		return (bi_exit(argv, env));
+	if (ft_strcmp(argv[0], "export") == 0)
+		return (bi_export(argv, env));
+	if (ft_strcmp(argv[0], "pwd") == 0)
+		return (bi_pwd(argv, env));
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (bi_unset(argv, env));
+	return (EXIT_FAILURE);
+}
+
 
 int	execute(t_vec *cmds, t_vec *env)
 {
@@ -38,6 +77,12 @@ int	execute(t_vec *cmds, t_vec *env)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
+		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1) //redirs?
+		{
+			run_bi(cmd->argv, env);
+			// printf("bi found\n");
+			break;
+		}
 
 		if (i + 1 < cmds->len)
 		{
@@ -155,9 +200,9 @@ int	execute(t_vec *cmds, t_vec *env)
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
 				process_heredoc_str(cmd);
 
+			// bi run in child
+
 			env_arr = vec_to_arr(env);
-
-
 			cmd_path = search_path(cmd->argv[0], env);
 			
 			execve(cmd_path, cmd->argv, env_arr);
