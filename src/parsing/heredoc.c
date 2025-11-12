@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/11 14:56:58 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 14:59:25 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static int	write_heredoc_input(t_cmd *cmd, int fd, char *limiter,
 	}
 	return (0);
 }
-// expanded need to be free after
 
 static char	*read_heredoc_content(char *file_name)
 {

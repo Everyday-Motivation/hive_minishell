@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:56:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 12:10:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/11 15:23:00 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,3 @@ char	*read_line(int interactive)
 	else
 		return (read_line_noninteractive());
 }
-
-// char	*read_line(int interactive)
-// {
-// 	char	*prompt;
-// 	char	*line;
-// 	size_t	len;
-
-// 	if (interactive)
-// 	{
-// 		prompt = get_prompt();
-// 		line = readline(prompt);
-// 		free(prompt);
-// 		if (!line)
-// 		{
-// 			exit_clear_rl_history();
-// 			return (NULL);
-// 		}
-// 		if (*line)
-// 			add_history(line);
-// 		return (line);
-// 	}
-// 	else
-// 	{
-// 		line = get_next_line(STDIN_FILENO);
-// 		if (!line)
-// 			return (NULL);
-// 		len = ft_strlen(line);
-// 		if (len && line[len - 1] == '\n')
-// 			line[len - 1] = '\0';
-// 		return (line);
-// 	}
-// }
