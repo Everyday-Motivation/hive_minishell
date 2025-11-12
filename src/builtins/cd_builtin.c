@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 12:42:57 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:34:25 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	bi_cd(char **av, t_vec *env)
 
 
 /* 
-TODO: no args?
+TODO: no args, goes to $HOME
 TODO: - , ~ think about switch, home, root
 TODO: too many arguments
 */
