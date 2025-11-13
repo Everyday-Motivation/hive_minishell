@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/12 16:14:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 11:27:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ void init_pipes(int pipefd[3])
 	pipefd[READ_END] = -1;
 	pipefd[WRITE_END] = -1;
 	pipefd[PREV_READ] = -1;
+}
+
+void printchars(char **arr)
+{
+	size_t	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		printf("arg[%zu]: %s\n", i, arr[i]);
+		i++;
+	}
 }
 
 int	execute(t_vec *cmds, t_vec *env)
@@ -39,7 +53,10 @@ int	execute(t_vec *cmds, t_vec *env)
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
+		{
+			printchars(cmd->argv+1);
 			return (run_bi(cmd->argv, env));
+		}
 
 		if (i + 1 < cmds->len)
 		{
@@ -161,6 +178,7 @@ int	execute(t_vec *cmds, t_vec *env)
 			if (is_bi(cmd->argv[0]) == 1)
 			{
 				run_bi(cmd->argv, env);
+				exit(1);
 			}
 			else
 			{
@@ -205,9 +223,12 @@ int	execute(t_vec *cmds, t_vec *env)
 }
 
 // TODO: reaping the pids
-// TODO: built ins in parent
+
+
 // TODO: free things? 
 // TODO; shrink functions
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
+
+// TODO: built ins in parent
