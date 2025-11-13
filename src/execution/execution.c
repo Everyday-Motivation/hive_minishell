@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/13 12:24:40 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:16:19 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,42 @@ void init_pipes(int pipefd[3])
 	pipefd[PREV_READ] = -1;
 }
 
+// void close_reset_pipes(int pipefd[3], int pipe_end[], size_t count)
+// {
+// 	size_t i;
+
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		if(pipefd[pipe_end[i]] != -1)
+// 		{
+// 			close(pipefd[pipe_end[i]]);
+// 			pipefd[pipe_end[i]] = -1;
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	execute(t_vec *cmds, t_vec *env)
 {
 	t_cmd	*cmd;
 	int		pipefd[3];
 	size_t	i;
+	size_t	child_count;
+	size_t	reaped;
 	
 	pid_t	pid;
+	pid_t	last_pid;
+	pid_t	waited_pid;
 	int		status;
-	// pid_t last_pid;
-	
+	int		last_status;
+
 	char **env_arr;
 	char *cmd_path;
 
 	init_pipes(pipefd);		
 	i = 0;
+	child_count = 0;
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
@@ -185,10 +205,10 @@ int	execute(t_vec *cmds, t_vec *env)
 				exit(1);
 			}
 		}
-
+		child_count++;
 		
-		// last_pid = pid;
-	
+		last_pid = pid;
+
 		if (pipefd[PREV_READ] != -1)
 		{
 			close(pipefd[PREV_READ]);
@@ -208,12 +228,24 @@ int	execute(t_vec *cmds, t_vec *env)
 	if (pipefd[PREV_READ] != -1)
 		close(pipefd[PREV_READ]);
 	
-
-	if (waitpid(pid, &status, 0) == -1)
+	status = 0;
+	last_status = 0;
+	reaped = 0;
+	while (reaped < child_count)
 	{
-		perror("wait pid child error in reaping");
-		return (EXIT_FAILURE);
+		waited_pid = wait(&status);
+		if(waited_pid == -1)
+		{
+			perror("waited pid issue");
+			return (EXIT_FAILURE);
+		}
+		if (waited_pid == last_pid)
+			last_status = status;
+		reaped++;
 	}
+	if (WIFEXITED(last_status))
+		return (WEXITSTATUS(last_status));
+
 	return (EXIT_SUCCESS);
 }
 
