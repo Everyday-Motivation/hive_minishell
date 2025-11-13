@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/13 11:37:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:24:40 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,20 @@ int	execute(t_vec *cmds, t_vec *env)
 			{
 				env_arr = vec_to_arr(env);
 				cmd_path = search_path(cmd->argv[0], env);
+				if(!cmd_path)
+				{
+					ft_putstr_fd("minishell: command not found: ", 2);
+					ft_putendl_fd(cmd->argv[0], 2);
+					free(env_arr);
+					exit(1);
+				}
 				
 				execve(cmd_path, cmd->argv, env_arr);
+
 				perror("execution error");
+				free(env_arr);
+				free(cmd_path);
+
 				exit(1);
 			}
 		}
