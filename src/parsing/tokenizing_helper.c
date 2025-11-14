@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/14 13:51:23 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/14 14:54:39 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 		{
 			next = input[*i + 1];
 			if (!(ft_isalnum(next) || next == '_' || next == '?'))
-			{
-				(*buf)[buf_i++] = '$';
-				(*i)++;
-			}
+				(*buf)[buf_i++] = input[(*i)++];
 			else
 				buf_i += handle_env_variable(info, input, i, buf);
 		}
 		else
-			(*buf)[buf_i++] = input[(*i)++];
+		{
+			(*buf)[ft_strlen(*buf)] = input[(*i)++];
+			buf_i++;
+		}
 	}
 	if (input[*i] == quote)
 		(*i)++;
