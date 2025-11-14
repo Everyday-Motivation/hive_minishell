@@ -6,83 +6,61 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 15:25:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:16:19 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int is_bi(char *cmd)
+void init_pipes(int pipefd[3])
 {
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	return (0);
-}
-
-static int run_bi(char **argv, t_vec *env)
-{
-	if (ft_strcmp(argv[0], "cd") == 0)
-		return (bi_cd(argv, env));
-	if (ft_strcmp(argv[0], "echo") == 0)
-		return (bi_echo(argv, env));
-	if (ft_strcmp(argv[0], "env") == 0)
-		return (bi_env(argv, env));
-	if (ft_strcmp(argv[0], "exit") == 0)
-		return (bi_exit(argv, env));
-	if (ft_strcmp(argv[0], "export") == 0)
-		return (bi_export(argv, env));
-	if (ft_strcmp(argv[0], "pwd") == 0)
-		return (bi_pwd(argv, env));
-	if (ft_strcmp(argv[0], "unset") == 0)
-		return (bi_unset(argv, env));
-	return (EXIT_FAILURE);
-}
-
-
-int	execute(t_vec *cmds, t_vec *env)
-{
-	size_t	i;
-	t_cmd *cmd;
-	
-	pid_t	pid;
-	int		status;
-	// pid_t last_pid;
-	
-	int		pipefd[3];
-		
-	char **env_arr;
-	char *cmd_path;
-
 	pipefd[READ_END] = -1;
 	pipefd[WRITE_END] = -1;
 	pipefd[PREV_READ] = -1;
+}
 
-	if (!cmds)
-		return (EXIT_FAILURE);
-		
+// void close_reset_pipes(int pipefd[3], int pipe_end[], size_t count)
+// {
+// 	size_t i;
+
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		if(pipefd[pipe_end[i]] != -1)
+// 		{
+// 			close(pipefd[pipe_end[i]]);
+// 			pipefd[pipe_end[i]] = -1;
+// 		}
+// 		i++;
+// 	}
+// }
+
+int	execute(t_vec *cmds, t_vec *env)
+{
+	t_cmd	*cmd;
+	int		pipefd[3];
+	size_t	i;
+	size_t	child_count;
+	size_t	reaped;
+	
+	pid_t	pid;
+	pid_t	last_pid;
+	pid_t	waited_pid;
+	int		status;
+	int		last_status;
+
+	char **env_arr;
+	char *cmd_path;
+
+	init_pipes(pipefd);		
 	i = 0;
+	child_count = 0;
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
-		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1) //redirs?
-		{
-			run_bi(cmd->argv, env);
-			// printf("bi found\n");
-			break;
-		}
+		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
+			return (run_bi(cmd->argv, env));
 
 		if (i + 1 < cmds->len)
 		{
@@ -200,19 +178,37 @@ int	execute(t_vec *cmds, t_vec *env)
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
 				process_heredoc_str(cmd);
 
-			// bi run in child
-
-			env_arr = vec_to_arr(env);
-			cmd_path = search_path(cmd->argv[0], env);
 			
-			execve(cmd_path, cmd->argv, env_arr);
-			perror("execution error");
-			exit(1);
-		}
+			if (is_bi(cmd->argv[0]) == 1)
+			{
+				run_bi(cmd->argv, env);
+				exit(1);
+			}
+			else
+			{
+				env_arr = vec_to_arr(env);
+				cmd_path = search_path(cmd->argv[0], env);
+				if(!cmd_path)
+				{
+					ft_putstr_fd("minishell: command not found: ", 2);
+					ft_putendl_fd(cmd->argv[0], 2);
+					free(env_arr);
+					exit(1);
+				}
+				
+				execve(cmd_path, cmd->argv, env_arr);
 
+				perror("execution error");
+				free(env_arr);
+				free(cmd_path);
+
+				exit(1);
+			}
+		}
+		child_count++;
 		
-		// last_pid = pid;
-	
+		last_pid = pid;
+
 		if (pipefd[PREV_READ] != -1)
 		{
 			close(pipefd[PREV_READ]);
@@ -230,21 +226,36 @@ int	execute(t_vec *cmds, t_vec *env)
 	}
 
 	if (pipefd[PREV_READ] != -1)
-		close(PREV_READ);
+		close(pipefd[PREV_READ]);
 	
-
-	if (waitpid(pid, &status, 0) == -1)
+	status = 0;
+	last_status = 0;
+	reaped = 0;
+	while (reaped < child_count)
 	{
-		perror("wait pid child error in reaping");
-		return (EXIT_FAILURE);
+		waited_pid = wait(&status);
+		if(waited_pid == -1)
+		{
+			perror("waited pid issue");
+			return (EXIT_FAILURE);
+		}
+		if (waited_pid == last_pid)
+			last_status = status;
+		reaped++;
 	}
+	if (WIFEXITED(last_status))
+		return (WEXITSTATUS(last_status));
+
 	return (EXIT_SUCCESS);
 }
 
 // TODO: reaping the pids
-// TODO: built ins in parent
+
+
 // TODO: free things? 
 // TODO; shrink functions
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
+
+// TODO: built ins in parent

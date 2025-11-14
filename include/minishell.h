@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 15:15:34 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:50:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,10 +171,12 @@ char							*expand_env_in_heredoc_line(t_info *info,
 // Prompt
 char							*read_line(int interactive);
 
-// execute
+// Execution
 int								execute(t_vec *cmds, t_vec *env);
 void							process_heredoc_str(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
+int								is_bi(char *cmd);
+int								run_bi(char **argv, t_vec *env);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,

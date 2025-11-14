@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 15:30:44 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 11:33:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	valid_n_flag(char *arg)
+static int	valid_n_flag(char *arg, bool *newline)
 {
 	size_t	i;
 
@@ -22,30 +22,35 @@ static int	valid_n_flag(char *arg)
 	while (arg[i])
 	{
 		if (arg[i] != 'n')
+		{
+			*newline = true;
 			return (0);
+		}
 		i++;
 	}
+	*newline = false;
 	return (1);
 }
 
 int	bi_echo(char **av, t_vec *env)
 {
 	size_t	i;
-	int		newline;
+	bool	newline;
 
 	(void)env;
-	i = 1;
-	if (valid_n_flag(av[i]))
+	i = 0;
+	newline = true;
+	if (!av || !av[0])
 	{
-		newline = false;
-		i++;
+		printf("\n");
+		return (0);
 	}
-	else
-		newline = true;
+	if (valid_n_flag(av[i], &newline))
+		i++;
 	while (av[i])
 	{
 		printf("%s", av[i]);
-		if (av[i+1] != NULL)
+		if (av[i + 1] != NULL)
 			printf(" ");
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:51:38 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:01:27 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_path_env(t_vec *env)
 	while (j < env->len)
 	{
 		entry = (char **)ft_vec_get(env, j);
-		if (strncmp(*entry, "PATH=", 5) == 0)
+		if (ft_strncmp(*entry, "PATH=", 5) == 0)
 			return (*entry + 5);
 		j++;
 	}
