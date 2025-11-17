@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/12 15:36:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:26:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,16 @@
 static int	is_valid_export(char *line)
 {
 	size_t	i;
-	size_t	len;
-	int		has_equals;
 
 	if (!line || !((ft_isalpha(line[0])) || line[0] == '_'))
 		return (0);
-	i = 0;
-	has_equals = 0;
-	len = ft_strlen(line);
-	while ((i < len))
+	i = 1;
+	while(line[i] && line[i] != '=')
 	{
-		if (!((ft_isalnum(line[i])) || line[i] == '=' || line[i] == '_'
-				|| line[i] == ' '))
+		if(!(ft_isalnum(line[i]) || line[i] == '_'))
 			return (0);
-		if (!has_equals && ft_isspace(line[i]))
-			return (0);
-		if (line[i] == '=')
-			has_equals = 1;
 		i++;
 	}
-	if (has_equals)
 		return (1);
 	return (0);
 }
