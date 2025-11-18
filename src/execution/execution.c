@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/13 19:16:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/17 14:37:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ int	execute(t_vec *cmds, t_vec *env)
 }
 
 // TODO: reaping the pids
+// TODO: Exit code in 
 
 
 // TODO: free things? 

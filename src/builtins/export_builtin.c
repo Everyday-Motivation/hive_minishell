@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/17 18:26:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:45:54 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	bi_export(char **av, t_vec *env)
 	i = 0;
 	while (av[i])
 	{
+		printf("export val: %s\n", av[i]);
 		if (is_valid_export(av[i]))
 		{
 			if (!env_add_update_line(env, av[i]))
@@ -69,6 +70,7 @@ int	bi_export(char **av, t_vec *env)
 }
 
 /*
+TODO: don't show _ wth no args
 TODO: add other chars like / and ~
 
 TODO: should add var
