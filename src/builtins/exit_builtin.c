@@ -6,19 +6,60 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/13 11:52:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:00:38 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+static void free_exit(t_vec *env)
+{
+	ft_vec_free(env);
+	// TODO: free stuff, no free stuff.
+	// Or send signal?
+	// add exit codes;
+	exit(EXIT_SUCCESS);
+}
+
+static int is_all_num(char *av)
+{
+	size_t i;
+
+	i = 0;
+	while(av[i])
+	{
+		if(!ft_isdigit(av[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
 int	bi_exit(char **av, t_vec *env)
 {
-	(void)av;
-	(void)env;
+	ft_putendl_fd("exit", 1);
+	if (!av || !av[0])
+		free_exit(env);
+	if (av[1])
+	{
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		return (1);
+	}
+	if (av[0])
+	{
+		if(!is_all_num(av[0]))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(av[0], 2);
+			ft_putendl_fd(": numeric argument required", 2);
+			free_exit(env);
+		}
+	}
 	
-	exit(1);
-	return (1);
+	free_exit(env);
+	return (EXIT_SUCCESS);
 }
 
 /*

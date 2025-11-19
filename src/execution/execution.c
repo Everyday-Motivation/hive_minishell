@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/19 12:23:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 20:09:59 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int	execute(t_vec *cmds, t_vec *env)
 	return (EXIT_FAILURE);
 }
 
-// TODO: free things? 
+// TODO: free things? In exit.
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?

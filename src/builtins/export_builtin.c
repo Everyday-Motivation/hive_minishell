@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/19 11:59:07 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 20:10:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	bi_export(char **av, t_vec *env)
 
 /*
 TODO: don't show _ wth no args
-TODO: add other chars like / and ~
 
 TODO: should add var
 TODO: Remove
