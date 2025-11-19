@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/18 16:08:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:23:59 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void shell_loop(int interactive, t_info *info)
 		}
 		if(cmds.len != 0)
 			info->exit_code = execute(&cmds, info->env);
+		printf("Exit code: %d\n", info->exit_code);
 
 		free(line);
 		ft_vec_free(&tokens);
@@ -81,5 +82,3 @@ int	main(int ac, char **av, char **envp)
 	return (EXIT_SUCCESS);
 }
 
-//exit code need to be updated by waitpid 
-//and exit with (info -> exit_code);

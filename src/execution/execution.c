@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/17 14:37:01 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:23:09 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,6 @@ void init_pipes(int pipefd[3])
 	pipefd[WRITE_END] = -1;
 	pipefd[PREV_READ] = -1;
 }
-
-// void close_reset_pipes(int pipefd[3], int pipe_end[], size_t count)
-// {
-// 	size_t i;
-
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		if(pipefd[pipe_end[i]] != -1)
-// 		{
-// 			close(pipefd[pipe_end[i]]);
-// 			pipefd[pipe_end[i]] = -1;
-// 		}
-// 		i++;
-// 	}
-// }
 
 int	execute(t_vec *cmds, t_vec *env)
 {
@@ -49,12 +33,16 @@ int	execute(t_vec *cmds, t_vec *env)
 	int		status;
 	int		last_status;
 
+	int bi_status;
+	int error_code;
+
 	char **env_arr;
 	char *cmd_path;
 
 	init_pipes(pipefd);		
 	i = 0;
 	child_count = 0;
+	last_pid = -1;
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
@@ -181,8 +169,8 @@ int	execute(t_vec *cmds, t_vec *env)
 			
 			if (is_bi(cmd->argv[0]) == 1)
 			{
-				run_bi(cmd->argv, env);
-				exit(1);
+				bi_status = run_bi(cmd->argv, env);
+				exit(bi_status);
 			}
 			else
 			{
@@ -193,16 +181,19 @@ int	execute(t_vec *cmds, t_vec *env)
 					ft_putstr_fd("minishell: command not found: ", 2);
 					ft_putendl_fd(cmd->argv[0], 2);
 					free(env_arr);
-					exit(1);
+					exit(127);
 				}
 				
 				execve(cmd_path, cmd->argv, env_arr);
-
+				
+				error_code = errno;
 				perror("execution error");
 				free(env_arr);
 				free(cmd_path);
-
-				exit(1);
+				if (error_code == ENOENT)
+					exit(127);
+				else
+					exit(126);
 			}
 		}
 		child_count++;
@@ -246,17 +237,11 @@ int	execute(t_vec *cmds, t_vec *env)
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }
 
-// TODO: reaping the pids
-// TODO: Exit code in 
-
-
 // TODO: free things? 
-// TODO; shrink functions
 
 // TODO: pipe buffer max check?
 // TODO: signal blocking?
-
-// TODO: built ins in parent
+// TODO; shrink functions

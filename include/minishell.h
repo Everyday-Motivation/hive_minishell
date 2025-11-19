@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/12 14:50:29 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:16:53 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
+# include <errno.h>
 
 extern volatile sig_atomic_t	g_signal;
 
