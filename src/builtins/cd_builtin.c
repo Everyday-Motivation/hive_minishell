@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/20 12:11:37 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/20 12:48:46 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	bi_cd(char **av, t_vec *env)
 		return (EXIT_FAILURE);
 	}
 
-	if (!av[0])
+	if (!av[0] || ft_strcmp(av[0], "~") == 0)
 	{
 		address = get_env_value(env, "HOME");
 		if(!address)
@@ -94,7 +94,6 @@ int	bi_cd(char **av, t_vec *env)
 
 /* 
 
-TODO: cd ~ ?
 TODO: shrink
 
 */
