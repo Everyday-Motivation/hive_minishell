@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/12 14:38:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:04:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,3 @@ int	bi_env(char **av, t_vec *env)
 	}
 	return (1);
 }
-
-/*
-TODO: remove
-TEST
-bi_env((char *[]){"Sa","MAIL=","a=", NULL}, env);
-
-env -i bash to start empty
- */
