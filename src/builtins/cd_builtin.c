@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/19 22:08:14 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/20 12:11:37 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,87 @@
 
 int	bi_cd(char **av, t_vec *env)
 {
-	int result;
-	char *cur_dir;
 	char *address;
+	char *oldpwd;
+	char *newpwd;
+	char *update;
 
-	(void)env;
-	cur_dir = getcwd(NULL, 0);
-	if (cur_dir == NULL)
-	{
-		perror("getcwd error");
-		return (0);
-	}
+
 	if(av[1])
 	{
 		perror("minishell: cd: too many arguments");
 		return (EXIT_FAILURE);
 	}	
+	
+	oldpwd = getcwd(NULL, 0);
+	if(!oldpwd)
+	{
+		perror("getcwd error");
+		return (EXIT_FAILURE);
+	}
+
 	if (!av[0])
 	{
 		address = get_env_value(env, "HOME");
-		ft_printf("address: %s\n", address);
-		//TODO go $HOME
+		if(!address)
+		{
+			ft_putendl_fd("minishell: cd: HOME not set", 2);
+			free(oldpwd);
+			return (EXIT_FAILURE);
+		}
+	}
+	else if (ft_strcmp(av[0], "-") == 0)
+	{
+		address = get_env_value(env, "OLDPWD");
+		if(!address)
+		{
+			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
+			free(oldpwd);
+			return (EXIT_FAILURE);
+		}
 	}
 	else
+		address = av[0];
+
+	if (chdir(address) == -1)
 	{
-		result = chdir(av[0]);
-		if(result != 0)
-		{
-			perror("minishell: cd: No such file or directory");
-			return (0);
-		}
-		else
-		{
-			char *s;
-			s = ft_strjoin("OLDPWD=", cur_dir);
-			bi_export((char *[]){ s, NULL }, env);
-			free(cur_dir);
-			cur_dir = getcwd(NULL, 0);
-			if (cur_dir == NULL)
-			{
-				perror("getcwd error");
-				return (0);
-			}
-			free(s);
-			s = ft_strjoin("PWD=",cur_dir);
-			bi_export((char *[]){ s, NULL }, env);
-			free(cur_dir);
-		}
+		perror("minishell: cd: No such file or directory");
+		return (EXIT_FAILURE);
 	}
+
+	update = ft_strjoin("OLDPWD=", oldpwd);
+	if (!update)
+	{
+		free(oldpwd);
+		return(EXIT_FAILURE);
+	}
+	bi_export((char *[]){ update, NULL }, env);
+	free(update);
+	free(oldpwd);
+
+	newpwd = getcwd(NULL, 0);
+	if(!newpwd)
+	{
+		perror("new directory");
+		return (EXIT_FAILURE);
+	}
+	update = ft_strjoin("PWD=", newpwd);
+	if (!update)
+	{
+		free(newpwd);
+		return(EXIT_FAILURE);
+	}
+	bi_export((char *[]){ update, NULL }, env);
+	free(update);
+	free(newpwd);
+
 	return (1);
 }
 
 
 /* 
-TODO: no args, goes to $HOME
-TODO: - , ~ think about switch, home, root
-TODO: too many arguments
+
+TODO: cd ~ ?
+TODO: shrink
+
 */
