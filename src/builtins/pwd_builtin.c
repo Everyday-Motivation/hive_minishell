@@ -6,17 +6,17 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 16:54:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:10:10 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_pwd(char **av, t_vec *env)
+int	bi_pwd(char **av, t_info *info)
 {
 	char	*pwd;
 
-	(void)env;
+	(void)info;
 	(void)av;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)

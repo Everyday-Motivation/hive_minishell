@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/19 12:23:59 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:38:24 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static void shell_loop(int interactive, t_info *info)
 			continue;
 		}
 		if(cmds.len != 0)
-			info->exit_code = execute(&cmds, info->env);
+			info->exit_code = execute(&cmds, info);
+			// info->exit_code = execute(&cmds, info->env);
 		printf("Exit code: %d\n", info->exit_code);
 
 		free(line);

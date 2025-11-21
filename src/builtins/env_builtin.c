@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/20 15:04:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:10:30 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,24 @@ static int	new_val_print(char **av, t_vec *env, int i_av)
 	return (1);
 }
 
-int	bi_env(char **av, t_vec *env)
+int	bi_env(char **av, t_info *info)
 {
 	size_t	i_env;
 	size_t	i_av;
 
-	if (!env || env->len == 0)
+	if (!info->env || info->env->len == 0)
 		return (0);
 	i_env = 0;
-	while (i_env < env->len)
+	while (i_env < info->env->len)
 	{
-		if (!exist_val_print(av, env, i_env))
+		if (!exist_val_print(av, info->env, i_env))
 			return (0);
 		i_env++;
 	}
 	i_av = 0;
 	while (av[i_av])
 	{
-		if (!new_val_print(av, env, i_av))
+		if (!new_val_print(av, info->env, i_av))
 			return (0);
 		i_av++;
 	}

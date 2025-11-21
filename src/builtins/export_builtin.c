@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 16:11:32 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:10:22 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static int	export_no_args(t_vec *env)
 	return (1);
 }
 
-int	bi_export(char **av, t_vec *env)
+int	bi_export(char **av, t_info *info)
 {
 	size_t	i;
 
 	if (!av || !av[0])
 	{
-		if (!export_no_args(env))
+		if (!export_no_args(info->env))
 			return (0);
 	}
 	i = 0;
@@ -57,7 +57,7 @@ int	bi_export(char **av, t_vec *env)
 	{
 		if (is_valid_export(av[i]))
 		{
-			if (!env_add_update_line(env, av[i]))
+			if (!env_add_update_line(info->env, av[i]))
 				return (EXIT_FAILURE);
 		}
 		else

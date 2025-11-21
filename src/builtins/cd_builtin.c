@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 16:14:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:18:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_cd(char **av, t_vec *env)
+int	bi_cd(char **av, t_info *info)
 {
 	char *address;
 	char *oldpwd;
@@ -35,7 +35,7 @@ int	bi_cd(char **av, t_vec *env)
 
 	if (!av[0] || ft_strcmp(av[0], "~") == 0)
 	{
-		address = get_env_value(env, "HOME");
+		address = get_env_value(info->env, "HOME");
 		if(!address)
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", 2);
@@ -45,7 +45,7 @@ int	bi_cd(char **av, t_vec *env)
 	}
 	else if (ft_strcmp(av[0], "-") == 0)
 	{
-		address = get_env_value(env, "OLDPWD");
+		address = get_env_value(info->env, "OLDPWD");
 		if(!address)
 		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
@@ -68,7 +68,7 @@ int	bi_cd(char **av, t_vec *env)
 		free(oldpwd);
 		return(EXIT_FAILURE);
 	}
-	bi_export((char *[]){ update, NULL }, env);
+	bi_export((char *[]){ update, NULL }, info);
 	free(update);
 	free(oldpwd);
 
@@ -84,7 +84,7 @@ int	bi_cd(char **av, t_vec *env)
 		free(newpwd);
 		return(EXIT_FAILURE);
 	}
-	bi_export((char *[]){ update, NULL }, env);
+	bi_export((char *[]){ update, NULL }, info);
 	free(update);
 	free(newpwd);
 

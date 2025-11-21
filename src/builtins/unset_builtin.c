@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 16:04:12 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:12:13 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_unset(char **av, t_vec *env)
+int	bi_unset(char **av, t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -24,13 +24,13 @@ int	bi_unset(char **av, t_vec *env)
 	{
 		key_len = ft_strlen(av[i]);
 		j = 0;
-		while (j < env->len)
+		while (j < info->env->len)
 		{
-			line = *(char **)ft_vec_get(env, j);
+			line = *(char **)ft_vec_get(info->env, j);
 			if (line && (ft_strncmp(av[i], line, key_len) == 0)
 				&& line[key_len] == '=')
 			{
-				vec_remove_str(env, j);
+				vec_remove_str(info->env, j);
 				continue ;
 			}
 			j++;

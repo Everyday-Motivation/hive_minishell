@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 15:58:04 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:39:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void init_pipes(int pipefd[3])
 	pipefd[PREV_READ] = -1;
 }
 
-int	execute(t_vec *cmds, t_vec *env)
+// int	execute(t_vec *cmds, t_vec *env)
+int	execute(t_vec *cmds, t_info *info)
 {
 	t_cmd	*cmd;
 	int		pipefd[3];
@@ -48,7 +49,7 @@ int	execute(t_vec *cmds, t_vec *env)
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
 
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
-			return (run_bi(cmd->argv, env));
+			return (run_bi(cmd->argv, info->env));
 
 		if (i + 1 < cmds->len)
 		{
@@ -169,13 +170,13 @@ int	execute(t_vec *cmds, t_vec *env)
 			
 			if (is_bi(cmd->argv[0]) == 1)
 			{
-				bi_status = run_bi(cmd->argv, env);
+				bi_status = run_bi(cmd->argv, info->env);
 				exit(bi_status);
 			}
 			else
 			{
-				env_arr = vec_to_arr(env);
-				cmd_path = search_path(cmd->argv[0], env);
+				env_arr = vec_to_arr(info->env);
+				cmd_path = search_path(cmd->argv[0], info->env);
 				if(!cmd_path)
 				{
 					ft_putstr_fd("minishell: command not found: ", 2);
