@@ -1,5 +1,14 @@
 # Notes
 
+## Comparison Tests
+cmnd:	echo "x ->$? y ->$USER z ->$HOME"
+bash:	x ->0 y ->timurray z ->/home/timurray
+mini:	exit_code ->0 USERtimurray HOME/home/timurray
+
+cmnd:	echo $
+bash:	
+mini:	$
+
 ## Examples
 echo hi > hi.txt | cat
 ls -l | grep txt > out.txt

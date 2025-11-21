@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/20 15:05:11 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:11:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int	is_valid_export(char *line)
 	if (!line || !((ft_isalpha(line[0])) || line[0] == '_'))
 		return (0);
 	i = 1;
-	while(line[i] && line[i] != '=')
+	while (line[i] && line[i] != '=')
 	{
-		if(!(ft_isalnum(line[i]) || line[i] == '_'))
+		if (!(ft_isalnum(line[i]) || line[i] == '_'))
 			return (0);
 		i++;
 	}
-		return (1);
+	return (1);
 	return (0);
 }
 
@@ -58,14 +58,17 @@ int	bi_export(char **av, t_vec *env)
 		if (is_valid_export(av[i]))
 		{
 			if (!env_add_update_line(env, av[i]))
-				return (0);
+				return (EXIT_FAILURE);
 		}
 		else
+		{
 			ft_printf("minishell: export: `%s`: not a valid identifier\n",
 				av[i]);
+			return (EXIT_FAILURE);
+		}
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -79,7 +82,7 @@ sneak into init_env
 	char *ava[] = {
 		"7asd=invalid",
 		"te,st=invalid",
-		"_=valid", 
+		"_=valid",
 		"te-est=invalid",
 		"test",
 		"hey=hello",

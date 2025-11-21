@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/20 15:05:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:04:12 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int	bi_unset(char **av, t_vec *env)
 		}
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

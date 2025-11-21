@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/20 12:48:46 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:14:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	bi_cd(char **av, t_vec *env)
 
 	if(av[1])
 	{
-		perror("minishell: cd: too many arguments");
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
 		return (EXIT_FAILURE);
 	}	
 	
@@ -88,7 +88,7 @@ int	bi_cd(char **av, t_vec *env)
 	free(update);
 	free(newpwd);
 
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 
