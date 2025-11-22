@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:10:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:30:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	bi_echo(char **av, t_info *info)
 	size_t	i;
 	bool	newline;
 
-	(void)info->env;
+	(void)info;
 	i = 0;
 	newline = true;
 	if (!av || !av[0])
