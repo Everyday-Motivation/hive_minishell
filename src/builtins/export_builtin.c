@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:10:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:57:58 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,31 +74,4 @@ int	bi_export(char **av, t_info *info)
 /*
 TODO: don't show _ wth no args
 
-TODO: Remove
-
-TEST CASES
-sneak into init_env
-
-	char *ava[] = {
-		"7asd=invalid",
-		"te,st=invalid",
-		"_=valid",
-		"te-est=invalid",
-		"test",
-		"hey=hello",
-		"hey=hej",
-		"nihao=hey",
-		"hey=nihao",
-		"PWD=test",
-		"KeyNOval=",
-		"KeyNOvalQ=",
-		"varname1111=valid",
-		"PWD=newtest",
-		"PWD=test  extras",
-		"NOSPACE=testextras",
-		"SPACES=test extras",
-		NULL};
-	bi_export(ava, env);
-	char *av[] = {NULL};
-	bi_export(av, env);
  */
