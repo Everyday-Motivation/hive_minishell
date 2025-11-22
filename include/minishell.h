@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:12:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:05:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "../libft/libft.h"
 # include <dirent.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -28,7 +29,6 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
-# include <errno.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -173,12 +173,11 @@ char							*expand_env_in_heredoc_line(t_info *info,
 char							*read_line(int interactive);
 
 // Execution
-// int								execute(t_vec *cmds, t_vec *env); TODO: REMOVE
 int								execute(t_vec *cmds, t_info *info);
 void							process_heredoc_str(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
-int								run_bi(char **argv,t_info *info);
+int								run_bi(char **argv, t_info *info);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,

@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:04 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:12:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 11:59:57 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	bi_unset(char **av, t_info *info)
 		{
 			line = *(char **)ft_vec_get(info->env, j);
 			if (line && (ft_strncmp(av[i], line, key_len) == 0)
-				&& line[key_len] == '=')
+				&& (line[key_len] == '=' || line[key_len] == '\0'))
 			{
 				vec_remove_str(info->env, j);
 				continue ;
