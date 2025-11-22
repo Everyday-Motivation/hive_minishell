@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:49:28 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:13:35 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 13:12:13 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	is_bi(char *cmd)
 	return (0);
 }
 
-// int	run_bi(char **argv, t_vec *env)
 int	run_bi(char **argv, t_info *info)
 {
 	if (ft_strcmp(argv[0], "cd") == 0)

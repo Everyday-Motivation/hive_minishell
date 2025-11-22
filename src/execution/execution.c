@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 11:17:32 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:48:37 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void init_pipes(int pipefd[3])
 	pipefd[PREV_READ] = -1;
 }
 
-// int	execute(t_vec *cmds, t_vec *env)
 int	execute(t_vec *cmds, t_info *info)
 {
 	t_cmd	*cmd;
@@ -176,21 +175,34 @@ int	execute(t_vec *cmds, t_info *info)
 			else
 			{
 				env_arr = vec_to_arr(info->env);
-				cmd_path = search_path(cmd->argv[0], info->env);
-				if(!cmd_path)
+				if(!env_arr)
 				{
-					ft_putstr_fd("minishell: command not found: ", 2);
-					ft_putendl_fd(cmd->argv[0], 2);
-					free(env_arr);
-					exit(127);
+					perror("env arr issue");
+					exit(1);
 				}
-				
+				cmd_path = NULL;
+				if(ft_strchr(cmd->argv[0], '/'))
+					cmd_path = cmd->argv[0];
+				else
+				{				
+					cmd_path = search_path(cmd->argv[0], info->env);
+					if(!cmd_path)
+					{
+						ft_putstr_fd("minishell: command not found: ", 2);
+						ft_putendl_fd(cmd->argv[0], 2);
+						free(env_arr);
+						exit(127);
+					}
+				}
+			
+
 				execve(cmd_path, cmd->argv, env_arr);
 				
 				error_code = errno;
 				perror("execution error");
 				free(env_arr);
-				free(cmd_path);
+				if(!ft_strchr(cmd->argv[0], '/') && cmd_path != NULL)
+					free(cmd_path);
 				if (error_code == ENOENT)
 					exit(127);
 				else
