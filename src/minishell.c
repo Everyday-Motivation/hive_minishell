@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 18:38:24 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:26:59 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ static void shell_loop(int interactive, t_info *info)
 			ft_vec_free(&tokens);
 			continue;
 		}
-		if(cmds.len != 0)
-			info->exit_code = execute(&cmds, info);
-			// info->exit_code = execute(&cmds, info->env);
-		printf("Exit code: %d\n", info->exit_code);
-
 		free(line);
 		ft_vec_free(&tokens);
 		free_str_vec(&tokens);
+		
+		if(cmds.len != 0)
+			info->exit_code = execute(&cmds, info);
+
 		ft_vec_free(&cmds);
 		arena_free(info->arena);
 	}

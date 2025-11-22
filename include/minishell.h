@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 12:05:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 17:26:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_token
 int								bi_cd(char **av, t_info *info);
 int								bi_echo(char **av, t_info *info);
 int								bi_env(char **av, t_info *info);
-int								bi_exit(char **av, t_info *info);
+int								bi_exit(char **av, t_info *info, t_vec *cmds);
 int								bi_export(char **av, t_info *info);
 int								bi_pwd(char **av, t_info *info);
 int								bi_unset(char **av, t_info *info);
@@ -177,7 +177,7 @@ int								execute(t_vec *cmds, t_info *info);
 void							process_heredoc_str(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
-int								run_bi(char **argv, t_info *info);
+int								run_bi(char **argv, t_info *info, t_vec *cmds);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,

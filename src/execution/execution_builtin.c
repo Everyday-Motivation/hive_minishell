@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:49:28 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 13:12:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 17:24:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	is_bi(char *cmd)
 	return (0);
 }
 
-int	run_bi(char **argv, t_info *info)
+// int	run_bi(char **argv, t_info *info)
+int	run_bi(char **argv, t_info *info, t_vec *cmds)
 {
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (bi_cd(argv + 1, info));
@@ -40,7 +41,7 @@ int	run_bi(char **argv, t_info *info)
 	if (ft_strcmp(argv[0], "env") == 0)
 		return (bi_env(argv + 1, info));
 	if (ft_strcmp(argv[0], "exit") == 0)
-		return (bi_exit(argv + 1, info));
+		return (bi_exit(argv + 1, info, cmds));
 	if (ft_strcmp(argv[0], "export") == 0)
 		return (bi_export(argv + 1, info));
 	if (ft_strcmp(argv[0], "pwd") == 0)
