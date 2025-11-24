@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 16:15:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:22:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,7 @@ int	main(int ac, char **av, char **envp)
 
 /* 
 TEST
-
-echo "$USER    hello $USER"
-jaeklee    hello jaeklee
-jaeklee USERjaeklee
-
 echo $USER    hello $USER $gjigjow $jgrei $jtier $jgier $HOME
-jaeklee hello jaeklee /home/jaeklee
-jaeklee hello jaeklee     /home/jaekle
 
 << EOF then ctrl + d segmentation fault
 */
