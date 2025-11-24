@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 14:45:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:27:22 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static int	is_all_num(char *av)
 	size_t	i;
 
 	i = 0;
-	if(av[i] == '-' || av[i] == '+')
+	if (av[i] == '-' || av[i] == '+')
 		i++;
-	if(av[i] == '\0')
+	if (av[i] == '\0')
 		return (0);
 	while (av[i])
 	{
@@ -40,7 +40,7 @@ static int	is_all_num(char *av)
 
 int	bi_exit(char **av, t_info *info, t_vec *cmds)
 {
-	int exit_code;
+	int	exit_code;
 
 	ft_putendl_fd("exit", 1);
 	if (!av || !av[0])
@@ -52,7 +52,7 @@ int	bi_exit(char **av, t_info *info, t_vec *cmds)
 	}
 	if (av[0])
 	{
-		if (!is_all_num(av[0]))
+		if (!is_all_num(av[0]) || ft_atoi_check(av[0], &exit_code) == 0)
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(av[0], 2);
@@ -60,24 +60,8 @@ int	bi_exit(char **av, t_info *info, t_vec *cmds)
 			free_exit(info, cmds, 2);
 		}
 		else
-		{
-			if(ft_atoi_check(av[0], &exit_code))
-				exit_code = exit_code % 256;
-			else
-			{
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(av[0], 2);
-				ft_putendl_fd(": numeric argument required", 2);
-				free_exit(info, cmds, 2);
-			}
-			free_exit(info, cmds, exit_code);
-		}
+			free_exit(info, cmds, exit_code % 256);
 	}
 	free_exit(info, cmds, 0);
 	return (EXIT_SUCCESS);
 }
-
-/*
-TODO: Should clean up things.
-TODO: Handle arguments (numeric, non-numeric, too many)
-*/
