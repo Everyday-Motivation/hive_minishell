@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 17:55:34 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:22:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ static int	is_all_num(char *av)
 	size_t	i;
 
 	i = 0;
+	if(av[i] == '-' || av[i] == '+')
+		i++;
+	if(av[i] == '\0')
+		return (0);
 	while (av[i])
 	{
 		if (!ft_isdigit(av[i]))
