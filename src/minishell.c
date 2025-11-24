@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 12:36:13 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/24 16:15:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,6 @@ int	main(int ac, char **av, char **envp)
 
 /* 
 TEST
-echo "x ->$? y ->$USER z ->$HOME"
-bash: x ->0 y ->jaeklee z ->/home/jaeklee
-mini: x ->0 USERjaeklee HOME/home/jaeklee
-
-
 
 echo "$USER    hello $USER"
 jaeklee    hello jaeklee
@@ -99,8 +94,6 @@ jaeklee USERjaeklee
 echo $USER    hello $USER $gjigjow $jgrei $jtier $jgier $HOME
 jaeklee hello jaeklee /home/jaeklee
 jaeklee hello jaeklee     /home/jaekle
-
-echo $
 
 << EOF then ctrl + d segmentation fault
 */
