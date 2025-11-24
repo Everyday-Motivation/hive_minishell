@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 16:57:10 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 10:01:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	bi_cd(char **av, t_info *info)
 	address = get_address(av, info->env);
 	if (chdir(address) == -1)
 	{
-		perror("minishell: cd: No such file or directory");
+		perror("minishell: cd: ");
 		free(oldpwd);
 		return (EXIT_FAILURE);
 	}

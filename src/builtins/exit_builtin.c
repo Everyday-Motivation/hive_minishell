@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 17:28:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/22 17:55:34 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	is_all_num(char *av)
 
 int	bi_exit(char **av, t_info *info, t_vec *cmds)
 {
+	int exit_code;
+
 	ft_putendl_fd("exit", 1);
 	if (!av || !av[0])
 		free_exit(info, cmds, 0);
@@ -55,7 +57,7 @@ int	bi_exit(char **av, t_info *info, t_vec *cmds)
 		}
 		else
 		{
-			int exit_code = ft_atoi(av[0]) % 256;
+			exit_code = ft_atoi(av[0]) % 256;
 			free_exit(info, cmds, exit_code);
 		}
 	}

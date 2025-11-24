@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 17:26:43 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 10:23:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	execute(t_vec *cmds, t_info *info)
 				pipefd[READ_END] = open(cmd->input_file, O_RDONLY);
 				if (pipefd[READ_END] == -1)
 				{
-					perror("open in file issue");
+					perror("Filename");
 					exit(1);
 				}
 				if (dup2(pipefd[READ_END], STDIN_FILENO) == -1)
@@ -253,9 +253,21 @@ int	execute(t_vec *cmds, t_info *info)
 	return (EXIT_FAILURE);
 }
 
-// TODO: free things? In exit.
-// TODO: update  _?
+/* TEST
+echo testing > out1
+> out echo test
+$HOME
+$jgiorehiorw 
 
-// TODO: pipe buffer max check?
-// TODO: signal blocking?
-// TODO; shrink functions
+dir1/dir2/dir3/ then "rm -r dir2"
+cat + ctrl c should exit
+cat + ctrl \ should print
+wc Makefile | grep 109 > out6 | echo hello | cat Makefile | > out5
+
+TODO: free things? In exit.
+TODO: update  _?
+
+TODO: pipe buffer max check?
+TODO: signal blocking?
+TODO; shrink functions
+ */
