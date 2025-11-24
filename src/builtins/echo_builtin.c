@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 14:30:16 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:06:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	valid_n_flag(char *arg, bool *newline)
 {
 	size_t	i;
 
-	if (!arg || arg[0] != '-')
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
 		return (0);
 	i = 1;
 	while (arg[i])
@@ -45,7 +45,7 @@ int	bi_echo(char **av, t_info *info)
 		printf("\n");
 		return (0);
 	}
-	if (valid_n_flag(av[i], &newline))
+	while (valid_n_flag(av[i], &newline))
 		i++;
 	while (av[i])
 	{
