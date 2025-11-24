@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 14:22:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:45:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	bi_exit(char **av, t_info *info, t_vec *cmds)
 
 	ft_putendl_fd("exit", 1);
 	if (!av || !av[0])
-		free_exit(info, cmds, 0);
+		free_exit(info, cmds, info->exit_code);
 	if (av[1])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
@@ -61,7 +61,15 @@ int	bi_exit(char **av, t_info *info, t_vec *cmds)
 		}
 		else
 		{
-			exit_code = ft_atoi(av[0]) % 256;
+			if(ft_atoi_check(av[0], &exit_code))
+				exit_code = exit_code % 256;
+			else
+			{
+				ft_putstr_fd("minishell: exit: ", 2);
+				ft_putstr_fd(av[0], 2);
+				ft_putendl_fd(": numeric argument required", 2);
+				free_exit(info, cmds, 2);
+			}
 			free_exit(info, cmds, exit_code);
 		}
 	}
