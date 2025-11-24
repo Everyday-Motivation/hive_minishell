@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 12:57:58 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:08:24 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,28 @@ static int	is_valid_export(char *line)
 	return (0);
 }
 
+static void	print_export_vec(t_vec *str_vec, char *prefix)
+{
+	size_t	i;
+	char	*line;
+	char	*prefix_line;
+
+	i = 0;
+	while (i < str_vec->len)
+	{
+		line = *(char **)ft_vec_get(str_vec, i);
+		if (line[0] == '_' && line[1] == '=')
+		{
+			i++;
+			continue ;
+		}
+		prefix_line = ft_strjoin(prefix, line);
+		ft_putendl_fd(prefix_line, 1);
+		free(prefix_line);
+		i++;
+	}
+}
+
 static int	export_no_args(t_vec *env)
 {
 	t_vec	env_cpy;
@@ -38,7 +60,7 @@ static int	export_no_args(t_vec *env)
 		return (0);
 	if (!sort_vec_str_ptr(&env_cpy))
 		return (0);
-	print_str_vec(&env_cpy, "declare -x ");
+	print_export_vec(&env_cpy, "declare -x ");
 	ft_vec_free(&env_cpy);
 	return (1);
 }
@@ -70,8 +92,3 @@ int	bi_export(char **av, t_info *info)
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*
-TODO: don't show _ wth no args
-
- */
