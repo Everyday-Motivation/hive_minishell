@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 10:19:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 12:36:13 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,20 @@ int	main(int ac, char **av, char **envp)
 /* 
 TEST
 echo "x ->$? y ->$USER z ->$HOME"
-echo "$USER    hello $USER"
-echo $USER    hello $USER $gjigjow $jgrei $jtier $jgier $HOME
+bash: x ->0 y ->jaeklee z ->/home/jaeklee
+mini: x ->0 USERjaeklee HOME/home/jaeklee
 
+
+
+echo "$USER    hello $USER"
+jaeklee    hello jaeklee
+jaeklee USERjaeklee
+
+echo $USER    hello $USER $gjigjow $jgrei $jtier $jgier $HOME
+jaeklee hello jaeklee /home/jaeklee
+jaeklee hello jaeklee     /home/jaekle
+
+echo $
 
 << EOF then ctrl + d segmentation fault
 */

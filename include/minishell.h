@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/22 17:26:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:12:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ int								increment_shlvl(t_vec *env);
 // env_expanding
 char							*get_env_value(t_vec *env,
 									const char *var_name);
-
+size_t							handle_exit_status_variable(t_info *info,
+									size_t *i, char **buf);
 // Tokenizing
 int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);

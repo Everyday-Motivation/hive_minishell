@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/14 14:54:39 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/24 16:04:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,33 +81,41 @@ size_t	handle_exit_status_variable(t_info *info, size_t *i, char **buf)
 	return (val_len);
 }
 
-size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
-{
-	size_t	start;
-	char	*key;
-	char	*val;
-	char	*temp;
+// size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
+// {
+// 	size_t	start;
+// 	char	*key;
+// 	char	*val;
+// 	char	*temp;
+// 	size_t	key_len;
+// 	size_t	buf_len;
 
-	start = ++(*i);
-	if (input[*i] == '?')
-		return (handle_exit_status_variable(info, i, buf));
-	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-		(*i)++;
-	key = arena_strdup(info->arena, &input[start], *i - start);
-	val = get_env_value(info->env, key);
-	if (val)
-	{
-		temp = arena_alloc(info->arena, ft_strlen(val) + ft_strlen(*buf) + 1);
-		ft_memmove(temp, *buf, ft_strlen(*buf));
-		ft_memmove(temp + ft_strlen(*buf), val, ft_strlen(val));
-		temp[ft_strlen(*buf) + ft_strlen(val)] = '\0';
-		*buf = temp;
-		return (ft_strlen(val));
-	}
-	else
-		return (0);
-	return (ft_strlen(key));
-}
+// 	start = ++(*i);
+// 	if (input[*i] == '?')
+// 		return (handle_exit_status_variable(info, i, buf));
+// 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+// 		(*i)++;
+// 	key_len = *i -start;
+// 	key = malloc(key_len + 1);
+// 	ft_memcpy(key, &input[start], key_len);
+// 	key[key_len] = '\0';  // null 종료
+// 	val = get_env_value(info->env, key);
+// 	free(key);
+// 	if (val)
+// 	{
+// 		buf_len = ft_strlen(*buf);
+// 		temp = arena_alloc(info->arena, buf_len + ft_strlen(val) + 1);
+// 		ft_memmove(temp, *buf, buf_len);
+// 		ft_memmove(temp + buf_len, val, ft_strlen(val));
+// 		temp[buf_len + ft_strlen(val)] = '\0';
+// 		*buf = temp;
+// 		printf("temp = %s\n", temp);
+// 		return ft_strlen(val);
+// 	}
+// 	else
+// 		return (0);
+// 	return (key_len);
+// }
 
 int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 {
@@ -117,7 +125,7 @@ int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	size_t	start;
 
 	init_word_token(&buf_i, &start, *i);
-	buf = arena_alloc(info->arena, ft_strlen(input));
+	buf = arena_alloc(info->arena, ft_strlen(input) * 4);
 	if (!buf)
 		return (EXIT_FAILURE);
 	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
