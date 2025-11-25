@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 10:23:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:10:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void init_pipes(int pipefd[3])
 	pipefd[READ_END] = -1;
 	pipefd[WRITE_END] = -1;
 	pipefd[PREV_READ] = -1;
+}
+
+void parent_sig(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void child_sig(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 int	execute(t_vec *cmds, t_info *info)
@@ -43,6 +55,7 @@ int	execute(t_vec *cmds, t_info *info)
 	i = 0;
 	child_count = 0;
 	last_pid = -1;
+
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
@@ -50,6 +63,7 @@ int	execute(t_vec *cmds, t_info *info)
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
 			return (run_bi(cmd->argv, info, cmds));
 
+		parent_sig();
 		if (i + 1 < cmds->len)
 		{
 			if(pipe(pipefd) == -1)
@@ -85,7 +99,7 @@ int	execute(t_vec *cmds, t_info *info)
 		
 		if (pid == CHILD)
 		{
-
+			child_sig();
 			if(cmd->input_file == NULL && cmd->heredoc_str == NULL && i > 0)
 			{
 				if(dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
@@ -247,6 +261,7 @@ int	execute(t_vec *cmds, t_info *info)
 			last_status = status;
 		reaped++;
 	}
+	init_signals();
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 
@@ -256,12 +271,13 @@ int	execute(t_vec *cmds, t_info *info)
 /* TEST
 echo testing > out1
 > out echo test
-$HOME
+$HOME 
 $jgiorehiorw 
 
 dir1/dir2/dir3/ then "rm -r dir2"
 cat + ctrl c should exit
-cat + ctrl \ should print
+cat + ctrl \ should print Quite core dumped
+
 wc Makefile | grep 109 > out6 | echo hello | cat Makefile | > out5
 
 TODO: free things? In exit.
