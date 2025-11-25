@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/25 09:13:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/25 21:09:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ int	main(int ac, char **av, char **envp)
 
 /* 
 TEST
-echo $USER    hello $USER $gjigjow $jgrei $jtier $jgier $HOME
-echo $"weird"
+echo "$""$"
+echo "$""$""$"
+
+Found a leak with heredoc that needs to be fixed.
+valgrind ./minishell
+<< eof
+exit
+
+There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. I don't think it is related to the leak but will shows up if we use the sanitizer.
+
 */
