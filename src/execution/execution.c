@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/25 09:17:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:25:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	execute(t_vec *cmds, t_info *info)
 			i++;
 			continue;
 		}
-		printf("Executing command: %s\n", cmd->argv[0]);
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
 		{
 			int saved_stdin = dup(STDIN_FILENO);
