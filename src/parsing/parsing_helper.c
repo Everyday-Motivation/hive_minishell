@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/11 11:06:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/25 12:54:52 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,29 @@ int	limiter_check(char *limiter)
 	if (check == 0)
 		return (1);
 	return (0);
+}
+
+size_t	handle_exit_status_variable(t_info *info, size_t *i, char **buf)
+{
+	char	*val;
+	int		val_len;
+	char	*temp;
+	size_t	buf_len;
+
+	(*i)++;
+	val = ft_itoa(info->exit_code);
+	val_len = ft_strlen(val);
+	buf_len = ft_strlen(*buf);
+	temp = arena_alloc(info->arena, buf_len + val_len + 1);
+	if (!temp)
+	{
+		free(val);
+		return (0);
+	}
+	ft_memcpy(temp, *buf, buf_len);
+	ft_memcpy(temp + buf_len, val, val_len);
+	temp[buf_len + val_len] = '\0';
+	*buf = temp;
+	free(val);
+	return (val_len);
 }

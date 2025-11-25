@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/24 16:04:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/25 12:54:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,66 +56,30 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 	return (buf_i);
 }
 
-size_t	handle_exit_status_variable(t_info *info, size_t *i, char **buf)
+void	init_word_token(size_t *buf_i, size_t *start, size_t i)
 {
-	char	*val;
-	int		val_len;
-	char	*temp;
-	size_t	buf_len;
-
-	(*i)++;
-	val = ft_itoa(info->exit_code);
-	val_len = ft_strlen(val);
-	buf_len = ft_strlen(*buf);
-	temp = arena_alloc(info->arena, buf_len + val_len + 1);
-	if (!temp)
-	{
-		free(val);
-		return (0);
-	}
-	ft_memcpy(temp, *buf, buf_len);
-	ft_memcpy(temp + buf_len, val, val_len);
-	temp[buf_len + val_len] = '\0';
-	*buf = temp;
-	free(val);
-	return (val_len);
+	*buf_i = 0;
+	*start = i;
 }
 
-// size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
-// {
-// 	size_t	start;
-// 	char	*key;
-// 	char	*val;
-// 	char	*temp;
-// 	size_t	key_len;
-// 	size_t	buf_len;
+static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
+{
+	size_t	buf_i;
 
-// 	start = ++(*i);
-// 	if (input[*i] == '?')
-// 		return (handle_exit_status_variable(info, i, buf));
-// 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-// 		(*i)++;
-// 	key_len = *i -start;
-// 	key = malloc(key_len + 1);
-// 	ft_memcpy(key, &input[start], key_len);
-// 	key[key_len] = '\0';  // null 종료
-// 	val = get_env_value(info->env, key);
-// 	free(key);
-// 	if (val)
-// 	{
-// 		buf_len = ft_strlen(*buf);
-// 		temp = arena_alloc(info->arena, buf_len + ft_strlen(val) + 1);
-// 		ft_memmove(temp, *buf, buf_len);
-// 		ft_memmove(temp + buf_len, val, ft_strlen(val));
-// 		temp[buf_len + ft_strlen(val)] = '\0';
-// 		*buf = temp;
-// 		printf("temp = %s\n", temp);
-// 		return ft_strlen(val);
-// 	}
-// 	else
-// 		return (0);
-// 	return (key_len);
-// }
+	buf_i = 0;
+	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
+	{
+		if (input[*i] == '\'')
+			buf_i += handle_single_quote(input, i, &(*buf)[buf_i]);
+		else if (input[*i] == '"')
+			buf_i += handle_double_quote(info, input, i, buf);
+		else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
+			buf_i += handle_env_variable(info, input, i, buf);
+		else
+			(*buf)[buf_i++] = input[(*i)++];
+	}
+	return (buf_i);
+}
 
 int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 {
@@ -128,17 +92,9 @@ int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	buf = arena_alloc(info->arena, ft_strlen(input) * 4);
 	if (!buf)
 		return (EXIT_FAILURE);
-	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
-	{
-		if (input[*i] == '\'')
-			buf_i += handle_single_quote(input, i, &buf[buf_i]);
-		else if (input[*i] == '"')
-			buf_i += handle_double_quote(info, input, i, &buf);
-		else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
-			buf_i += handle_env_variable(info, input, i, &buf);
-		else
-			buf[buf_i++] = input[(*i)++];
-	}
+	buf_i = collect_word(info, input, i, &buf);
+	if (buf_i == 0)
+		return (EXIT_SUCCESS);
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	token.raw_data = arena_strdup(info->arena, &input[start], *i - start);

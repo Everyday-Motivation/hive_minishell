@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/24 16:04:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/25 12:05:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ char	*get_env_value(t_vec *env, const char *key)
 		i++;
 	}
 	return (NULL);
-}
-
-void	init_word_token(size_t *buf_i, size_t *start, size_t i)
-{
-	*buf_i = 0;
-	*start = i;
 }
 
 static char	*extract_env_key(char *input, size_t *i)
@@ -73,32 +67,36 @@ static size_t	append_env_value(t_info *info, char **buf, const char *val)
 	return (ft_strlen(val));
 }
 
+static size_t	append_dollar(t_info *info, char **buf, size_t *i)
+{
+	append_env_value(info, buf, "$");
+	(*i)++;
+	return (1);
+}
+
 size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 {
 	char	*key;
 	char	*val;
-	size_t	key_len;
 
-	if (!input[*i + 1] || (!ft_isalnum(input[*i + 1]) && input[*i + 1] != '_'
-			&& input[*i + 1] != '?'))
-	{
-		append_env_value(info, buf, "$");
-		(*i)++;
-		return (1);
-	}
+	if (!input[*i + 1])
+		return (append_dollar(info, buf, i));
 	if (input[*i + 1] == '?')
 	{
 		(*i)++;
 		return (handle_exit_status_variable(info, i, buf));
 	}
-	key = extract_env_key(input, i);
-	if (!key)
+	if (ft_isalnum(input[*i + 1]) || input[*i + 1] == '_')
+	{
+		key = extract_env_key(input, i);
+		if (!key)
+			return (0);
+		val = get_env_value(info->env, key);
+		free(key);
+		if (val)
+			return (append_env_value(info, buf, val));
 		return (0);
-	key_len = ft_strlen(key);
-	val = get_env_value(info->env, key);
-	free(key);
-	if (val)
-		return (append_env_value(info, buf, val));
-	else
-		return (key_len);
+	}
+	(*i)++;
+	return (0);
 }
