@@ -96,4 +96,5 @@ exit
 
 There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. I don't think it is related to the leak but will shows up if we use the sanitizer.
 
+for parsing syntax errors, what should the exit code be?
 */
