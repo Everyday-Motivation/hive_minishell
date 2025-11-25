@@ -175,7 +175,8 @@ char							*read_line(int interactive);
 
 // Execution
 int								execute(t_vec *cmds, t_info *info);
-void							process_heredoc_str(t_cmd *cmd);
+int								process_heredoc_str(t_cmd *cmd);
+int								handle_builtin_redirections(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
 int								run_bi(char **argv, t_info *info, t_vec *cmds);

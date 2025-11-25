@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/25 08:53:26 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/25 09:17:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,27 @@ int	execute(t_vec *cmds, t_info *info)
 			i++;
 			continue;
 		}
-		printf("Executing command %zu: %s\n", i, cmd->argv[0]);
+		printf("Executing command: %s\n", cmd->argv[0]);
 		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
-			return (run_bi(cmd->argv, info, cmds));
+		{
+			int saved_stdin = dup(STDIN_FILENO);
+			int saved_stdout = dup(STDOUT_FILENO);
+
+			if (handle_builtin_redirections(cmd) == EXIT_FAILURE)
+			{
+				dup2(saved_stdin, STDIN_FILENO);
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdin);
+				close(saved_stdout);
+				return (EXIT_FAILURE);
+			}
+			bi_status = run_bi(cmd->argv, info, cmds);
+			dup2(saved_stdin, STDIN_FILENO);
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdin);
+			close(saved_stdout);
+			return (bi_status);
+		}
 
 		parent_sig();
 		if (i + 1 < cmds->len)
@@ -183,7 +201,10 @@ int	execute(t_vec *cmds, t_info *info)
 			}
 
 			if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
-				process_heredoc_str(cmd);
+			{
+				if (process_heredoc_str(cmd) != 0)
+					exit(1);
+			}
 
 			
 			if (is_bi(cmd->argv[0]) == 1)
@@ -218,7 +239,19 @@ int	execute(t_vec *cmds, t_info *info)
 				execve(cmd_path, cmd->argv, env_arr);
 				
 				error_code = errno;
-				perror("execution error");
+				struct stat sb;
+				if (stat(cmd_path, &sb) == 0 && S_ISDIR(sb.st_mode))
+				{
+					ft_putstr_fd("minishell: ", 2);
+					ft_putstr_fd(cmd->argv[0], 2);
+					ft_putendl_fd(": Is a directory", 2);
+					free(env_arr);
+					if(!ft_strchr(cmd->argv[0], '/') && cmd_path != NULL)
+						free(cmd_path);
+					exit(126);
+				}
+				ft_putstr_fd("minishell: ", 2);
+				perror(cmd->argv[0]);
 				free(env_arr);
 				if(!ft_strchr(cmd->argv[0], '/') && cmd_path != NULL)
 					free(cmd_path);
