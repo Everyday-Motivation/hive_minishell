@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 16:00:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:28:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ void	init_hd_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
-
