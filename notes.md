@@ -9,6 +9,9 @@ cmnd:	echo $
 bash:	
 mini:	$
 
+echo "$""$"
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+
 ## Examples
 echo hi > hi.txt | cat
 ls -l | grep txt > out.txt
