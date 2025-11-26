@@ -129,12 +129,7 @@ int	execute(t_vec *cmds, t_info *info)
 				if(dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
 				{
 					perror("dup2 STDIN no in no here");
-					if(pipefd[PREV_READ] != -1)
-						close(pipefd[PREV_READ]);
-					if(pipefd[READ_END] != -1)
-						close(pipefd[READ_END]);
-					if(pipefd[WRITE_END] != -1)
-						close(pipefd[WRITE_END]);
+					close_used_pipes(pipefd);
 					exit(1);
 				}
 			}
@@ -144,22 +139,12 @@ int	execute(t_vec *cmds, t_info *info)
 				if(dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 				{
 					perror("dup2 STDOUT no out");
-					if(pipefd[PREV_READ] != -1)
-						close(pipefd[PREV_READ]);
-					if(pipefd[READ_END] != -1)
-						close(pipefd[READ_END]);
-					if(pipefd[WRITE_END] != -1)
-						close(pipefd[WRITE_END]);
+					close_used_pipes(pipefd);
 					exit(1);
 				}
 			}
 
-			if(pipefd[PREV_READ] != -1)
-				close(pipefd[PREV_READ]);
-			if(pipefd[READ_END] != -1)
-				close(pipefd[READ_END]);
-			if(pipefd[WRITE_END] != -1)
-				close(pipefd[WRITE_END]);
+			close_used_pipes(pipefd);
 
 
 			if (cmd->input_file)
@@ -239,8 +224,6 @@ int	execute(t_vec *cmds, t_info *info)
 						exit(127);
 					}
 				}
-			
-
 				execve(cmd_path, cmd->argv, env_arr);
 				
 				error_code = errno;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 15:12:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/26 17:37:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int								handle_builtin_redirections(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
 int								run_bi(char **argv, t_info *info, t_vec *cmds);
+void							close_used_pipes(int pipefd[3]);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,
