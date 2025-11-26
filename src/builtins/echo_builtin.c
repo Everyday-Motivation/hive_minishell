@@ -42,19 +42,19 @@ int	bi_echo(char **av, t_info *info)
 	newline = true;
 	if (!av || !av[0])
 	{
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		return (0);
 	}
 	while (valid_n_flag(av[i], &newline))
 		i++;
 	while (av[i])
 	{
-		printf("%s", av[i]);
+		ft_putstr_fd(av[i], 1);
 		if (av[i + 1] != NULL)
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (0);
 }

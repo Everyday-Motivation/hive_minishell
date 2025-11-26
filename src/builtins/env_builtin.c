@@ -33,7 +33,9 @@ static int	valid_env_key(char *line)
 			return (1);
 		i++;
 	}
-	printf("env: ‘%s’: No such file or directory\n", line);
+	ft_putstr_fd("env: ‘", 2);
+	ft_putstr_fd(line, 2);
+	ft_putendl_fd("’: No such file or directory", 2);
 	return (0);
 }
 

@@ -24,7 +24,7 @@ int	bi_pwd(char **av, t_info *info)
 		perror("pwd error.");
 		return (EXIT_FAILURE);
 	}
-	printf("%s\n", pwd);
+	ft_putendl_fd(pwd, 1);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }
