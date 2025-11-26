@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 09:25:58 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:31:50 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,9 @@ int	execute(t_vec *cmds, t_info *info)
 							O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (pipefd[WRITE_END] == -1)
 				{
-					perror("open outfile issue");
+					// perror("minishell");
+					ft_putstr_fd("minishell: ", 2);
+					perror(cmd->output_file);
 					exit(1);
 				}
 				if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
@@ -306,10 +308,7 @@ int	execute(t_vec *cmds, t_info *info)
 }
 
 /* TEST
-echo testing > out1
-> out echo test
-$HOME 
-$jgiorehiorw 
+
 
 dir1/dir2/dir3/ then "rm -r dir2"
 cat + ctrl c should exit
@@ -317,9 +316,8 @@ cat + ctrl \ should print Quite core dumped
 
 wc Makefile | grep 109 > out6 | echo hello | cat Makefile | > out5
 
-TODO: free things? In exit.
 TODO: update  _?
-
+TODO: double PWD
 TODO: pipe buffer max check?
 TODO: signal blocking?
 TODO; shrink functions
