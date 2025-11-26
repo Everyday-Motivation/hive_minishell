@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 10:31:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:56:14 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +30,20 @@ void child_sig(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void save_std_fds(int pipefd[2])
+{
+	pipefd[READ_END] = dup(STDIN_FILENO);
+	pipefd[WRITE_END] = dup(STDOUT_FILENO);
+}
+
+void reset_std_fds(int pipefd[2])
+{
+	dup2(pipefd[READ_END], STDIN_FILENO);
+	dup2(pipefd[WRITE_END], STDOUT_FILENO);
+	close(pipefd[READ_END]);
+	close(pipefd[WRITE_END]);
 }
 
 int	execute(t_vec *cmds, t_info *info)
@@ -55,33 +70,20 @@ int	execute(t_vec *cmds, t_info *info)
 	i = 0;
 	child_count = 0;
 	last_pid = -1;
-
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
-		if(!cmd || !cmd->argv || !cmd->argv[0])
-		{
-			i++;
-			continue;
-		}
-		if (is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
-		{
-			int saved_stdin = dup(STDIN_FILENO);
-			int saved_stdout = dup(STDOUT_FILENO);
 
+		if (cmd->argv && cmd->argv[0] && is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
+		{
+			save_std_fds(pipefd);
 			if (handle_builtin_redirections(cmd) == EXIT_FAILURE)
 			{
-				dup2(saved_stdin, STDIN_FILENO);
-				dup2(saved_stdout, STDOUT_FILENO);
-				close(saved_stdin);
-				close(saved_stdout);
+				reset_std_fds(pipefd);
 				return (EXIT_FAILURE);
 			}
 			bi_status = run_bi(cmd->argv, info, cmds);
-			dup2(saved_stdin, STDIN_FILENO);
-			dup2(saved_stdout, STDOUT_FILENO);
-			close(saved_stdin);
-			close(saved_stdout);
+			reset_std_fds(pipefd);
 			return (bi_status);
 		}
 
@@ -187,7 +189,6 @@ int	execute(t_vec *cmds, t_info *info)
 							O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (pipefd[WRITE_END] == -1)
 				{
-					// perror("minishell");
 					ft_putstr_fd("minishell: ", 2);
 					perror(cmd->output_file);
 					exit(1);
@@ -208,6 +209,9 @@ int	execute(t_vec *cmds, t_info *info)
 			}
 
 			
+			if (cmd->argv == NULL || cmd->argv[0] == NULL)
+				exit(0);
+
 			if (is_bi(cmd->argv[0]) == 1)
 			{
 				bi_status = run_bi(cmd->argv, info, cmds);
@@ -314,10 +318,7 @@ dir1/dir2/dir3/ then "rm -r dir2"
 cat + ctrl c should exit
 cat + ctrl \ should print Quite core dumped
 
-wc Makefile | grep 109 > out6 | echo hello | cat Makefile | > out5
-
 TODO: update  _?
-TODO: double PWD
 TODO: pipe buffer max check?
 TODO: signal blocking?
 TODO; shrink functions

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/24 15:45:43 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/11/26 17:20:45 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ EXEC_SRC := \
 $(EXEC_DIR)/execution.c \
 $(EXEC_DIR)/execution_helper.c\
 $(EXEC_DIR)/find_path.c \
-$(EXEC_DIR)/execution_builtin.c
+$(EXEC_DIR)/execution_builtin.c \
+$(EXEC_DIR)/execution_heredoc.c
 
 BTIN_DIR := src/builtins
 BTIN_SRC := \

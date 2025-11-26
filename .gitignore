@@ -10,3 +10,5 @@ minishell
 .vscode
 
 test/
+*.py
+.gitignore
