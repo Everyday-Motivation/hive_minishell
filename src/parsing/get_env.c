@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/02 15:23:37 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:52:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	init_env(t_vec *env, char **envp)
 {
 	if (!copy_env(env, envp))
 		return (0);
-	if (!str_in_str_vec(env, "PWD="))
+	if (!str_in_str_vec(env, "PWD"))
 		if (!add_pwd(env))
 			return (0);
 	if (!increment_shlvl(env))
