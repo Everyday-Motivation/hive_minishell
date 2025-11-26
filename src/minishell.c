@@ -6,50 +6,45 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 10:32:57 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:01:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
+volatile sig_atomic_t	g_signal;
 
-static void shell_loop(int interactive, t_info *info)
+static void	shell_loop(int interactive, t_info *info)
 {
-	char *line;
-	t_vec tokens;
-	t_vec cmds;
+	char	*line;
+	t_vec	tokens;
+	t_vec	cmds;
 
 	while (1)
 	{
 		line = read_line(interactive);
 		if (!line)
-			break;
+			break ;
 		if (g_signal == SIGINT)
-		{
 			info->exit_code = 130;
-		}
 		if (tokenizing(info, line, &tokens))
 		{
 			g_signal = 0;
 			free(line);
-			continue;
+			continue ;
 		}
-
 		if (parse_tokens(info, &tokens, &cmds))
 		{
 			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);
-			continue;
+			continue ;
 		}
 		free(line);
 		ft_vec_free(&tokens);
 		free_str_vec(&tokens);
-		
-		if(cmds.len != 0)
+		if (cmds.len != 0)
 			info->exit_code = execute(&cmds, info);
-
 		ft_vec_free(&cmds);
 		arena_free(info->arena);
 	}
@@ -64,17 +59,13 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (return_error(NO_BINARY));
-
 	if (!init_env(&env, envp))
 		return (return_error(ENV_FAIL));
-
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
-
 	info.arena = &arena;
 	info.env = &env;
 	info.exit_code = 0;
-
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &info);
 	free_str_vec(&env);
@@ -82,9 +73,7 @@ int	main(int ac, char **av, char **envp)
 	return (EXIT_SUCCESS);
 }
 
-
-
-/* 
+/*
 TEST
 
 
