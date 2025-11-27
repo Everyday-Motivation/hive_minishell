@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/25 12:54:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/27 11:18:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 	char	next;
 
 	quote = input[(*i)++];
-	buf_i = 0;
+	buf_i = ft_strlen(*buf);
 	while (input[*i] && input[*i] != quote)
 	{
 		if (input[*i] == '$')
@@ -93,8 +93,6 @@ int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	if (!buf)
 		return (EXIT_FAILURE);
 	buf_i = collect_word(info, input, i, &buf);
-	if (buf_i == 0)
-		return (EXIT_SUCCESS);
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	token.raw_data = arena_strdup(info->arena, &input[start], *i - start);
