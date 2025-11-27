@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/27 11:18:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/27 15:23:10 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,41 +27,6 @@ size_t	handle_single_quote(char *input, size_t *i, char *buf)
 	return (buf_i);
 }
 
-size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
-{
-	char	quote;
-	size_t	buf_i;
-	char	next;
-
-	quote = input[(*i)++];
-	buf_i = ft_strlen(*buf);
-	while (input[*i] && input[*i] != quote)
-	{
-		if (input[*i] == '$')
-		{
-			next = input[*i + 1];
-			if (!(ft_isalnum(next) || next == '_' || next == '?'))
-				(*buf)[buf_i++] = input[(*i)++];
-			else
-				buf_i += handle_env_variable(info, input, i, buf);
-		}
-		else
-		{
-			(*buf)[ft_strlen(*buf)] = input[(*i)++];
-			buf_i++;
-		}
-	}
-	if (input[*i] == quote)
-		(*i)++;
-	return (buf_i);
-}
-
-void	init_word_token(size_t *buf_i, size_t *start, size_t i)
-{
-	*buf_i = 0;
-	*start = i;
-}
-
 static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
 {
 	size_t	buf_i;
@@ -79,6 +44,12 @@ static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
 			(*buf)[buf_i++] = input[(*i)++];
 	}
 	return (buf_i);
+}
+
+void	init_word_token(size_t *buf_i, size_t *start, size_t i)
+{
+	*buf_i = 0;
+	*start = i;
 }
 
 int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
