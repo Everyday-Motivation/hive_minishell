@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 17:37:52 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:20:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,10 @@ void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
 int								run_bi(char **argv, t_info *info, t_vec *cmds);
 void							close_used_pipes(int pipefd[3]);
+int								parent_builtin(t_vec *cmds, t_info *info,
+									int pipefd[3]);
+void							save_std_fds(int pipefd[2]);
+void							reset_std_fds(int pipefd[2]);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,

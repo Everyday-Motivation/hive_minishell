@@ -46,6 +46,7 @@ void reset_std_fds(int pipefd[2])
 	close(pipefd[WRITE_END]);
 }
 
+
 int	execute(t_vec *cmds, t_info *info)
 {
 	t_cmd	*cmd;
@@ -66,26 +67,16 @@ int	execute(t_vec *cmds, t_info *info)
 	char **env_arr;
 	char *cmd_path;
 
-	init_pipes(pipefd);		
+	init_pipes(pipefd);
+	status = parent_builtin(cmds, info, pipefd);
+	if (status != -1)
+		return (status);
 	i = 0;
 	child_count = 0;
 	last_pid = -1;
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
-
-		if (cmd->argv && cmd->argv[0] && is_bi(cmd->argv[0]) == 1 && cmds->len == 1)
-		{
-			save_std_fds(pipefd);
-			if (handle_builtin_redirections(cmd) == EXIT_FAILURE)
-			{
-				reset_std_fds(pipefd);
-				return (EXIT_FAILURE);
-			}
-			bi_status = run_bi(cmd->argv, info, cmds);
-			reset_std_fds(pipefd);
-			return (bi_status);
-		}
 
 		parent_sig();
 		if (i + 1 < cmds->len)
@@ -109,15 +100,7 @@ int	execute(t_vec *cmds, t_info *info)
 		if (pid == -1)
 		{
 			perror("fork issue");
-			if(i + 1 < cmds->len)
-			{
-				close(pipefd[READ_END]);
-				close(pipefd[WRITE_END]);
-			}
-			if(pipefd[PREV_READ] != -1)
-			{
-				close(pipefd[PREV_READ]);
-			}
+			close_used_pipes(pipefd);
 			return (EXIT_FAILURE);
 		}
 		
