@@ -177,7 +177,7 @@ int	execute(t_vec *cmds, t_info *info)
 			}
 
 			
-			if (cmd->argv == NULL || cmd->argv[0] == NULL)
+			if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0') // if add cmd->argv[0][0] == '\0' this condition then empty string will not makes error
 				exit(0);
 
 			if (is_bi(cmd->argv[0]) == 1)
