@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/27 15:11:41 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:15:37 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ int	main(int ac, char **av, char **envp)
 /*
 TEST
 
+New errors to handle:
 echo hello""world
 $EMPTY 
 $EMPTY echo hi 
 
 //Found a leak with heredoc that needs to be fixed.
 valgrind ./minishell
+git shell
 << eof
 exit
 
