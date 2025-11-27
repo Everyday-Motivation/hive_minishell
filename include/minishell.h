@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/27 14:20:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:51:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,11 @@ int								parent_builtin(t_vec *cmds, t_info *info,
 									int pipefd[3]);
 void							save_std_fds(int pipefd[2]);
 void							reset_std_fds(int pipefd[2]);
+void							parent_sig(void);
+void							child_sig(void);
+void							init_pipes(int pipefd[3]);
+int								signal_pipe(int pipefd[3], size_t i,
+									t_vec *cmds);
 
 // find_path
 char							*ft_strjoin_3(const char *s1, const char *s2,

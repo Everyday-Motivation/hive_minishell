@@ -13,40 +13,6 @@
 
 #include "minishell.h"
 
-void init_pipes(int pipefd[3])
-{
-	pipefd[READ_END] = -1;
-	pipefd[WRITE_END] = -1;
-	pipefd[PREV_READ] = -1;
-}
-
-void parent_sig(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void child_sig(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void save_std_fds(int pipefd[2])
-{
-	pipefd[READ_END] = dup(STDIN_FILENO);
-	pipefd[WRITE_END] = dup(STDOUT_FILENO);
-}
-
-void reset_std_fds(int pipefd[2])
-{
-	dup2(pipefd[READ_END], STDIN_FILENO);
-	dup2(pipefd[WRITE_END], STDOUT_FILENO);
-	close(pipefd[READ_END]);
-	close(pipefd[WRITE_END]);
-}
-
-
 int	execute(t_vec *cmds, t_info *info)
 {
 	t_cmd	*cmd;
@@ -76,34 +42,17 @@ int	execute(t_vec *cmds, t_info *info)
 	last_pid = -1;
 	while (i < cmds->len)
 	{
-		cmd = (t_cmd *)ft_vec_get(cmds, i);
-
-		parent_sig();
-		if (i + 1 < cmds->len)
-		{
-			if(pipe(pipefd) == -1)
-			{
-				perror("pipe issue");
-				if(pipefd[PREV_READ] != -1)
-					close(pipefd[PREV_READ]);
-				return (EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			pipefd[READ_END] = -1;
-			pipefd[WRITE_END] = -1;
-		}
-
-
+		if (signal_pipe(pipefd, i, cmds) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		pid = fork();
+
 		if (pid == -1)
 		{
 			perror("fork issue");
 			close_used_pipes(pipefd);
 			return (EXIT_FAILURE);
 		}
-		
+		cmd = (t_cmd *)ft_vec_get(cmds, i);
 		if (pid == CHILD)
 		{
 			child_sig();
