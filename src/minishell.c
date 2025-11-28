@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 14:01:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:52:14 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,22 @@ int	main(int ac, char **av, char **envp)
 /*
 TEST
 
-
-echo "$""$"
-
-
-echo $ $ $
-
+New errors to handle:
+echo hello""world
+$EMPTY 
+$EMPTY echo hi 
 
 //Found a leak with heredoc that needs to be fixed.
 valgrind ./minishell
+git shell
 << eof
 exit
 
 
-//There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. I don't think it is related to the leak but will shows up if we use the sanitizer.
+//There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. 
+I don't think it is related to the leak but will shows up if we use the sanitizer.
 
 
 //For parsing syntax errors, what should the exit code be?
 */
+// exit code for ||

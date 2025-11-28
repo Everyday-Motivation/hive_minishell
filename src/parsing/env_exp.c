@@ -6,32 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/25 12:05:55 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/27 11:27:13 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_env_value(t_vec *env, const char *key)
-{
-	size_t	i;
-	size_t	name_len;
-	char	*entry;
-
-	i = 0;
-	if (!key || key[0] == '\0')
-		return (NULL);
-	name_len = ft_strlen(key);
-	while (i < env->len)
-	{
-		entry = *(char **)ft_vec_get(env, i);
-		if (entry && strncmp(entry, key, name_len) == 0
-			&& entry[name_len] == '=')
-			return (entry + name_len + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 static char	*extract_env_key(char *input, size_t *i)
 {
@@ -74,6 +53,29 @@ static size_t	append_dollar(t_info *info, char **buf, size_t *i)
 	return (1);
 }
 
+static size_t	append_dollar_with_literal(t_info *info, char **buf,
+		char *input, size_t *i)
+{
+	size_t	start;
+	size_t	len;
+	size_t	ret;
+	char	*tmp;
+
+	start = *i;
+	(*i)++;
+	while (input[*i] && !ft_isspace(input[*i]) && !deli_check(input[*i]))
+		(*i)++;
+	len = *i - start;
+	tmp = malloc(len + 1);
+	if (!tmp)
+		return (0);
+	ft_memcpy(tmp, &input[start], len);
+	tmp[len] = '\0';
+	ret = append_env_value(info, buf, tmp);
+	free(tmp);
+	return (ret);
+}
+
 size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 {
 	char	*key;
@@ -97,6 +99,5 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 			return (append_env_value(info, buf, val));
 		return (0);
 	}
-	(*i)++;
-	return (0);
+	return (append_dollar_with_literal(info, buf, input, i));
 }

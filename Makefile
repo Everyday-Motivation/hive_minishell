@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/28 14:25:18 by timurray         ###   ########.fr        #
+#    Updated: 2025/11/28 14:52:11 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ $(PARS_DIR)/parsing.c \
 $(PARS_DIR)/parsing_helper.c \
 $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
-$(PARS_DIR)/tokenizing_helper.c 
+$(PARS_DIR)/tokenizing_helper.c \
+$(PARS_DIR)/tokenizing_handle_d.c 
 
 EXEC_DIR := src/execution
 EXEC_SRC := \

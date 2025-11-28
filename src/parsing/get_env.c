@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/26 13:52:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:27:19 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,25 @@ int	increment_shlvl(t_vec *env)
 		i++;
 	}
 	return (0);
+}
+
+char	*get_env_value(t_vec *env, const char *key)
+{
+	size_t	i;
+	size_t	name_len;
+	char	*entry;
+
+	i = 0;
+	if (!key || key[0] == '\0')
+		return (NULL);
+	name_len = ft_strlen(key);
+	while (i < env->len)
+	{
+		entry = *(char **)ft_vec_get(env, i);
+		if (entry && strncmp(entry, key, name_len) == 0
+			&& entry[name_len] == '=')
+			return (entry + name_len + 1);
+		i++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/24 13:48:36 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/27 17:50:35 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		if (!args)
 		{
 			ft_putendl_fd("syntax error near unexpected token", 2);
+			info->exit_code = 2;
 			return (EXIT_FAILURE);
 		}
 		cmd.argv = args;

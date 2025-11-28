@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/25 12:54:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/11/27 17:52:21 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,6 @@ size_t	handle_single_quote(char *input, size_t *i, char *buf)
 		(*i)++;
 	buf[buf_i] = '\0';
 	return (buf_i);
-}
-
-size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
-{
-	char	quote;
-	size_t	buf_i;
-	char	next;
-
-	quote = input[(*i)++];
-	buf_i = 0;
-	while (input[*i] && input[*i] != quote)
-	{
-		if (input[*i] == '$')
-		{
-			next = input[*i + 1];
-			if (!(ft_isalnum(next) || next == '_' || next == '?'))
-				(*buf)[buf_i++] = input[(*i)++];
-			else
-				buf_i += handle_env_variable(info, input, i, buf);
-		}
-		else
-		{
-			(*buf)[ft_strlen(*buf)] = input[(*i)++];
-			buf_i++;
-		}
-	}
-	if (input[*i] == quote)
-		(*i)++;
-	return (buf_i);
-}
-
-void	init_word_token(size_t *buf_i, size_t *start, size_t i)
-{
-	*buf_i = 0;
-	*start = i;
 }
 
 static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
@@ -81,6 +46,12 @@ static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
 	return (buf_i);
 }
 
+void	init_word_token(size_t *buf_i, size_t *start, size_t i)
+{
+	*buf_i = 0;
+	*start = i;
+}
+
 int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 {
 	char	*buf;
@@ -93,8 +64,6 @@ int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	if (!buf)
 		return (EXIT_FAILURE);
 	buf_i = collect_word(info, input, i, &buf);
-	if (buf_i == 0)
-		return (EXIT_SUCCESS);
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	token.raw_data = arena_strdup(info->arena, &input[start], *i - start);
