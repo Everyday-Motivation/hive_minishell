@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:49:35 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/27 15:50:34 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/28 12:42:41 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,30 @@ int	signal_pipe(int pipefd[3], size_t i, t_vec *cmds)
 		pipefd[WRITE_END] = -1;
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	parent_builtin(t_vec *cmds, t_info *info)
+{
+	t_cmd	*cmd;
+	int		status;
+	int		saved_fds[2];
+	int		is_exit;
+
+	cmd = (t_cmd *)ft_vec_get(cmds, 0);
+	if (cmds->len == 1 && cmd->argv && cmd->argv[0] && is_bi(cmd->argv[0]) == 1)
+	{
+		is_exit = (ft_strcmp(cmd->argv[0], "exit") == 0);
+		if (!is_exit)
+			save_std_fds(saved_fds);
+		if (handle_builtin_redirections(cmd) == EXIT_FAILURE)
+		{
+			reset_std_fds(saved_fds);
+			return (EXIT_FAILURE);
+		}
+		status = run_bi(cmd->argv, info, cmds);
+		if (!is_exit)
+			reset_std_fds(saved_fds);
+		return (status);
+	}
+	return (-1);
 }
