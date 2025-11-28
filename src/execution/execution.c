@@ -90,10 +90,12 @@ void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 		if (process_heredoc_str(cmd) != 0)
 			exit(1);
 	}
-
 	
-	if (cmd->argv == NULL || cmd->argv[0] == NULL)
+	
+	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0') // if add cmd->argv[0][0] == '\0' this condition then empty string will not makes error
 		exit(0);
+	// if (cmd->argv == NULL || cmd->argv[0] == NULL)
+	// 	exit(0);
 
 	if (is_bi(cmd->argv[0]) == 1)
 		exit(run_bi(cmd->argv, info, cmds));
