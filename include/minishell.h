@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 11:58:05 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:15:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ void							parent_sig(void);
 void							child_sig(void);
 void							init_pipes(int pipefd[3]);
 int								signal_pipe(int pipefd[3], size_t i,
+									t_vec *cmds);
+void							recycle_pipes(int pipefd[3], size_t i,
 									t_vec *cmds);
 
 // find_path

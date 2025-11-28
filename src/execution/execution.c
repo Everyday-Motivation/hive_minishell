@@ -151,33 +151,7 @@ void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 	}
 }
 
-void recycle_pipes(int pipefd[3], size_t i, t_vec *cmds)
-{
-	if (pipefd[PREV_READ] != -1)
-	{
-		close(pipefd[PREV_READ]);
-		pipefd[PREV_READ] = -1;
-	}
-	if(i + 1 < cmds->len)
-	{
-		if(pipefd[WRITE_END] != -1)
-		{
-			close(pipefd[WRITE_END]);
-			pipefd[WRITE_END] = -1;
-		}
-		pipefd[PREV_READ] = pipefd[READ_END];
-		pipefd[READ_END] = -1;
-	}
-	else
-	{
-		pipefd[READ_END] = -1;
-		if(pipefd[WRITE_END] != -1)
-		{
-			close(pipefd[WRITE_END]);
-			pipefd[WRITE_END] = -1;
-		}
-	}
-}
+
 int	execute(t_vec *cmds, t_info *info)
 {	
 	int		pipefd[3];
