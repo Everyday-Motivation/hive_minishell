@@ -13,12 +13,6 @@
 
 #include "minishell.h"
 
-int fork_error(int pipefd[3])
-{
-	perror("fork issue");
-	close_used_pipes(pipefd);
-	return (EXIT_FAILURE);
-}
 void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 {
 	t_cmd	*cmd;
@@ -151,17 +145,12 @@ void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 	}
 }
 
-
 int	execute(t_vec *cmds, t_info *info)
 {	
 	int		pipefd[3];
-	size_t	i;
-	size_t	reaped;
-	
-	pid_t	pid;
-	pid_t	waited_pid;
 	int		status;
-	int		last_status;
+	pid_t	pid;
+	size_t	i;
 
 	init_pipes(pipefd);
 	status = parent_builtin(cmds, info);
@@ -179,30 +168,9 @@ int	execute(t_vec *cmds, t_info *info)
 			child_process(cmds, info, pipefd, i);
 		recycle_pipes(pipefd, i++, cmds);
 	}
-
 	if (pipefd[PREV_READ] != -1)
 		close(pipefd[PREV_READ]);
-	
-	status = 0;
-	last_status = 0;
-	reaped = 0;
-	while (reaped < cmds->len)
-	{
-		waited_pid = wait(&status);
-		if(waited_pid == -1)
-		{
-			perror("waited pid issue");
-			return (EXIT_FAILURE);
-		}
-		if (waited_pid == pid)
-			last_status = status;
-		reaped++;
-	}
-	init_signals();
-	if (WIFEXITED(last_status))
-		return (WEXITSTATUS(last_status));
-
-	return (EXIT_FAILURE);
+	return (reap_zombies(pid, cmds->len));
 }
 
 /* TEST

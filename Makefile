@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/28 14:18:49 by timurray         ###   ########.fr        #
+#    Updated: 2025/11/28 14:25:18 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ $(EXEC_DIR)/execution_builtin.c \
 $(EXEC_DIR)/execution_signal.c \
 $(EXEC_DIR)/execution_pipes.c \
 $(EXEC_DIR)/execution_redirection.c \
+$(EXEC_DIR)/execution_child.c \
 $(EXEC_DIR)/execution_heredoc.c
 
 BTIN_DIR := src/builtins

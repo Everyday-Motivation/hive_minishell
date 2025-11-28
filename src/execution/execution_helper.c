@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 14:18:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:20:30 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,10 @@ int	run_bi(char **argv, t_info *info, t_vec *cmds)
 		return (bi_unset(argv + 1, info));
 	return (EXIT_FAILURE);
 }
-
+int fork_error(int pipefd[3])
+{
+	perror("fork issue");
+	close_used_pipes(pipefd);
+	return (EXIT_FAILURE);
+}
 
