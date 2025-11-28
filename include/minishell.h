@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 14:25:33 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/28 17:55:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,11 @@ int								signal_pipe(int pipefd[3], size_t i,
 void							recycle_pipes(int pipefd[3], size_t i,
 									t_vec *cmds);
 int								fork_error(int pipefd[3]);
+int								reap_zombies(pid_t last_pid,
+									size_t count_children);
+void							child_redirections(t_cmd *cmd, int pipefd[3]);
+void							child_pipes(t_cmd *cmd, int pipefd[3], size_t i,
+									t_vec *cmds);
 int								reap_zombies(pid_t last_pid,
 									size_t count_children);
 

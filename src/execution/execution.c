@@ -22,81 +22,15 @@ void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 
 	cmd = (t_cmd *)ft_vec_get(cmds, i);
 	child_sig();
-	if(cmd->input_file == NULL && cmd->heredoc_str == NULL && i > 0)
-	{
-		if(dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
-		{
-			perror("dup2 STDIN no in no here");
-			close_used_pipes(pipefd);
-			exit(1);
-		}
-	}
-
-	if(cmd->output_file == NULL && (i + 1 <cmds->len ))
-	{
-		if(dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			perror("dup2 STDOUT no out");
-			close_used_pipes(pipefd);
-			exit(1);
-		}
-	}
-
-	close_used_pipes(pipefd);
-
-
-	if (cmd->input_file)
-	{
-		pipefd[READ_END] = open(cmd->input_file, O_RDONLY);
-		if (pipefd[READ_END] == -1)
-		{
-			perror("Filename");
-			exit(1);
-		}
-		if (dup2(pipefd[READ_END], STDIN_FILENO) == -1)
-		{
-			perror("dup2 in file issue");
-			close(pipefd[READ_END]);
-			exit(1);
-		}
-		close(pipefd[READ_END]);
-	}
-
-	if (cmd->output_file)
-	{
-		if (cmd->append)
-			pipefd[WRITE_END] = open(cmd->output_file,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			pipefd[WRITE_END] = open(cmd->output_file,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipefd[WRITE_END] == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(cmd->output_file);
-			exit(1);
-		}
-		if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			perror("dup2 out");
-			close(pipefd[WRITE_END]);
-			exit(1);
-		}
-		close(pipefd[WRITE_END]);
-	}
-
+	child_pipes(cmd, pipefd, i, cmds);
+	child_redirections(cmd, pipefd);
 	if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
 	{
 		if (process_heredoc_str(cmd) != 0)
 			exit(1);
 	}
-	
-	
-	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0') // if add cmd->argv[0][0] == '\0' this condition then empty string will not makes error
+	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
 		exit(0);
-	// if (cmd->argv == NULL || cmd->argv[0] == NULL)
-	// 	exit(0);
-
 	if (is_bi(cmd->argv[0]) == 1)
 		exit(run_bi(cmd->argv, info, cmds));
 	else
