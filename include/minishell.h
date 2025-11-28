@@ -215,6 +215,7 @@ void							print_str_vec(t_vec *str_vec, char *prefix);
 int								vec_remove_str(t_vec *src, size_t index);
 size_t							get_str_index(t_vec *src, char *s);
 char							**vec_to_arr(t_vec *v);
+void							free_cmd_vec(t_vec *cmds);
 
 #endif
 

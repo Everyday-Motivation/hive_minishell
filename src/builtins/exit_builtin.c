@@ -14,21 +14,12 @@
 
 static void	free_exit(t_info *info, t_vec *cmds, int code)
 {
-	size_t	i;
-	t_cmd	*cmd;
+
 
 	free_str_vec(info->env);
 	if (cmds)
 	{
-		i = 0;
-		while (i < cmds->len)
-		{
-			cmd = (t_cmd *)ft_vec_get(cmds, i);
-			if (cmd->heredoc_str)
-				free(cmd->heredoc_str);
-			i++;
-		}
-		ft_vec_free(cmds);
+		free_cmd_vec(cmds);
 	}
 	arena_free(info->arena);
 	exit(code);
