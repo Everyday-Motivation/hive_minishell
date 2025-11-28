@@ -270,7 +270,14 @@ int	execute(t_vec *cmds, t_info *info)
 			last_status = status;
 		reaped++;
 	}
-	init_signals();
+	size_t z = 0;
+	while (z < cmds->len)
+	{
+		cmd = (t_cmd *)ft_vec_get(cmds, z);
+		if(cmd->heredoc_str)
+			free(cmd->heredoc_str);
+		z++;
+	}
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 
