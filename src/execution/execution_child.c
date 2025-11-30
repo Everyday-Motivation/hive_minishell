@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:24:26 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 17:54:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:20:38 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_redirections(t_cmd *cmd, int pipefd[3])
+void	child_redirect_input(t_cmd *cmd, int pipefd[3])
 {
 	if (cmd->input_file)
 	{
@@ -30,6 +30,10 @@ void	child_redirections(t_cmd *cmd, int pipefd[3])
 		}
 		close(pipefd[READ_END]);
 	}
+}
+
+void	child_redirect_output(t_cmd *cmd, int pipefd[3])
+{
 	if (cmd->output_file)
 	{
 		if (cmd->append)
@@ -52,6 +56,12 @@ void	child_redirections(t_cmd *cmd, int pipefd[3])
 		}
 		close(pipefd[WRITE_END]);
 	}
+}
+
+void	child_redirections(t_cmd *cmd, int pipefd[3])
+{
+	child_redirect_input(cmd, pipefd);
+	child_redirect_output(cmd, pipefd);
 }
 
 void	child_pipes(t_cmd *cmd, int pipefd[3], size_t i, t_vec *cmds)

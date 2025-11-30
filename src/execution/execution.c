@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,24 +6,73 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 13:56:14 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:33:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
+void	child_error(char *path, char **argv, char **env)
+{
+	struct stat	sb;
+	int			error_code;
+
+	error_code = errno;
+	ft_putstr_fd("minishell: ", 2);
+	if (path && stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
+	{
+		ft_putstr_fd(argv[0], 2);
+		ft_putendl_fd(": Is a directory", 2);
+		error_code = 126;
+	}
+	else
+	{
+		perror(argv[0]);
+		if (error_code == ENOENT)
+			error_code = 127;
+		else
+			error_code = 126;
+	}
+	free(env);
+	if (path && !ft_strchr(argv[0], '/'))
+		free(path);
+	exit(error_code);
+}
+
+void	child_run(t_cmd *cmd, t_info *info)
+{
+	char	**env;
+	char	*path;
+
+	env = vec_to_arr(info->env);
+	if (!env)
+		exit(1);
+	if (ft_strchr(cmd->argv[0], '/'))
+		path = cmd->argv[0];
+	else
+	{
+		path = search_path(cmd->argv[0], info->env);
+		if (!path)
+		{
+			ft_putstr_fd(cmd->argv[0], 2);
+			ft_putendl_fd(": command not found", 2);
+			free(env);
+			exit(127);
+		}
+	}
+	execve(path, cmd->argv, env);
+	child_error(path, cmd->argv, env);
+}
+
+void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 {
 	t_cmd	*cmd;
-	char **env_arr;
-	char *cmd_path;
-	int error_code;
 
 	cmd = (t_cmd *)ft_vec_get(cmds, i);
 	child_sig();
 	child_pipes(cmd, pipefd, i, cmds);
 	child_redirections(cmd, pipefd);
-	if(cmd->input_file == NULL && cmd->heredoc_str != NULL)
+	if (cmd->input_file == NULL && cmd->heredoc_str != NULL)
 	{
 		if (process_heredoc_str(cmd) != 0)
 			exit(1);
@@ -33,56 +81,11 @@ void child_process(t_vec *cmds, t_info *info, int pipefd[3],size_t i)
 		exit(0);
 	if (is_bi(cmd->argv[0]) == 1)
 		exit(run_bi(cmd->argv, info, cmds));
-	else
-	{
-		env_arr = vec_to_arr(info->env);
-		if(!env_arr)
-		{
-			perror("env arr issue");
-			exit(1);
-		}
-		cmd_path = NULL;
-		if(ft_strchr(cmd->argv[0], '/'))
-			cmd_path = cmd->argv[0];
-		else
-		{				
-			cmd_path = search_path(cmd->argv[0], info->env);
-			if(!cmd_path)
-			{
-				ft_putstr_fd(cmd->argv[0], 2);
-				ft_putendl_fd(": command not found", 2);
-				free(env_arr);
-				exit(127);
-			}
-		}
-		execve(cmd_path, cmd->argv, env_arr);
-		
-		error_code = errno;
-		struct stat sb;
-		if (stat(cmd_path, &sb) == 0 && S_ISDIR(sb.st_mode))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->argv[0], 2);
-			ft_putendl_fd(": Is a directory", 2);
-			free(env_arr);
-			if(!ft_strchr(cmd->argv[0], '/') && cmd_path != NULL)
-				free(cmd_path);
-			exit(126);
-		}
-		ft_putstr_fd("minishell: ", 2);
-		perror(cmd->argv[0]);
-		free(env_arr);
-		if(!ft_strchr(cmd->argv[0], '/') && cmd_path != NULL)
-			free(cmd_path);
-		if (error_code == ENOENT)
-			exit(127);
-		else
-			exit(126);
-	}
+	child_run(cmd, info);
 }
 
 int	execute(t_vec *cmds, t_info *info)
-{	
+{
 	int		pipefd[3];
 	int		status;
 	pid_t	pid;
@@ -119,5 +122,4 @@ cat + ctrl \ should print Quite core dumped
 TODO: update  _?
 TODO: pipe buffer max check?
 TODO: signal blocking?
-TODO; shrink functions
  */

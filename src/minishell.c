@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 15:26:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:37:05 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	shell_loop(int interactive, t_info *info)
 		free_str_vec(&tokens);
 		if (cmds.len != 0)
 			info->exit_code = execute(&cmds, info);
-		// ft_vec_free(&cmds);
 		free_cmd_vec(&cmds);
 		arena_free(info->arena);
 	}
@@ -79,8 +78,8 @@ TEST
 
 New errors to handle:
 echo hello""world
-$EMPTY 
-$EMPTY echo hi 
+$EMPTY
+$EMPTY echo hi
 
 //Found a leak with heredoc that needs to be fixed.
 valgrind ./minishell
@@ -89,8 +88,10 @@ git shell
 exit
 
 
-//There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. 
-I don't think it is related to the leak but will shows up if we use the sanitizer.
+//There's also something wrong with memory alignment
+in the arena allocator. This may be an advanced issue.
+I don't think it is related to the leak but will shows
+ up if we use the sanitizer.
 
 
 //For parsing syntax errors, what should the exit code be?

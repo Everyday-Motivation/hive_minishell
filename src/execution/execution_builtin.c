@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:49:28 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 14:14:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:33:04 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	reset_std_fds(int pipefd[2])
 
 int	parent_builtin(t_vec *cmds, t_info *info)
 {
-	t_cmd *cmd;
-	int status;
-	int saved_fds[2];
-	int is_exit;
+	t_cmd	*cmd;
+	int		status;
+	int		saved_fds[2];
+	int		is_exit;
 
 	cmd = (t_cmd *)ft_vec_get(cmds, 0);
 	if (cmds->len == 1 && cmd->argv && cmd->argv[0] && is_bi(cmd->argv[0]) == 1)

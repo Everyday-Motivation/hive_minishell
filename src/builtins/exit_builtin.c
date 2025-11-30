@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:30 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 15:27:22 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:34:00 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	free_exit(t_info *info, t_vec *cmds, int code)
 {
-
-
 	free_str_vec(info->env);
 	if (cmds)
 	{
