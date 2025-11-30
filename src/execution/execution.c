@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 17:33:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 17:39:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	execute(t_vec *cmds, t_info *info)
 }
 
 /* TEST
+TODO: check errors
+TODO: check COMMAND NOT FOUND and whether memory leaks
 TODO: echo hello | cat | cat | cat | exit
 
 dir1/dir2/dir3/ then "rm -r dir2"
