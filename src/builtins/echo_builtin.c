@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:25:58 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 18:06:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 19:01:09 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int	bi_echo(char **av, t_info *info)
 		i++;
 	}
 	if (newline)
-		ft_putstr_fd("\n", 1);
+		ft_putendl_fd("", 1);
 	return (0);
 }
