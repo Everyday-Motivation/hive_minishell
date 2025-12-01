@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:19:51 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/25 12:54:52 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 17:33:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ int	handle_pipe(t_vec *tokens, t_token *tok, size_t *i)
 int	handle_ridir(t_vec *tokens, t_token *tok, size_t *i, t_cmd *cmd)
 {
 	t_token	*next;
+	int		ret;
 
 	if (tok->type == S_LT || tok->type == S_GT || tok->type == D_LT
 		|| tok->type == D_GT)
 	{
 		next = ft_vec_get(tokens, *i + 1);
-		if (handle_redirection(cmd, tok, next) == EXIT_FAILURE)
+		ret = handle_redirection(cmd, tok, next);
+		if (ret == -2)
+			return (-2);
+		if (ret <= 0)
 			return (-1);
 		(*i) += 2;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	open_heredoc_file_rdonly(char *file_name)

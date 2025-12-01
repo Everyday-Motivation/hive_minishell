@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/28 15:29:44 by timurray         ###   ########.fr        #
+#    Updated: 2025/12/01 18:11:55 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ $(PARS_DIR)/parsing_helper.c \
 $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
 $(PARS_DIR)/tokenizing_helper.c \
-$(PARS_DIR)/tokenizing_handle_d.c 
+$(PARS_DIR)/tokenizing_handle_d.c \
+$(PARS_DIR)/parsing_build_args.c 
 
 EXEC_DIR := src/execution
 EXEC_SRC := \
