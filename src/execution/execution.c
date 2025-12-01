@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 11:47:23 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 14:04:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 		if (process_heredoc_str(cmd) != 0)
 			exit(1);
 	}
-	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
+	if (cmd->argv == NULL || cmd->argv[0] == NULL)
 		exit(0);
 	// if (cmd->argv[0][0] == '\0')
 	// {

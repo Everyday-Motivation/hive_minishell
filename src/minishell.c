@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 08:32:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 14:02:03 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ bash:
 $doesnotexist echo hi
 mini:
 bash: hi
-❌
+✅ // solved
 
 
 
 "$doesnotexist" echo hi
 mini:
 bash: command not found
-❌
+✅ /solved
 
 
 
@@ -129,21 +129,21 @@ bash: hi
 $doesnotexist $HOME
 mini:
 bash: /home/timurray: is a directory
-❌
+✅ / solved
 
 
 
 echo $doesnotexist $HOME
 mini:  /home/timurray
 bash: /home/timurray
-❌ NOTE: here our minishell has an extra space before /home/timurray
+✅ / solved
 
 
 
 echo $NOTHING hello $NOTHING2 world!
 mini:  hello  world!
 bash: hello world!
-❌
+✅ / solved
 
 
 
