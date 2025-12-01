@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:52:10 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/25 08:28:50 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:32:49 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		write(STDOUT_FILENO, "^C", 2);
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -29,9 +28,10 @@ void	init_signals(void)
 {
 	struct sigaction	sa;
 
+	rl_event_hook = NULL;
 	rl_done = false;
 	g_signal = 0;
-	rl_catch_signals = 0;
+	rl_catch_signals = 1;
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = sigint_handler;
 	sigemptyset(&sa.sa_mask);

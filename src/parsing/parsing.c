@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 14:39:30 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 17:41:31 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,40 @@ static int	count_word(t_vec *tokens, size_t start)
 	return (words);
 }
 
+// int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
+// {
+// 	if (!next || next->type != WORD)
+// 		return (EXIT_FAILURE);
+// 	if (tok->type == S_LT)
+// 		cmd->input_file = next->data;
+// 	else if (tok->type == S_GT)
+// 	{
+// 		cmd->output_file = next->data;
+// 		cmd->append = false;
+// 	}
+// 	else if (tok->type == D_GT)
+// 	{
+// 		cmd->output_file = next->data;
+// 		cmd->append = true;
+// 	}
+// 	else if (tok->type == D_LT)
+// 	{
+// 		init_hd_signals();
+// 		if (!handle_heredoc(cmd, next))
+// 		{
+// 			init_signals();
+// 			return (EXIT_FAILURE);
+// 		}
+// 		init_signals();
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
 int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
+	int	hd;
+
 	if (!next || next->type != WORD)
-		return (EXIT_FAILURE);
+		return (-1);
 	if (tok->type == S_LT)
 		cmd->input_file = next->data;
 	else if (tok->type == S_GT)
@@ -55,21 +85,21 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	else if (tok->type == D_LT)
 	{
 		init_hd_signals();
-		if (!handle_heredoc(cmd, next))
-		{
-			init_signals();
-			return (EXIT_FAILURE);
-		}
+		hd = handle_heredoc(cmd, next);
 		init_signals();
+		return (hd);
 	}
-	return (EXIT_SUCCESS);
+	return (1);
 }
+
+#define HD_INT -2
 
 char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
 	char	**args;
 	size_t	args_i;
 	t_token	*tok;
+	int		r;
 
 	args_i = 0;
 	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
@@ -82,7 +112,10 @@ char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 			break ;
 		if (handle_pipe(tokens, tok, i) == -1)
 			return (NULL);
-		if (handle_ridir(tokens, tok, i, cmd) == -1)
+		r = handle_ridir(tokens, tok, i, cmd);
+		if (r == -2)
+			return (HD_INT);
+		if (r == -1)
 			return (NULL);
 		if (tok->type == WORD)
 		{
@@ -108,6 +141,8 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		cmd.info = info;
 		args = build_args(info->arena, tokens, &i, &cmd);
+		if (args == HD_INT)
+			return (EXIT_FAILURE);
 		if (!args)
 		{
 			ft_putendl_fd("syntax error near unexpected token", 2);
@@ -147,9 +182,9 @@ void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 	}
 }
 
-		// size_t j = 0;
-		// while(j < tokens->len)
-		// {
-		// 	printf("args= %s\n", args[j]);
-		// 	j++;
-		// }
+// size_t j = 0;
+// while(j < tokens->len)
+// {
+// 	printf("args= %s\n", args[j]);
+// 	j++;
+// }
