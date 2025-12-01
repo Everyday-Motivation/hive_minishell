@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 17:37:05 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 08:23:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,83 @@ int	main(int ac, char **av, char **envp)
 /*
 TEST
 
-New errors to handle:
-echo hello""world
+I just need some help understand what is being sent here.
+
+#1
+---
 $EMPTY
-$EMPTY echo hi
 
-//Found a leak with heredoc that needs to be fixed.
-valgrind ./minishell
-git shell
-<< eof
-exit
+is it just argv[0][0] == '\0'?
+or is there something else?
+
+I've put in the code you suggested but it isn't full working:
+execution.c line 80:	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
+
+Here's the challenge:
+If I run:
+
+$doesnotexist
+mini:
+bash:
+✅
 
 
-//There's also something wrong with memory alignment
-in the arena allocator. This may be an advanced issue.
-I don't think it is related to the leak but will shows
- up if we use the sanitizer.
+
+$doesnotexist echo hi
+mini:
+bash: hi
+❌
 
 
-//For parsing syntax errors, what should the exit code be?
+
+"$doesnotexist" echo hi
+mini:
+bash: command not found
+❌
+
+
+
+'$doesnotexist' echo hi
+mnini: command not found
+bash: command not found
+✅
+
+
+
+$sdfsd | $dsfsd | echo hi
+mini: hi
+bash: hi
+✅
+
+
+
+$doesnotexist $HOME
+mini:
+bash: /home/timurray: is a directory
+❌
+
+
+
+echo $doesnotexist $HOME
+mini:  /home/timurray
+bash: /home/timurray
+❌ NOTE: here our minishell has an extra space before /home/timurray
+
+
+Could you explain from parsing what the difference between these cases so I can handle them properly?
+---
+
+
+
+#2
+---
+data_arena.c has norm issues.
+
+
+
+
+
+
+
 */
-// exit code for ||
+
