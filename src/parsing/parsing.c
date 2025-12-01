@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/27 17:50:35 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 14:18:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,3 +146,10 @@ void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 		i++;
 	}
 }
+
+		// size_t j = 0;
+		// while(j < tokens->len)
+		// {
+		// 	printf("args= %s\n", args[j]);
+		// 	j++;
+		// }

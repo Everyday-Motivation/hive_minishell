@@ -6,7 +6,11 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/12/01 08:48:42 by timurray         ###   ########.fr       */
+=======
+/*   Updated: 2025/12/01 16:24:12 by timurray         ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,105 +80,53 @@ int	main(int ac, char **av, char **envp)
 /*
 TEST
 
-I just need some help understand what is being sent here.
-
 #1
----
-$EMPTY
-
-is it just argv[0][0] == '\0'?
-or is there something else?
-
-I've put in the code you suggested but it isn't full working:
-execution.c line 80:	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
-
-Here's the challenge:
-If I run:
-
-$doesnotexist
-mini:
-bash:
-✅
-
-
-
-$doesnotexist echo hi
-mini:
-bash: hi
-❌
-
-
-
-"$doesnotexist" echo hi
-mini:
-bash: command not found
-❌
-
-
-
-'$doesnotexist' echo hi
-mnini: command not found
-bash: command not found
-✅
-
-
-
-$sdfsd | $dsfsd | echo hi
-mini: hi
-bash: hi
-✅
-
-
-
-$doesnotexist $HOME
-mini:
-bash: /home/timurray: is a directory
-❌
-
-
-
-echo $doesnotexist $HOME
-mini:  /home/timurray
-bash: /home/timurray
-❌ NOTE: here our minishell has an extra space before /home/timurray
-
-
-
-echo $NOTHING hello $NOTHING2 world!
-mini:  hello  world!
-bash: hello world!
-❌
-
-
-
-
-Could you explain from parsing what the difference between these cases so I can handle them properly?
-
----
-
-
-
-#2
 ---
 data_arena.c has norm issues. Not the 25 line limit kind.
 
+#2
+Memory leak on syntax error:
+$> valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp -s ./minishell
+minishell$ cat | cat |
+minishell$ exit
 
 
-#3
----
-Complex error. There is an issue I'm dealing with in execution with command not found leaking. So you'll encounter that, don't worry.
-The issue to highlight here is the following.
-
-If I run:
-cat | cat | cat | cat |
-
-I will get:
+==980324== Memcheck, a memory error detector
+==980324== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==980324== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==980324== Command: ./minishell
+==980324== 
+/home/timurray/Documents/projects/dev/minishell$ cat | cat |
 syntax error near unexpected token
-
-Not if it I exit with "exit".
-There is memory that is definitely lost.
-
-I assume with a syntax it doesn't go to execution? It may mean something needs to be freed in parsing?
-
+/home/timurray/Documents/projects/dev/minishell$ exit
+exit
+==980324== 
+==980324== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==980324== 
+==980324== HEAP SUMMARY:
+==980324==     in use at exit: 208,394 bytes in 229 blocks
+==980324==   total heap usage: 526 allocs, 297 frees, 258,855 bytes allocated
+==980324== 
+==980324== 48 bytes in 1 blocks are definitely lost in loss record 17 of 67
+==980324==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==980324==    by 0x408516: ft_vec_new (in /home/timurray/Documents/projects/dev/minishell/minishell)
+==980324==    by 0x4087B5: ft_vec_push (in /home/timurray/Documents/projects/dev/minishell/minishell)
+==980324==    by 0x40280F: parse_tokens (parsing.c:118)
+==980324==    by 0x401479: shell_loop (minishell.c:36)
+==980324==    by 0x4013CC: main (minishell.c:70)
+==980324== 
+==980324== LEAK SUMMARY:
+==980324==    definitely lost: 48 bytes in 1 blocks
+==980324==    indirectly lost: 0 bytes in 0 blocks
+==980324==      possibly lost: 0 bytes in 0 blocks
+==980324==    still reachable: 0 bytes in 0 blocks
+==980324==         suppressed: 208,346 bytes in 228 blocks
+==980324== 
+==980324== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+--980324-- 
+--980324-- used_suppression:     62 leak readline readline.supp:2 suppressed: 204,241 bytes in 221 blocks
+--980324-- used_suppression:      4 leak add_history readline.supp:8 suppressed: 4,105 bytes in 7 blocks
+==980324== 
+==980324== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 */
 
