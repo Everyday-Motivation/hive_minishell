@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 08:32:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 08:48:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,23 @@ Could you explain from parsing what the difference between these cases so I can 
 ---
 data_arena.c has norm issues. Not the 25 line limit kind.
 
+
+
+#3
+---
+Complex error. There is an issue I'm dealing with in execution with command not found leaking. So you'll encounter that, don't worry.
+The issue to highlight here is the following.
+
+If I run:
+cat | cat | cat | cat |
+
+I will get:
+syntax error near unexpected token
+
+Not if it I exit with "exit".
+There is memory that is definitely lost.
+
+I assume with a syntax it doesn't go to execution? It may mean something needs to be freed in parsing?
 
 */
 
