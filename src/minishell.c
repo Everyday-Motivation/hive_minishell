@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/27 16:52:14 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 08:32:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	shell_loop(int interactive, t_info *info)
 		free_str_vec(&tokens);
 		if (cmds.len != 0)
 			info->exit_code = execute(&cmds, info);
-		ft_vec_free(&cmds);
+		free_cmd_vec(&cmds);
 		arena_free(info->arena);
 	}
 }
@@ -76,22 +76,88 @@ int	main(int ac, char **av, char **envp)
 /*
 TEST
 
-New errors to handle:
-echo hello""world
-$EMPTY 
-$EMPTY echo hi 
+I just need some help understand what is being sent here.
 
-//Found a leak with heredoc that needs to be fixed.
-valgrind ./minishell
-git shell
-<< eof
-exit
+#1
+---
+$EMPTY
+
+is it just argv[0][0] == '\0'?
+or is there something else?
+
+I've put in the code you suggested but it isn't full working:
+execution.c line 80:	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
+
+Here's the challenge:
+If I run:
+
+$doesnotexist
+mini:
+bash:
+✅
 
 
-//There's also something wrong with memory alignment in the arena allocator. This may be an advanced issue. 
-I don't think it is related to the leak but will shows up if we use the sanitizer.
+
+$doesnotexist echo hi
+mini:
+bash: hi
+❌
 
 
-//For parsing syntax errors, what should the exit code be?
+
+"$doesnotexist" echo hi
+mini:
+bash: command not found
+❌
+
+
+
+'$doesnotexist' echo hi
+mnini: command not found
+bash: command not found
+✅
+
+
+
+$sdfsd | $dsfsd | echo hi
+mini: hi
+bash: hi
+✅
+
+
+
+$doesnotexist $HOME
+mini:
+bash: /home/timurray: is a directory
+❌
+
+
+
+echo $doesnotexist $HOME
+mini:  /home/timurray
+bash: /home/timurray
+❌ NOTE: here our minishell has an extra space before /home/timurray
+
+
+
+echo $NOTHING hello $NOTHING2 world!
+mini:  hello  world!
+bash: hello world!
+❌
+
+
+
+
+Could you explain from parsing what the difference between these cases so I can handle them properly?
+
+---
+
+
+
+#2
+---
+data_arena.c has norm issues. Not the 25 line limit kind.
+
+
 */
-// exit code for ||
+

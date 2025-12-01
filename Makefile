@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
+#    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/27 15:21:20 by jaeklee          ###   ########.fr        #
+#    Updated: 2025/11/28 15:29:44 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ $(UTIL_DIR)/data_arena.c \
 $(UTIL_DIR)/sort_vec_ptr.c \
 $(UTIL_DIR)/vec_str_helper.c \
 $(UTIL_DIR)/vec_to_arr.c \
+$(UTIL_DIR)/vec_free.c \
 $(UTIL_DIR)/error.c
 
 PARS_DIR := src/parsing
@@ -48,6 +49,10 @@ $(EXEC_DIR)/execution.c \
 $(EXEC_DIR)/execution_helper.c\
 $(EXEC_DIR)/find_path.c \
 $(EXEC_DIR)/execution_builtin.c \
+$(EXEC_DIR)/execution_signal.c \
+$(EXEC_DIR)/execution_pipes.c \
+$(EXEC_DIR)/execution_redirection.c \
+$(EXEC_DIR)/execution_child.c \
 $(EXEC_DIR)/execution_heredoc.c
 
 BTIN_DIR := src/builtins

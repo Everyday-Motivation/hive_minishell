@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/27 14:20:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/11/30 18:05:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,36 +103,22 @@ int								bi_export(char **av, t_info *info);
 int								bi_pwd(char **av, t_info *info);
 int								bi_unset(char **av, t_info *info);
 
-// Utils
-int								sort_vec_str_ptr(t_vec *v);
-int								copy_vec_str_ptr(t_vec *env_cpy, t_vec *env);
-int								sort_vec_str_ptr(t_vec *v);
-int								env_add_update_line(t_vec *env, char *val);
-
 // Signal
 void							sigint_handler(int signal);
 void							init_signals(void);
 void							init_hd_signals(void);
 void							heredoc_sigint_handler(int signal);
 
-// Arena
-int								arena_init(t_arena *arena);
-void							arena_free(t_arena *arena);
-void							*arena_alloc(t_arena *arena, size_t n);
-char							*arena_strdup(t_arena *arena, const char *s,
-									size_t n);
-
-// Env
+// Environment
 int								init_env(t_vec *env, char **envp);
 int								copy_env(t_vec *env, char **envp);
 int								add_pwd(t_vec *env);
 int								increment_shlvl(t_vec *env);
-
-// env_expanding
 char							*get_env_value(t_vec *env,
 									const char *var_name);
 size_t							handle_exit_status_variable(t_info *info,
 									size_t *i, char **buf);
+int								env_add_update_line(t_vec *env, char *val);
 // Tokenizing
 int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
@@ -181,12 +167,26 @@ void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
 int								run_bi(char **argv, t_info *info, t_vec *cmds);
 void							close_used_pipes(int pipefd[3]);
-int								parent_builtin(t_vec *cmds, t_info *info,
-									int pipefd[3]);
+int								parent_builtin(t_vec *cmds, t_info *info);
 void							save_std_fds(int pipefd[2]);
 void							reset_std_fds(int pipefd[2]);
+void							parent_sig(void);
+void							child_sig(void);
+void							init_pipes(int pipefd[3]);
+int								signal_pipe(int pipefd[3], size_t i,
+									t_vec *cmds);
+void							recycle_pipes(int pipefd[3], size_t i,
+									t_vec *cmds);
+int								fork_error(int pipefd[3]);
+int								reap_zombies(pid_t last_pid,
+									size_t count_children);
+void							child_redirections(t_cmd *cmd, int pipefd[3]);
+void							child_pipes(t_cmd *cmd, int pipefd[3], size_t i,
+									t_vec *cmds);
+int								reap_zombies(pid_t last_pid,
+									size_t count_children);
 
-// find_path
+// Path
 char							*ft_strjoin_3(const char *s1, const char *s2,
 									const char *s3);
 void							ft_free_split(char **arr);
@@ -199,13 +199,24 @@ char							*search_path(char *cmd, t_vec *env);
 void							exit_clear_rl_history(void);
 int								return_error(int e);
 
-// Vec helpers
-void							free_str_vec(t_vec *str_vec);
+// Arena
+int								arena_init(t_arena *arena);
+void							arena_free(t_arena *arena);
+void							*arena_alloc(t_arena *arena, size_t n);
+char							*arena_strdup(t_arena *arena, const char *s,
+									size_t n);
+
+// Vector
+char							**vec_to_arr(t_vec *v);
+int								copy_vec_str_ptr(t_vec *env_cpy, t_vec *env);
+int								sort_vec_str_ptr(t_vec *v);
+int								sort_vec_str_ptr(t_vec *v);
 int								str_in_str_vec(t_vec *str_vec, char *str);
-void							print_str_vec(t_vec *str_vec, char *prefix);
 int								vec_remove_str(t_vec *src, size_t index);
 size_t							get_str_index(t_vec *src, char *s);
-char							**vec_to_arr(t_vec *v);
+void							free_cmd_vec(t_vec *cmds);
+void							free_str_vec(t_vec *str_vec);
+void							print_str_vec(t_vec *str_vec, char *prefix);
 
 #endif
 

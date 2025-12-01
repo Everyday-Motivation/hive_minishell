@@ -12,3 +12,4 @@ minishell
 test/
 *.py
 .gitignore
+minishell_tester/

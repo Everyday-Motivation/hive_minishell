@@ -1,9 +1,3 @@
-echo hello world
-echo hello world
-echo "hello world"
-echo 'hello world'
-echo hello'world'
-echo hello""world
 echo ''
 echo "$PWD"
 echo '$PWD'
@@ -58,3 +52,6 @@ echo '$'
 echo hello   world   again
 echo "" "" ""
 echo '' '' ''
+$EMPTY echo hi	
+"$EMPTY" echo hi	
+"" echo hi
