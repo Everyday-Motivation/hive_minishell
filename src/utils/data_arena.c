@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_arena.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/30 17:22:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 18:39:54 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ t_arena	*arena_new_block(size_t n)
 	return (new_arena);
 }
 
-#define ALIGN8(x) (((x) + 7) & ~7) // 8바이트 정렬
-
 void	*arena_alloc(t_arena *arena, size_t n)
 {
 	t_arena	*curr;
@@ -87,7 +85,9 @@ void	*arena_alloc(t_arena *arena, size_t n)
 		curr->next = new_arena;
 		curr = new_arena;
 	}
-	curr->size = ALIGN8(curr->size);
+	if (!curr->block)
+		return (NULL);
+	curr->size = (curr->size + 7) & ~7;
 	ptr = curr->block + curr->size;
 	curr->size += n;
 	return ((void *)ptr);
