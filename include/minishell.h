@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 18:06:03 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 18:29:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # define ARENA_INIT_SIZE 16386
-#define HD_INT ((char **) -2)
+# define HD_INT ((char **) -2)
 
 # include "../libft/libft.h"
 # include <dirent.h>
@@ -147,6 +147,7 @@ int								handle_ridir(t_vec *tokens, t_token *tok,
 									size_t *i, t_cmd *cmd);
 int								handle_redirection(t_cmd *cmd, t_token *tok,
 									t_token *next);
+int								count_word(t_vec *tokens, size_t start);
 // heredoc
 void							close_unlink_heredoc(int fd, char *file_name);
 int								limiter_check(char *limiter);

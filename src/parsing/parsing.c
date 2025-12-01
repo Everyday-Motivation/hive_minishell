@@ -6,13 +6,13 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 18:08:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 18:29:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count_word(t_vec *tokens, size_t start)
+int	count_word(t_vec *tokens, size_t start)
 {
 	size_t	i;
 	size_t	words;
@@ -36,34 +36,6 @@ static int	count_word(t_vec *tokens, size_t start)
 	return (words);
 }
 
-// int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
-// {
-// 	if (!next || next->type != WORD)
-// 		return (EXIT_FAILURE);
-// 	if (tok->type == S_LT)
-// 		cmd->input_file = next->data;
-// 	else if (tok->type == S_GT)
-// 	{
-// 		cmd->output_file = next->data;
-// 		cmd->append = false;
-// 	}
-// 	else if (tok->type == D_GT)
-// 	{
-// 		cmd->output_file = next->data;
-// 		cmd->append = true;
-// 	}
-// 	else if (tok->type == D_LT)
-// 	{
-// 		init_hd_signals();
-// 		if (!handle_heredoc(cmd, next))
-// 		{
-// 			init_signals();
-// 			return (EXIT_FAILURE);
-// 		}
-// 		init_signals();
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
 int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
 	int	hd;
@@ -90,61 +62,6 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 		return (hd);
 	}
 	return (1);
-}
-
-static int	process_token(t_vec *tokens, size_t *i, t_cmd *cmd, t_token **out_tok)
-{
-	t_token	*tok;
-	int		r;
-
-	tok = ft_vec_get(tokens, *i);
-	*out_tok = tok;
-
-	if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
-		return 1;
-	if (handle_pipe(tokens, tok, i) == -1)
-		return -1;
-
-	r = handle_ridir(tokens, tok, i, cmd);
-	if (r == -2)
-		return -2;
-	if (r == -1)
-		return -1;
-
-	return 0;
-}
-
-// build_args 본문
-char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
-{
-	char	**args;
-	size_t	args_i;
-	t_token	*tok;
-	int		status;
-
-	args_i = 0;
-	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
-	if (!args)
-		return (NULL);
-
-	while (*i < tokens->len)
-	{
-		status = process_token(tokens, i, cmd, &tok);
-		if (status == 1)    // pipe 만남
-			break ;
-		if (status == -1)   // 일반 오류
-			return (NULL);
-		if (status == -2)   // heredoc Ctrl+C
-			return (HD_INT);
-		if (tok->type == WORD)
-		{
-			args[args_i] = tok->data;
-			args_i++;
-			(*i)++;
-		}
-
-	args[args_i] = NULL;
-	return (args);
 }
 
 // char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
@@ -179,8 +96,6 @@ char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 // 	args[args_i] = NULL;
 // 	return (args);
 // }
-
-#define HD_INT ((char **) -2)
 
 int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 {
