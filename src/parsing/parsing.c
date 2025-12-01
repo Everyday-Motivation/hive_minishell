@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 17:41:31 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 18:08:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,40 +92,95 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	return (1);
 }
 
-#define HD_INT -2
+static int	process_token(t_vec *tokens, size_t *i, t_cmd *cmd, t_token **out_tok)
+{
+	t_token	*tok;
+	int		r;
 
+	tok = ft_vec_get(tokens, *i);
+	*out_tok = tok;
+
+	if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
+		return 1;
+	if (handle_pipe(tokens, tok, i) == -1)
+		return -1;
+
+	r = handle_ridir(tokens, tok, i, cmd);
+	if (r == -2)
+		return -2;
+	if (r == -1)
+		return -1;
+
+	return 0;
+}
+
+// build_args 본문
 char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 {
 	char	**args;
 	size_t	args_i;
 	t_token	*tok;
-	int		r;
+	int		status;
 
 	args_i = 0;
 	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
 	if (!args)
 		return (NULL);
+
 	while (*i < tokens->len)
 	{
-		tok = ft_vec_get(tokens, *i);
-		if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
+		status = process_token(tokens, i, cmd, &tok);
+		if (status == 1)    // pipe 만남
 			break ;
-		if (handle_pipe(tokens, tok, i) == -1)
+		if (status == -1)   // 일반 오류
 			return (NULL);
-		r = handle_ridir(tokens, tok, i, cmd);
-		if (r == -2)
+		if (status == -2)   // heredoc Ctrl+C
 			return (HD_INT);
-		if (r == -1)
-			return (NULL);
 		if (tok->type == WORD)
 		{
-			args[args_i++] = tok->data;
+			args[args_i] = tok->data;
+			args_i++;
 			(*i)++;
 		}
-	}
+
 	args[args_i] = NULL;
 	return (args);
 }
+
+// char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
+// {
+// 	char	**args;
+// 	size_t	args_i;
+// 	t_token	*tok;
+// 	int		r;
+
+// 	args_i = 0;
+// 	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
+// 	if (!args)
+// 		return (NULL);
+// 	while (*i < tokens->len)
+// 	{
+// 		tok = ft_vec_get(tokens, *i);
+// 		if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
+// 			break ;
+// 		if (handle_pipe(tokens, tok, i) == -1)
+// 			return (NULL);
+// 		r = handle_ridir(tokens, tok, i, cmd);
+// 		if (r == -2)
+// 			return (HD_INT);
+// 		if (r == -1)
+// 			return (NULL);
+// 		if (tok->type == WORD)
+// 		{
+// 			args[args_i++] = tok->data;
+// 			(*i)++;
+// 		}
+// 	}
+// 	args[args_i] = NULL;
+// 	return (args);
+// }
+
+#define HD_INT ((char **) -2)
 
 int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 {
