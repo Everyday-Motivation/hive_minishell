@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 14:04:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 14:15:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 	}
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
 		exit(0);
-	// if (cmd->argv[0][0] == '\0')
-	// {
-	// 	ft_putstr_fd("minishell: : command not found\n", 2);
-	// 	exit(127);
-	// }
+	if (cmd->argv[0][0] == '\0')
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		exit(127);
+	}
 	if (is_bi(cmd->argv[0]) == 1)
 		exit(run_bi(cmd->argv, info, cmds));
 	child_run(cmd, info);

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 14:02:03 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 14:17:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,12 @@ bash: hi
 "$doesnotexist" echo hi
 mini:
 bash: command not found
-✅ /solved
-
+//// 	if (cmd->argv[0][0] == '\0')
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		exit(127);
+	} 
+It works with this code 
 
 
 '$doesnotexist' echo hi
