@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 08:23:52 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/01 08:32:28 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,19 +139,24 @@ bash: /home/timurray
 ❌ NOTE: here our minishell has an extra space before /home/timurray
 
 
+
+echo $NOTHING hello $NOTHING2 world!
+mini:  hello  world!
+bash: hello world!
+❌
+
+
+
+
 Could you explain from parsing what the difference between these cases so I can handle them properly?
+
 ---
 
 
 
 #2
 ---
-data_arena.c has norm issues.
-
-
-
-
-
+data_arena.c has norm issues. Not the 25 line limit kind.
 
 
 */
