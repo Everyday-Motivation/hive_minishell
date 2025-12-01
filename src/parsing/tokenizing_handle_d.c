@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:16 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 13:58:50 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 14:38:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 	if (input[*i] == quote)
 	{
 		(*i)++;
+		if (*buf == NULL || buf_i == 0)
+		{
+			(*buf)[buf_i] = '\0';
+			return (1);
+		}
 		return (0);
 	}
 	return (handle_double_quote_content(info, input, i, buf));
