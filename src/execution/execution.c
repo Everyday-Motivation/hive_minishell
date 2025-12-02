@@ -6,14 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:22:43 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:40:36 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_error(char *path, char **argv, char **env, t_info *info,
-		t_vec *cmds)
+int	child_error(char *path, char **argv, char **env)
 {
 	struct stat	sb;
 	int			error_code;
@@ -37,7 +36,7 @@ void	child_error(char *path, char **argv, char **env, t_info *info,
 	free(env);
 	if (path && !ft_strchr(argv[0], '/'))
 		free(path);
-	free_exit(info, cmds, error_code);
+	return (error_code);
 }
 
 void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
@@ -62,7 +61,7 @@ void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
 		}
 	}
 	execve(path, cmd->argv, env);
-	child_error(path, cmd->argv, env, info, cmds);
+	free_exit(info, cmds, child_error(path, cmd->argv, env));
 }
 
 void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
