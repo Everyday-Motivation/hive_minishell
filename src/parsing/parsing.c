@@ -6,13 +6,13 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 14:18:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/01 18:40:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count_word(t_vec *tokens, size_t start)
+int	count_word(t_vec *tokens, size_t start)
 {
 	size_t	i;
 	size_t	words;
@@ -38,8 +38,10 @@ static int	count_word(t_vec *tokens, size_t start)
 
 int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
+	int	hd;
+
 	if (!next || next->type != WORD)
-		return (EXIT_FAILURE);
+		return (-1);
 	if (tok->type == S_LT)
 		cmd->input_file = next->data;
 	else if (tok->type == S_GT)
@@ -55,43 +57,11 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	else if (tok->type == D_LT)
 	{
 		init_hd_signals();
-		if (!handle_heredoc(cmd, next))
-		{
-			init_signals();
-			return (EXIT_FAILURE);
-		}
+		hd = handle_heredoc(cmd, next);
 		init_signals();
+		return (hd);
 	}
-	return (EXIT_SUCCESS);
-}
-
-char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
-{
-	char	**args;
-	size_t	args_i;
-	t_token	*tok;
-
-	args_i = 0;
-	args = arena_alloc(arena, sizeof(char *) * (count_word(tokens, *i) + 1));
-	if (!args)
-		return (NULL);
-	while (*i < tokens->len)
-	{
-		tok = ft_vec_get(tokens, *i);
-		if (handle_pipe(tokens, tok, i) == EXIT_SUCCESS)
-			break ;
-		if (handle_pipe(tokens, tok, i) == -1)
-			return (NULL);
-		if (handle_ridir(tokens, tok, i, cmd) == -1)
-			return (NULL);
-		if (tok->type == WORD)
-		{
-			args[args_i++] = tok->data;
-			(*i)++;
-		}
-	}
-	args[args_i] = NULL;
-	return (args);
+	return (1);
 }
 
 int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
@@ -108,6 +78,8 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		cmd.info = info;
 		args = build_args(info->arena, tokens, &i, &cmd);
+		if (args == HD_INT)
+			return (EXIT_FAILURE);
 		if (!args)
 		{
 			ft_putendl_fd("syntax error near unexpected token", 2);
@@ -147,9 +119,9 @@ void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 	}
 }
 
-		// size_t j = 0;
-		// while(j < tokens->len)
-		// {
-		// 	printf("args= %s\n", args[j]);
-		// 	j++;
-		// }
+// size_t j = 0;
+// while(j < tokens->len)
+// {
+// 	printf("args= %s\n", args[j]);
+// 	j++;
+// }
