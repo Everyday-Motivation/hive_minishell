@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:47:35 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 18:50:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,7 @@ int	execute(t_vec *cmds, t_info *info)
 
 /* TEST
 
-
-TODO: check errors
+TODO: echo hello >> nopermissions
 
 TODO: echo hello | cat | cat | cat | exit
 
