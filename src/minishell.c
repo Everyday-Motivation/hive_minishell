@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 13:05:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 15:19:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ static void	shell_loop(int interactive, t_info *info)
 		if (tokenizing(info, line, &tokens))
 		{
 			g_signal = 0;
-			free_str_vec(&tokens);
 			free(line);
+			free_str_vec(&tokens);
 			continue ;
 		}
 		if (parse_tokens(info, &tokens, &cmds))
 		{
 			g_signal = 0;
 			free(line);
+			ft_vec_free(&tokens);
 			free_cmd_vec(&cmds);
 			continue ;
 		}
@@ -77,6 +78,7 @@ int	main(int ac, char **av, char **envp)
 /*
 
 "."/'m'"ini"s'h''e'"ll"
+//solved
 
 echo hello > a > b > c
 
