@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 18:39:54 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 16:46:28 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,34 @@ t_arena	*arena_new_block(size_t n)
 	return (new_arena);
 }
 
-void	*arena_alloc(t_arena *arena, size_t n)
+void *arena_alloc(t_arena *arena, size_t n)
 {
-	t_arena	*curr;
-	char	*ptr;
-	t_arena	*new_arena;
+    t_arena *curr;
+    char *ptr;
+    t_arena *new_arena;
+    size_t aligned_size;
 
-	curr = arena;
-	if (!arena)
-		return (NULL);
-	while (curr->next && curr->size + n > curr->capacity)
-		curr = curr->next;
-	if (curr->size + n > curr->capacity)
-	{
-		new_arena = arena_new_block(n);
-		if (!new_arena)
-			return (NULL);
-		curr->next = new_arena;
-		curr = new_arena;
-	}
-	if (!curr->block)
-		return (NULL);
-	curr->size = (curr->size + 7) & ~7;
-	ptr = curr->block + curr->size;
-	curr->size += n;
-	return ((void *)ptr);
+    curr = arena;
+    if (!arena)
+        return (NULL);
+    while (curr->next && curr->size + n > curr->capacity)
+        curr = curr->next;
+    if (curr->size + n > curr->capacity)
+    {
+        new_arena = arena_new_block(n);
+        if (!new_arena)
+            return (NULL);
+        curr->next = new_arena;
+        curr = new_arena;
+    }
+    aligned_size = (curr->size + 7) & ~7;
+    if (aligned_size + n > curr->capacity)
+        return (NULL);
+    ptr = curr->block + aligned_size;
+    curr->size = aligned_size + n;
+    return ((void *)ptr);
 }
+
 
 char	*arena_strdup(t_arena *arena, const char *s, size_t n)
 {

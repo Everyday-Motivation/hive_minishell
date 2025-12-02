@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/27 11:27:19 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 15:49:25 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	init_env(t_vec *env, char **envp)
 {
+	if (envp[0] == NULL)
+	{
+		return (0);
+	}
 	if (!copy_env(env, envp))
 		return (0);
 	if (!str_in_str_vec(env, "PWD"))
