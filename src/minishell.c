@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:52:16 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:01:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ int	main(int ac, char **av, char **envp)
 }
 
 /*
+
+"."/'m'"ini"s'h''e'"ll"
+
+echo hello > a > b > c
+
+
 Test
 Applies to both of us:
 Probably some exit code improvements
