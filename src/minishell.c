@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 11:08:09 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 11:11:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	shell_loop(int interactive, t_info *info)
 		{
 			g_signal = 0;
 			free(line);
-			ft_vec_free(&tokens);
+			free_cmd_vec(&cmds);
 			continue ;
 		}
 		free(line);
