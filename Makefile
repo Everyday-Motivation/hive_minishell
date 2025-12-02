@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/11/28 15:29:44 by timurray         ###   ########.fr        #
+#    Updated: 2025/12/02 10:23:34 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ $(UTIL_DIR)/sort_vec_ptr.c \
 $(UTIL_DIR)/vec_str_helper.c \
 $(UTIL_DIR)/vec_to_arr.c \
 $(UTIL_DIR)/vec_free.c \
+$(UTIL_DIR)/free_exit.c \
 $(UTIL_DIR)/error.c
 
 PARS_DIR := src/parsing

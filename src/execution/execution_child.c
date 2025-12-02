@@ -6,13 +6,13 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:24:26 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 17:20:38 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:23:19 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_redirect_input(t_cmd *cmd, int pipefd[3])
+void	child_redirect_input(t_cmd *cmd, int pipefd[3], t_vec *cmds)
 {
 	if (cmd->input_file)
 	{
@@ -26,13 +26,13 @@ void	child_redirect_input(t_cmd *cmd, int pipefd[3])
 		{
 			perror("dup2 in file issue");
 			close(pipefd[READ_END]);
-			exit(1);
+			free_exit(cmd->info, cmds, 1);
 		}
 		close(pipefd[READ_END]);
 	}
 }
 
-void	child_redirect_output(t_cmd *cmd, int pipefd[3])
+void	child_redirect_output(t_cmd *cmd, int pipefd[3], t_vec *cmds)
 {
 	if (cmd->output_file)
 	{
@@ -46,22 +46,22 @@ void	child_redirect_output(t_cmd *cmd, int pipefd[3])
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(cmd->output_file);
-			exit(1);
+			free_exit(cmd->info, cmds, 1);
 		}
 		if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			perror("dup2 out");
 			close(pipefd[WRITE_END]);
-			exit(1);
+			free_exit(cmd->info, cmds, 1);
 		}
 		close(pipefd[WRITE_END]);
 	}
 }
 
-void	child_redirections(t_cmd *cmd, int pipefd[3])
+void	child_redirections(t_cmd *cmd, int pipefd[3], t_vec *cmds)
 {
-	child_redirect_input(cmd, pipefd);
-	child_redirect_output(cmd, pipefd);
+	child_redirect_input(cmd, pipefd, cmds);
+	child_redirect_output(cmd, pipefd, cmds);
 }
 
 void	child_pipes(t_cmd *cmd, int pipefd[3], size_t i, t_vec *cmds)
@@ -71,7 +71,7 @@ void	child_pipes(t_cmd *cmd, int pipefd[3], size_t i, t_vec *cmds)
 		if (dup2(pipefd[PREV_READ], STDIN_FILENO) == -1)
 		{
 			perror("dup2 STDIN no in no here");
-			exit(1);
+			free_exit(cmd->info, cmds, 1);
 		}
 	}
 	if (cmd->output_file == NULL && (i + 1 < cmds->len))
@@ -79,7 +79,7 @@ void	child_pipes(t_cmd *cmd, int pipefd[3], size_t i, t_vec *cmds)
 		if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			perror("dup2 STDOUT no out");
-			exit(1);
+			free_exit(cmd->info, cmds, 1);
 		}
 	}
 	close_used_pipes(pipefd);

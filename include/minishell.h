@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 18:05:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:22:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ void							recycle_pipes(int pipefd[3], size_t i,
 int								fork_error(int pipefd[3]);
 int								reap_zombies(pid_t last_pid,
 									size_t count_children);
-void							child_redirections(t_cmd *cmd, int pipefd[3]);
+void							child_redirections(t_cmd *cmd, int pipefd[3],
+									t_vec *cmds);
 void							child_pipes(t_cmd *cmd, int pipefd[3], size_t i,
 									t_vec *cmds);
 int								reap_zombies(pid_t last_pid,
@@ -198,6 +199,7 @@ char							*search_path(char *cmd, t_vec *env);
 // Error
 void							exit_clear_rl_history(void);
 int								return_error(int e);
+void							free_exit(t_info *info, t_vec *cmds, int code);
 
 // Arena
 int								arena_init(t_arena *arena);

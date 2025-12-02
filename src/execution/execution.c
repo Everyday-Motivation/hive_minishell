@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/01 14:15:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 10:22:43 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_error(char *path, char **argv, char **env)
+void	child_error(char *path, char **argv, char **env, t_info *info,
+		t_vec *cmds)
 {
 	struct stat	sb;
 	int			error_code;
@@ -36,17 +37,17 @@ void	child_error(char *path, char **argv, char **env)
 	free(env);
 	if (path && !ft_strchr(argv[0], '/'))
 		free(path);
-	exit(error_code);
+	free_exit(info, cmds, error_code);
 }
 
-void	child_run(t_cmd *cmd, t_info *info)
+void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
 {
 	char	**env;
 	char	*path;
 
 	env = vec_to_arr(info->env);
 	if (!env)
-		exit(1);
+		free_exit(info, cmds, 1);
 	if (ft_strchr(cmd->argv[0], '/'))
 		path = cmd->argv[0];
 	else
@@ -57,11 +58,11 @@ void	child_run(t_cmd *cmd, t_info *info)
 			ft_putstr_fd(cmd->argv[0], 2);
 			ft_putendl_fd(": command not found", 2);
 			free(env);
-			exit(127);
+			free_exit(info, cmds, 127);
 		}
 	}
 	execve(path, cmd->argv, env);
-	child_error(path, cmd->argv, env);
+	child_error(path, cmd->argv, env, info, cmds);
 }
 
 void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
@@ -71,22 +72,22 @@ void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 	cmd = (t_cmd *)ft_vec_get(cmds, i);
 	child_sig();
 	child_pipes(cmd, pipefd, i, cmds);
-	child_redirections(cmd, pipefd);
+	child_redirections(cmd, pipefd, cmds);
 	if (cmd->input_file == NULL && cmd->heredoc_str != NULL)
 	{
 		if (process_heredoc_str(cmd) != 0)
-			exit(1);
+			free_exit(info, cmds, 1);
 	}
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
-		exit(0);
+		free_exit(info, cmds, 0);
 	if (cmd->argv[0][0] == '\0')
 	{
 		ft_putstr_fd("minishell: : command not found\n", 2);
-		exit(127);
+		free_exit(info, cmds, 127);
 	}
 	if (is_bi(cmd->argv[0]) == 1)
-		exit(run_bi(cmd->argv, info, cmds));
-	child_run(cmd, info);
+		free_exit(info, cmds, run_bi(cmd->argv, info, cmds));
+	child_run(cmd, info, cmds);
 }
 
 int	execute(t_vec *cmds, t_info *info)

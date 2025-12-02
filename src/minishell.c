@@ -6,11 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/01 08:48:42 by timurray         ###   ########.fr       */
-=======
-/*   Updated: 2025/12/01 16:24:12 by timurray         ###   ########.fr       */
->>>>>>> dev
+/*   Updated: 2025/12/01 19:52:14 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +38,7 @@ static void	shell_loop(int interactive, t_info *info)
 			g_signal = 0;
 			free(line);
 			ft_vec_free(&tokens);
+			ft_vec_free(&cmds);
 			continue ;
 		}
 		free(line);

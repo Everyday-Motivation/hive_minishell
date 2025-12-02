@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 18:55:58 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:10:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	is_valid_export(char *line)
 		i++;
 	}
 	return (1);
-	return (0);
 }
 
 static void	print_export_vec(t_vec *str_vec, char *prefix)
