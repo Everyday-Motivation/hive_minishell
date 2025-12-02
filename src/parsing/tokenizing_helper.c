@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 16:48:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 17:38:44 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ static size_t	collect_word(t_info *info, char *input, size_t *i, char **buf)
 		if (input[*i] == '\'')
 			buf_i += handle_single_quote(input, i, &(*buf)[buf_i]);
 		else if (input[*i] == '"')
+		{
 			buf_i = handle_double_quote(info, input, i, buf);
+			if (buf_i == 0)
+				buf_i = ft_strlen(*buf);
+		}
 		else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != '\\'))
 			buf_i += handle_env_variable(info, input, i, buf);
 		else

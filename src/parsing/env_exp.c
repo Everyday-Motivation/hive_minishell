@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 13:43:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 17:20:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,11 @@ size_t	handle_env_variable(t_info *info, char *input, size_t *i, char **buf)
 	char	*key;
 	char	*val;
 
-	if (!input[*i + 1])
+	if (input[*i] == '$' && (input[*i + 1] == '\0' || input[*i + 1] == '\''))
+	{
+		printf("test");
 		return (append_dollar(info, buf, i));
+	}
 	if (input[*i + 1] == '?')
 	{
 		(*i)++;

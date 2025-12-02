@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 16:15:52 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/02 17:38:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,4 @@ Test with empty env before minishell starts.
 // ==920505==HINT: if you don't care about these errors you may set allocator_may_return_null=1
 // SUMMARY: AddressSanitizer: allocation-size-too-big (/home/jaeklee/projects/Rank3/minishell/minishell+0x49a28d) in malloc
 
-// echo '$'$'$'$'$'$'$'$
-//cat << eof""
+//cat << eof"" / fixed
