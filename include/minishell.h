@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:42:31 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:53:30 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # define ARENA_INIT_SIZE 16386
-# define HD_INT ((char **) -2)
+# define HD_INT ((char **)-2)
 
 # include "../libft/libft.h"
 # include <dirent.h>
@@ -120,6 +120,7 @@ char							*get_env_value(t_vec *env,
 size_t							handle_exit_status_variable(t_info *info,
 									size_t *i, char **buf);
 int								env_add_update_line(t_vec *env, char *val);
+
 // Tokenizing
 int								tokenizing(t_info *info, char *input,
 									t_vec *tokens);
@@ -136,7 +137,7 @@ size_t							handle_double_quote(t_info *info, char *input,
 size_t							handle_single_quote(char *input, size_t *i,
 									char *buf);
 
-// parsing
+// Parsing
 int								parse_tokens(t_info *info, t_vec *tokens,
 									t_vec *cmds);
 char							**build_args(t_arena *arena, t_vec *tokens,
@@ -148,7 +149,8 @@ int								handle_ridir(t_vec *tokens, t_token *tok,
 int								handle_redirection(t_cmd *cmd, t_token *tok,
 									t_token *next);
 int								count_word(t_vec *tokens, size_t start);
-// heredoc
+
+// Heredoc
 void							close_unlink_heredoc(int fd, char *file_name);
 int								limiter_check(char *limiter);
 int								handle_heredoc(t_cmd *cmd, t_token *limiter);
@@ -223,84 +225,3 @@ void							free_str_vec(t_vec *str_vec);
 void							print_str_vec(t_vec *str_vec, char *prefix);
 
 #endif
-
-/*
-<readline/readline.h> / <readline/history.h>
-readline		// Shows a prompt,edit a line; returns the typed string.
-rl_clear_history// Wipes the saved input history from memory.
-rl_on_new_line	// Tells rl you're starting a fresh line(after printing).
-rl_replace_line // Replaces the current input buffer with your text.
-rl_redisplay    // Redraws the input line on screen.
-add_history     // Saves a line to the history (so ↑ can recall it).
-
-<stdio.h>
-printf          // Prints formatted text to stdout.
-perror          // Prints your message + the latest errno string to stderr.
-
-<stdlib.h>
-malloc          // Allocates a chunk of memory; you free it later.
-free            // Releases memory you got from malloc/realloc/calloc.
-exit            // Ends the process immediately with a status code.
-getenv          // Gets the value of an environment variable by name.
-
-<unistd.h>
-write           // Writes bytes to a file descriptor.
-access         	// Checks if a file is reachable/readable/writable/exe.
-open            // Opens a file and returns a file descriptor.
-read            // Reads bytes from a file descriptor.
-close           // Closes a file descriptor.
-fork            // Clones the current process (parent + child).
-execve          // Replaces the current process image with a new program.
-dup             // Duplicates a file descriptor to the lowest free number.
-dup2            // Duplicates a fd into a specific target number.
-pipe            // Creates a unidirectional data channel (read end
-	+ write end).
-isatty          // Checks if a fd is a terminal.
-ttyname         // Returns the path of the terminal for a fd.
-ttyslot         // Returns the index/slot of the current terminal.
-getcwd          // Gets the current working directory path.
-chdir           // Changes the current working directory.
-unlink          // Deletes a filesystem name (removes a file link).
-
-<sys/wait.h>
-wait            // Waits for any child to finish; returns its status.
-waitpid         // Waits for a specific child (or with options).
-wait3           // Like wait, also returns resource usage stats.
-wait4           // Like waitpid, also returns resource usage stats.
-
-<signal.h>
-signal          // Sets a simple handler for a signal.
-sigaction       // Sets a robust handler + flags for a signal.
-sigemptyset     // Clears a signal set to “no signals”.
-sigaddset       // Adds one signal to a signal set.
-kill            // Sends a signal to a process (or group).
-
-<sys/stat.h>
-stat            // Gets file info by pathname (size, mode, times, etc.).
-lstat           // Like stat, but doesn’t follow symlinks.
-fstat           // Like stat, but by file descriptor.
-
-<dirent.h>
-opendir         // Opens a directory stream for reading entries.
-readdir         // Reads the next entry (file name, type) in the directory.
-closedir        // Closes the directory stream.
-
-<string.h>
-strerror        // Returns a human-readable string for an errno value.
-
-<sys/ioctl.h>
-ioctl           // Issues device/terminal control commands on a fd.
-
-<termios.h>
-tcsetattr       // Sets terminal I/O settings (canonical mode, echo, etc.).
-tcgetattr       // Gets current terminal I/O settings.
-
-<termcap.h>
-tgetent         // Loads terminal capabilities for a terminal type.
-tgetflag        // Gets a boolean capability (yes/no).
-tgetnum         // Gets a numeric capability (e.g., max colors).
-tgetstr         // Gets a control string capability (escape sequences).
-tgoto           // Builds a cursor-movement string with coords.
-tputs           // Outputs a capability string to the terminal safely.
-
-*/
