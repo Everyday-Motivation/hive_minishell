@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 16:12:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:51:21 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (return_error(NO_BINARY));
-	if (!init_env(&env, envp))
-		return (return_error(ENV_FAIL));
+	init_env(&env, envp);
+	// {
+	// 	return (return_error(ENV_FAIL));
+	// }
 	if (!arena_init(&arena))
 		return (return_error(ARENA_FAIL));
 	info.arena = &arena;
@@ -79,20 +81,33 @@ int	main(int ac, char **av, char **envp)
 
 "."/'m'"ini"s'h''e'"ll"
 //solved
-//Just tested, doesn't seem to work?
-
-echo hello""world 
-
-ctrl + D doesn't appear to exit?
-
-
-
+echo hello""world // solved
 echo hello > a > b > c
 
 
 Test
 Applies to both of us:
 Probably some exit code improvements
-Mock evals with notes about issues.
+Mock evals with notes about issues.as
 Test with empty env before minishell starts.
 */
+
+
+//  % env -i ./minishell 
+// /home/jaeklee/projects/Rank3/minishell$ asd
+// =================================================================
+// ==920505==ERROR: AddressSanitizer: requested allocation size 0x79415e1363845d08 (0x79415e1363846d08 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+//     #0 0x49a28d in malloc (/home/jaeklee/projects/Rank3/minishell/minishell+0x49a28d)
+//     #1 0x4e8642 in vec_to_arr /home/jaeklee/projects/Rank3/minishell/src/utils/vec_to_arr.c:25:8
+//     #2 0x4d8d12 in child_run /home/jaeklee/projects/Rank3/minishell/src/execution/execution.c:47:8
+//     #3 0x4d9d31 in child_process /home/jaeklee/projects/Rank3/minishell/src/execution/execution.c:89:2
+//     #4 0x4d9fe5 in execute /home/jaeklee/projects/Rank3/minishell/src/execution/execution.c:112:4
+//     #5 0x4cb970 in shell_loop /home/jaeklee/projects/Rank3/minishell/src/minishell.c:49:22
+//     #6 0x4cb585 in main /home/jaeklee/projects/Rank3/minishell/src/minishell.c:74:2
+//     #7 0x72825ec29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+// ==920505==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+// SUMMARY: AddressSanitizer: allocation-size-too-big (/home/jaeklee/projects/Rank3/minishell/minishell+0x49a28d) in malloc
+
+// echo '$'$'$'$'$'$'$'$
+//cat << eof""
