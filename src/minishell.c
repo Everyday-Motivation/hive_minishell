@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 12:01:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:03:07 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static void	shell_loop(int interactive, t_info *info)
 		{
 			g_signal = 0;
 			free(line);
-			ft_vec_free(&tokens);
-			ft_vec_free(&cmds);
+			free_cmd_vec(&cmds);
 			continue ;
 		}
 		free(line);
