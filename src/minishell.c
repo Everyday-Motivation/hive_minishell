@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:41:07 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:52:16 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,9 @@ int	main(int ac, char **av, char **envp)
 }
 
 /*
-TEST
-
-#1
----
-data_arena.c has norm issues. Not the 25 line limit kind.
-
-
+Test
+Applies to both of us:
+Probably some exit code improvements
+Mock evals with notes about issues.
+Test with empty env before minishell starts.
 */
-

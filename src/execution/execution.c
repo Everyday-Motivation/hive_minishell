@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:40:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:47:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,9 @@ int	execute(t_vec *cmds, t_info *info)
 
 /* TEST
 
-TODO: COMMAND not found free memory issue!
 
 TODO: check errors
-TODO: check COMMAND NOT FOUND and whether memory leaks
+
 TODO: echo hello | cat | cat | cat | exit
 
 dir1/dir2/dir3/ then "rm -r dir2"
