@@ -14,15 +14,16 @@
 
 void	parent_sig(void)
 {
+	struct sigaction	sa;
+
 	// signal(SIGINT, SIG_IGN);
 	// signal(SIGQUIT, SIG_IGN);
-    struct sigaction sa;
-    ft_bzero(&sa, sizeof(sa));
-    sa.sa_handler = sigint_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-    signal(SIGQUIT, SIG_IGN);
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 // Modified for signal issue control + C
 
