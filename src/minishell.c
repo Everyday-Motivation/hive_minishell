@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 11:04:29 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:05:19 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ echo "$JUNK $JUNK hello $HOME"
 Test
 Applies to both of us:
 - Probably some exit code improvements
-- Mock evals with notes about issues.
+- Mock evals with notes about issues. 
 	env -i ./minishell
 */
 

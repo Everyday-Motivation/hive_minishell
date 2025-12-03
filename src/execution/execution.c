@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 11:48:46 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:04:49 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,6 @@ int	execute(t_vec *cmds, t_info *info)
 }
 
 /* TEST
-
-TODO: echo hello | cat | cat | cat | exit
 
 dir1/dir2/dir3/ then "rm -r dir2"
 cat + ctrl c should exit
