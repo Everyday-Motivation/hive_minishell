@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 19:00:11 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:04:29 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ Test
 Applies to both of us:
 - Probably some exit code improvements
 - Mock evals with notes about issues.
-- Test with empty env before minishell starts.
 	env -i ./minishell
 */
 

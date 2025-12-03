@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 15:49:25 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/03 11:37:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@ int	init_env(t_vec *env, char **envp)
 {
 	if (envp[0] == NULL)
 	{
-		return (0);
-	}
-	if (!copy_env(env, envp))
-		return (0);
-	if (!str_in_str_vec(env, "PWD"))
-		if (!add_pwd(env))
+		if (fix_empty_env(env) == EXIT_FAILURE)
 			return (0);
-	if (!increment_shlvl(env))
-		return (0);
+		return (1);
+	}
+	else
+	{
+		if (!copy_env(env, envp))
+			return (0);
+		if (!str_in_str_vec(env, "PWD"))
+			if (!add_pwd(env))
+				return (0);
+		if (!increment_shlvl(env))
+			return (0);
+	}
 	return (1);
 }
 
