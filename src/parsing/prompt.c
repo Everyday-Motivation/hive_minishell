@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:56:52 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/11 15:23:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:58:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static char	*get_prompt(void)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return ("$ ");
+		return (ft_strdup("$ "));
 	prompt = ft_strjoin(cwd, "$ ");
 	if (!prompt)
 	{
 		free(cwd);
-		return ("$ ");
+		return (ft_strdup("$ "));
 	}
 	free(cwd);
 	return (prompt);
