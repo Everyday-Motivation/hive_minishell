@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/04 18:30:32 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:46:01 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
 			free(underscore);
 		}
 	}
-	TODO: Shrink again.
+	//TODO: Shrink again.
 	env = vec_to_arr(info->env);
 	if (!env)
 		free_exit(info, cmds, 1);

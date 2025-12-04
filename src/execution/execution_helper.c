@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/04 18:29:21 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:46:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	run_bi(char **argv, t_info *info, t_vec *cmds)
 {
 	char	*underscore;
 
-	TODO: Shrink?
+	//TODO: Shrink?
 	underscore = ft_strjoin("_=", argv[0]);
 	if (underscore)
 	{
