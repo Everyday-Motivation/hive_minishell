@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:16 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 16:29:47 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:56:02 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ size_t	handle_double_quote_content(t_info *info, char *input, size_t *i,
 			else
 			{
 				buf_i += handle_env_variable(info, input, i, buf);
-				if (buf_i == 0)
-					(*buf)[buf_i++] = '\0';
 			}
 		}
 		else
