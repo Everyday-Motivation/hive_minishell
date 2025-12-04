@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 17:34:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:29:21 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ int	is_bi(char *cmd)
 
 int	run_bi(char **argv, t_info *info, t_vec *cmds)
 {
+	char	*underscore;
+
+	TODO: Shrink?
+	underscore = ft_strjoin("_=", argv[0]);
+	if (underscore)
+	{
+		env_add_update_line(info->env, underscore);
+		free(underscore);
+	}
+
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (bi_cd(argv + 1, info));
 	if (ft_strcmp(argv[0], "echo") == 0)

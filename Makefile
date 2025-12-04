@@ -18,6 +18,13 @@ VFLAGS := -g
 SFLAGS := -ggdb3 -fsanitize=address -fsanitize=leak -fsanitize=undefined
 LDLIBS := -lreadline
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	RL_PREFIX := $(shell brew --prefix readline)
+	CPPFLAGS += -I$(RL_PREFIX)/include
+	LDLIBS += -L$(RL_PREFIX)/lib
+endif
+
 SOURCES := \
 src/minishell.c 
 

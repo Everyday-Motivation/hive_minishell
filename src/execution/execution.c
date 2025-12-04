@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 12:04:49 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:30:32 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,31 @@ void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
 {
 	char	**env;
 	char	*path;
+	char	*underscore;
 
-	env = vec_to_arr(info->env);
-	if (!env)
-		free_exit(info, cmds, 1);
 	if (ft_strchr(cmd->argv[0], '/'))
 		path = cmd->argv[0];
 	else
-	{
 		path = search_path(cmd->argv[0], info->env);
-		if (!path)
+	if (path)
+	{
+		underscore = ft_strjoin("_=", path);
+		if (underscore)
 		{
-			ft_putstr_fd(cmd->argv[0], 2);
-			ft_putendl_fd(": command not found", 2);
-			free(env);
-			free_exit(info, cmds, 127);
+			env_add_update_line(info->env, underscore);
+			free(underscore);
 		}
+	}
+	TODO: Shrink again.
+	env = vec_to_arr(info->env);
+	if (!env)
+		free_exit(info, cmds, 1);
+	if (!ft_strchr(cmd->argv[0], '/') && !path)
+	{
+		ft_putstr_fd(cmd->argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		free(env);
+		free_exit(info, cmds, 127);
 	}
 	execve(path, cmd->argv, env);
 	free_exit(info, cmds, child_error(path, cmd->argv, env));
