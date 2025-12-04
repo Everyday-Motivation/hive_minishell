@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 11:35:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:41:36 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # define ARENA_INIT_SIZE 16386
-# define HD_INT ((char **)-2)
 
 # include "../libft/libft.h"
 # include <dirent.h>

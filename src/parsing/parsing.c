@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 17:40:25 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/04 14:42:26 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		cmd.info = info;
 		args = build_args(info->arena, tokens, &i, &cmd);
-		if (args == HD_INT)
+		if (i == (size_t) - 2)
 			return (EXIT_FAILURE);
 		if (!args)
 		{

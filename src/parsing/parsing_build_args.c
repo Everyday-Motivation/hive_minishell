@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:59:37 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 18:28:14 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/04 14:42:19 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ char	**build_args(t_arena *arena, t_vec *tokens, size_t *i, t_cmd *cmd)
 		if (status == -1)
 			return (NULL);
 		if (status == -2)
-			return (HD_INT);
+			*i = -2;
+		if (*i == (size_t) - 2)
+			return (NULL);
 		if (tok->type == WORD)
 			add_word_arg(args, &args_i, tok, i);
 	}

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 16:46:28 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/04 14:40:22 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	*arena_alloc(t_arena *arena, size_t n)
 	char	*ptr;
 	t_arena	*new_arena;
 	size_t	aligned_size;
-
+	
 	curr = arena;
-	if (!arena)
-		return (NULL);
+	if (!curr->block)
+		curr->block = ft_calloc(1, ARENA_INIT_SIZE);
 	while (curr->next && curr->size + n > curr->capacity)
 		curr = curr->next;
 	if (curr->size + n > curr->capacity)
@@ -103,6 +103,8 @@ char	*arena_strdup(t_arena *arena, const char *s, size_t n)
 		return (NULL);
 	}
 	dest = arena_alloc(arena, n + 1);
+	if(!dest)
+		return (NULL);
 	ft_memmove(dest, s, n);
 	dest[n] = '\0';
 	return (dest);
