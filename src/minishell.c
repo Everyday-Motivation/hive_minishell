@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 19:01:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/04 14:46:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	main(int ac, char **av, char **envp)
 Norm
 minishell.h: Error!
 Error: PREPROC_CONSTANT     (line:  17, col:  17):      Preprocessor statement must only contain constant defines
+/sovled 
 
 Parsing issue:
 echo "$JUNK $JUNK hello $HOME" /SOLVED
