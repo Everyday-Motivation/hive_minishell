@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 12:05:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/03 19:01:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ minishell.h: Error!
 Error: PREPROC_CONSTANT     (line:  17, col:  17):      Preprocessor statement must only contain constant defines
 
 Parsing issue:
-echo "$JUNK $JUNK hello $HOME"
+echo "$JUNK $JUNK hello $HOME" /SOLVED
 
 
 Test
