@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:51:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/07 13:19:53 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/07 12:49:14 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int	quote_check(char *input)
 	}
 	return (EXIT_SUCCESS);
 }
-//&& d_sign == 0 → 현재 큰따옴표 안이면 작은따옴표는 토글하지 말라는 의미
-//반대로 && s_sign == 0 → 현재 작은따옴표 안이면 큰따옴표는 토글하지 말라는 의미
 
 int	deli_check(char c)
 {

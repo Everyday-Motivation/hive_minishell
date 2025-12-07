@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/01 17:33:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/07 12:49:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static char	*read_heredoc_content(char *file_name)
 	close(fd);
 	return (result);
 }
-// AFRER HEREDOC = free(temp)
 
 int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 {
