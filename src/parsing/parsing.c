@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 17:40:25 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/07 12:49:08 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		cmd.info = info;
 		args = build_args(info->arena, tokens, &i, &cmd);
-		if (args == HD_INT)
+		if (args == (char **)HD_INT)
 			return (EXIT_FAILURE);
 		if (!args)
 		{
@@ -118,10 +118,3 @@ void	count_heredoc(t_info *info, t_vec *tokens, t_vec *cmds)
 		i++;
 	}
 }
-
-// size_t j = 0;
-// while(j < tokens->len)
-// {
-// 	printf("args= %s\n", args[j]);
-// 	j++;
-// }
