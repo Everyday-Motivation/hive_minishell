@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/26 13:57:29 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:09:48 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ int	return_error(int e)
 		perror("Environment init failed");
 	if (e == ARENA_FAIL)
 		perror("arena init failed");
+	if (e == CD_ARGS_FAIL)
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	return (EXIT_FAILURE);
 }

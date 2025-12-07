@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/24 13:29:58 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:10:37 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,21 @@ static int	get_pwd(char **pwd)
 	*pwd = NULL;
 	*pwd = getcwd(NULL, 0);
 	if (!*pwd)
-	{
-		perror("getcwd error");
 		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
+}
+
+static char	*get_oldpwd(t_info *info)
+{
+	char	*oldpwd;
+	char	*env_pwd;
+
+	if (get_pwd(&oldpwd) == EXIT_SUCCESS)
+		return (oldpwd);
+	env_pwd = get_env_value(info->env, "PWD");
+	if (env_pwd)
+		return (ft_strdup(env_pwd));
+	return (ft_strdup(""));
 }
 
 int	bi_cd(char **av, t_info *info)
@@ -75,11 +85,9 @@ int	bi_cd(char **av, t_info *info)
 	char	*newpwd;
 
 	if (av[1])
-	{
-		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		return (EXIT_FAILURE);
-	}
-	if (get_pwd(&oldpwd) == EXIT_FAILURE)
+		return_error(CD_ARGS_FAIL);
+	oldpwd = get_oldpwd(info);
+	if (!oldpwd)
 		return (EXIT_FAILURE);
 	address = get_address(av, info->env);
 	if (chdir(address) == -1)

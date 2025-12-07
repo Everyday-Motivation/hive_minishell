@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/03 11:35:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:09:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define MINISHELL_H
 
 # define ARENA_INIT_SIZE 16386
-# define HD_INT ((char **)-2)
+# define HD_INT -2
 
 # include "../libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
@@ -50,6 +50,7 @@ enum							e_error_code
 	NO_BINARY = 0,
 	ENV_FAIL = 1,
 	ARENA_FAIL = 2,
+	CD_ARGS_FAIL = 3
 };
 
 typedef struct s_arena
