@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/06 15:14:40 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:28:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,12 @@ int	fork_error(int pipefd[3])
 	perror("fork issue");
 	close_used_pipes(pipefd);
 	return (EXIT_FAILURE);
+}
+
+void	no_path_exit(t_cmd *cmd, char **env, t_info *info, t_vec *cmds)
+{
+	ft_putstr_fd(cmd->argv[0], 2);
+	ft_putendl_fd(": command not found", 2);
+	free(env);
+	free_exit(info, cmds, 127);
 }

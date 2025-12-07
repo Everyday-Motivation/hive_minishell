@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/04 18:46:01 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:28:14 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,11 @@ void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
 			free(underscore);
 		}
 	}
-	//TODO: Shrink again.
 	env = vec_to_arr(info->env);
 	if (!env)
 		free_exit(info, cmds, 1);
 	if (!ft_strchr(cmd->argv[0], '/') && !path)
-	{
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		free(env);
-		free_exit(info, cmds, 127);
-	}
+		no_path_exit(cmd, env, info, cmds);
 	execve(path, cmd->argv, env);
 	free_exit(info, cmds, child_error(path, cmd->argv, env));
 }
@@ -125,14 +119,3 @@ int	execute(t_vec *cmds, t_info *info)
 		close(pipefd[PREV_READ]);
 	return (reap_zombies(pid, cmds->len));
 }
-
-/* TEST
-
-dir1/dir2/dir3/ then "rm -r dir2"
-cat + ctrl c should exit
-cat + ctrl \ should print Quite core dumped
-
-TODO: update  _?
-TODO: pipe buffer max check?
-TODO: signal blocking?
- */

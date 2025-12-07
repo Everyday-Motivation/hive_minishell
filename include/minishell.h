@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:09:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:27:44 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,8 @@ void							child_pipes(t_cmd *cmd, int pipefd[3], size_t i,
 									t_vec *cmds);
 int								reap_zombies(pid_t last_pid,
 									size_t count_children);
+void							no_path_exit(t_cmd *cmd, char **env,
+									t_info *info, t_vec *cmds);
 
 // Path
 char							*ft_strjoin_3(const char *s1, const char *s2,
