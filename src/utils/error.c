@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:09:48 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:47:45 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_clear_rl_history(void)
 {
-	ft_putendl_fd("exit", 2);
+	ft_putendl_fd("exit", 1);
 	rl_clear_history();
 }
 
