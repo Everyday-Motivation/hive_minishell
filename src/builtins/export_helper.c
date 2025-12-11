@@ -93,7 +93,7 @@ int	env_add_update_line(t_vec *env, char *av)
 	}
 	else
 	{
-		if (replace_env(env, key, av) == 0)
+		if (ft_strchr(av, '=') && replace_env(env, key, av) == 0)
 			return (0);
 	}
 	free(key);

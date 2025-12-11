@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:28:16 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:10:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 19:13:53 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	exist_val_print(char **av, t_vec *env, int i_env)
 
 	new_value = 1;
 	line = *(char **)ft_vec_get(env, i_env);
+	if (ft_strchr(line, '=') == NULL)
+		return (1);
 	i_av = 0;
 	while (av[i_av])
 	{
