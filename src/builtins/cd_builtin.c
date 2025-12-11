@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:10:37 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:18:09 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ int	bi_cd(char **av, t_info *info)
 	if (!oldpwd)
 		return (EXIT_FAILURE);
 	address = get_address(av, info->env);
+	if (!address)
+	{
+		free(oldpwd);
+		return (EXIT_FAILURE);
+	}
 	if (chdir(address) == -1)
 	{
 		perror("minishell: cd");
@@ -104,3 +109,5 @@ int	bi_cd(char **av, t_info *info)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
+// TODO: shrink
