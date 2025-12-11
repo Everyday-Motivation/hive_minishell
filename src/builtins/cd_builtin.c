@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:06 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/11 17:18:09 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:28:26 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	bi_cd(char **av, t_info *info)
 	}
 	if (chdir(address) == -1)
 	{
-		perror("minishell: cd");
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(address);
 		free(oldpwd);
 		return (EXIT_FAILURE);
 	}
