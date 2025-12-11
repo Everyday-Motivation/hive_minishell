@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:47:45 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:51:35 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	return_error(int e)
 	if (e == NO_BINARY)
 		ft_putendl_fd("minishell cannot execute binaries.", 2);
 	if (e == ENV_FAIL)
-		perror("Environment init failed");
+		ft_putendl_fd("Environment init failed", 2);
 	if (e == ARENA_FAIL)
-		perror("arena init failed");
+		ft_putendl_fd("arena init failed", 2);
 	if (e == CD_ARGS_FAIL)
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	return (EXIT_FAILURE);
