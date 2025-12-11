@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:24:26 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:23:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:15:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void	child_redirect_input(t_cmd *cmd, int pipefd[3], t_vec *cmds)
 		pipefd[READ_END] = open(cmd->input_file, O_RDONLY);
 		if (pipefd[READ_END] == -1)
 		{
-			perror("Filename");
-			exit(1);
+			ft_putstr_fd("minishell: ", 2);
+			perror(cmd->input_file);
+			free_exit(cmd->info, cmds, 1);
 		}
 		if (dup2(pipefd[READ_END], STDIN_FILENO) == -1)
 		{
