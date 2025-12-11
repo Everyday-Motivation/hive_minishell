@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/02 10:10:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:48:18 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ static int	export_no_args(t_vec *env)
 int	bi_export(char **av, t_info *info)
 {
 	size_t	i;
+	int		result;
 
+	result = EXIT_SUCCESS;
 	if (!av || !av[0])
 	{
 		if (!export_no_args(info->env))
@@ -86,9 +88,9 @@ int	bi_export(char **av, t_info *info)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(av[i], 2);
 			ft_putendl_fd("`: not a valid identifier", 2);
-			return (EXIT_FAILURE);
+			result = EXIT_FAILURE;
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (result);
 }
