@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/03 11:37:02 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:02:31 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,18 @@ int	increment_shlvl(t_vec *env)
 		}
 		i++;
 	}
-	return (0);
+	new_entry = ft_strdup("SHLVL=1");
+	if (!new_entry)
+		return (0);
+	if (ft_vec_push(env, &new_entry) < 0)
+	{
+		free(new_entry);
+		return (0);
+	}
+	return (1);
 }
+// TODO: shrink
+
 
 char	*get_env_value(t_vec *env, const char *key)
 {
