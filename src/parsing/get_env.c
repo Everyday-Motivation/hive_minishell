@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/12 12:30:24 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:33:08 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*get_env_value(t_vec *env, const char *key)
 	while (i < env->len)
 	{
 		entry = *(char **)ft_vec_get(env, i);
-		if (entry && strncmp(entry, key, name_len) == 0
+		if (entry && ft_strncmp(entry, key, name_len) == 0
 			&& entry[name_len] == '=')
 			return (entry + name_len + 1);
 		i++;

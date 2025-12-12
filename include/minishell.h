@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 13:39:38 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 14:31:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ void							close_used_pipes(int pipefd[3]);
 int								parent_builtin(t_vec *cmds, t_info *info);
 void							save_std_fds(int pipefd[2]);
 void							reset_std_fds(int pipefd[2]);
-void							parent_sig(void);
 void							wait_sig(void);
 void							child_sig(void);
 void							init_pipes(int pipefd[3]);
