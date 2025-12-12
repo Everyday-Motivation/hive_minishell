@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/11 18:48:18 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 10:45:42 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,34 @@ static int	is_valid_export(char *line)
 	return (1);
 }
 
+static void	print_equal(char *line, char *equal_sign, char *prefix)
+{
+	char	*key;
+	char	*value;
+
+	key = ft_substr(line, 0, equal_sign - line);
+	if (!key)
+		return ;
+	value = ft_strdup(equal_sign + 1);
+	if (!value)
+	{
+		free(key);
+		return ;
+	}
+	ft_putstr_fd(prefix, 1);
+	ft_putstr_fd(key, 1);
+	ft_putstr_fd("=\"", 1);
+	ft_putstr_fd(value, 1);
+	ft_putendl_fd("\"", 1);
+	free(key);
+	free(value);
+}
+
 static void	print_export_vec(t_vec *str_vec, char *prefix)
 {
 	size_t	i;
 	char	*line;
-	char	*prefix_line;
+	char	*equal_sign;
 
 	i = 0;
 	while (i < str_vec->len)
@@ -43,9 +66,14 @@ static void	print_export_vec(t_vec *str_vec, char *prefix)
 			i++;
 			continue ;
 		}
-		prefix_line = ft_strjoin(prefix, line);
-		ft_putendl_fd(prefix_line, 1);
-		free(prefix_line);
+		equal_sign = ft_strchr(line, '=');
+		if (equal_sign)
+			print_equal(line, equal_sign, prefix);
+		else
+		{
+			ft_putstr_fd(prefix, 1);
+			ft_putendl_fd(line, 1);
+		}
 		i++;
 	}
 }
