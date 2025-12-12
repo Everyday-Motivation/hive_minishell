@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:24:26 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 10:18:30 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:27:13 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,40 +84,4 @@ void	child_pipes(t_cmd *cmd, int pipefd[3], size_t i, t_vec *cmds)
 		}
 	}
 	close_used_pipes(pipefd);
-}
-
-int	reap_zombies(pid_t last_pid, size_t count_children)
-{
-	size_t	reaped;
-	pid_t	waited_pid;
-	int		status;
-	int		last_status;
-
-	reaped = 0;
-	last_status = 0;
-	while (reaped < count_children)
-	{
-		waited_pid = wait(&status);
-		if (waited_pid == -1)
-		{
-			if (errno == ECHILD && reaped == count_children)
-				break ;
-			perror("waited pid issue");
-			return (EXIT_FAILURE);
-		}
-		if (waited_pid == last_pid)
-			last_status = status;
-		reaped++;
-	}
-	if (WIFSIGNALED(last_status))
-	{
-		if (WTERMSIG(last_status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", 2);
-		if (WTERMSIG(last_status) == SIGINT)
-			ft_putstr_fd("\n", 2);
-		return (128 + WTERMSIG(last_status));
-	}
-	if (WIFEXITED(last_status))
-		return (WEXITSTATUS(last_status));
-	return (EXIT_FAILURE);
 }
