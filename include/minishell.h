@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 10:28:31 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:12:38 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ char							*search_path(char *cmd, t_vec *env);
 void							exit_clear_rl_history(void);
 int								return_error(int e);
 void							free_exit(t_info *info, t_vec *cmds, int code);
+void							put_e(char *s_a, char *s_b, char *s_c);
 
 // Arena
 int								arena_init(t_arena *arena);

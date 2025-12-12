@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:27:50 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 10:45:42 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:11:55 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ int	bi_export(char **av, t_info *info)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(av[i], 2);
-			ft_putendl_fd("`: not a valid identifier", 2);
+			put_e("minishell: export: `", av[i], "`: not a valid identifier");
 			result = EXIT_FAILURE;
 		}
 		i++;
