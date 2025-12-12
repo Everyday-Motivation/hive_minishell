@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 11:11:58 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:14:11 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	return_error(int e)
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	return (EXIT_FAILURE);
 }
+
 void	put_e(char *s_a, char *s_b, char *s_c)
 {
 	ft_putstr_fd(s_a, 2);
