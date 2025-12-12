@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:24:26 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/11 18:15:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 10:18:30 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,22 @@ int	reap_zombies(pid_t last_pid, size_t count_children)
 		waited_pid = wait(&status);
 		if (waited_pid == -1)
 		{
+			if (errno == ECHILD && reaped == count_children)
+				break ;
 			perror("waited pid issue");
 			return (EXIT_FAILURE);
 		}
 		if (waited_pid == last_pid)
 			last_status = status;
 		reaped++;
+	}
+	if (WIFSIGNALED(last_status))
+	{
+		if (WTERMSIG(last_status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+		if (WTERMSIG(last_status) == SIGINT)
+			ft_putstr_fd("\n", 2);
+		return (128 + WTERMSIG(last_status));
 	}
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
