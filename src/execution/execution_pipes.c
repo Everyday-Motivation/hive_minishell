@@ -21,7 +21,6 @@ void	init_pipes(int pipefd[3])
 
 int	signal_pipe(int pipefd[3], size_t i, t_vec *cmds)
 {
-	parent_sig();
 	if (i + 1 < cmds->len)
 	{
 		if (pipe(pipefd) == -1)

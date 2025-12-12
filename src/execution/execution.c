@@ -118,19 +118,28 @@ int	execute(t_vec *cmds, t_info *info)
 	status = parent_builtin(cmds, info);
 	if (status != -1)
 		return (status);
+	wait_sig();
 	i = 0;
 	while (i < cmds->len)
 	{
 		if (signal_pipe(pipefd, i, cmds) == EXIT_FAILURE)
+		{
+			init_signals();
 			return (EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
+		{
+			init_signals();
 			return (fork_error(pipefd));
+		}
 		if (pid == CHILD)
 			child_process(cmds, info, pipefd, i);
 		recycle_pipes(pipefd, i++, cmds);
 	}
 	if (pipefd[PREV_READ] != -1)
 		close(pipefd[PREV_READ]);
-	return (reap_zombies(pid, cmds->len));
+	status = reap_zombies(pid, cmds->len);
+	init_signals();
+	return (status);
 }
