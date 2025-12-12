@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:16 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/03 18:56:02 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 13:35:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,16 @@ size_t	handle_double_quote(t_info *info, char *input, size_t *i, char **buf)
 		return (0);
 	}
 	return (handle_double_quote_content(info, input, i, buf));
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

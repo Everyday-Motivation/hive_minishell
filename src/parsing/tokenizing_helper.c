@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:06:08 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/03 18:55:55 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 13:36:43 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,32 @@ void	init_word_token(size_t *buf_i, size_t *start, size_t i)
 	*start = i;
 }
 
+static void	split_word_tokens(t_info *info, t_vec *tokens, t_token *token)
+{
+	char	**parts;
+	int		i;
+	t_token	new_tok;
+
+	if (!ft_strchr(token->data, ' '))
+	{
+		ft_vec_push(tokens, token);
+		return ;
+	}
+	parts = ft_split(token->data, ' ');
+	if (!parts)
+		return ;
+	i = 0;
+	while (parts[i])
+	{
+		new_tok.type = WORD;
+		new_tok.data = arena_strdup(info->arena, parts[i], ft_strlen(parts[i]));
+		new_tok.raw_data = token->raw_data;
+		ft_vec_push(tokens, &new_tok);
+		i++;
+	}
+	free_split(parts);
+}
+
 int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 {
 	char	*buf;
@@ -78,6 +104,9 @@ int	process_word(t_info *info, char *input, size_t *i, t_vec *tokens)
 	token.type = WORD;
 	token.data = arena_strdup(info->arena, buf, buf_i);
 	token.raw_data = arena_strdup(info->arena, &input[start], *i - start);
-	ft_vec_push(tokens, &token);
+	if (info->split_flag == 1)
+		split_word_tokens(info, tokens, &token);
+	else
+		ft_vec_push(tokens, &token);
 	return (EXIT_SUCCESS);
 }

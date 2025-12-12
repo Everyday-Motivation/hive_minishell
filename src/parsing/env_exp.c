@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:43:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 17:56:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 13:32:09 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static size_t	append_env_value(t_info *info, char **buf, const char *val)
 
 	if (!val)
 		return (0);
+	info->split_flag = 1;
 	buf_len = ft_strlen(*buf);
 	temp = arena_alloc(info->arena, buf_len + ft_strlen(val) + 1);
 	ft_memmove(temp, *buf, buf_len);
