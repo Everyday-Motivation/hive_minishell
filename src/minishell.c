@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 13:43:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 14:03:11 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,6 @@ int	main(int ac, char **av, char **envp)
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }
+
+// make re debug=1 
+// valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp -s ./minishell
