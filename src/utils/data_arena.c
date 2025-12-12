@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:57:41 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/02 16:46:28 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 16:34:40 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ char	*arena_strdup(t_arena *arena, const char *s, size_t n)
 		return (NULL);
 	}
 	dest = arena_alloc(arena, n + 1);
+	if (!dest)
+		return (NULL);
 	ft_memmove(dest, s, n);
 	dest[n] = '\0';
 	return (dest);
