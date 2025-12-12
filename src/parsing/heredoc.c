@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/12 15:18:57 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 16:23:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,20 +111,18 @@ int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 	char	file_name[37];
 	int		fd;
 	int		quote_flag;
+	int		ret;
 
 	quote_flag = limiter_check(limiter->raw_data);
+	if (quote_flag == 1)
+		del_quotes(limiter->raw_data);
 	fd = create_heredoc_file(file_name);
 	if (fd < 0)
 		return (0);
 	write_heredoc_input(cmd, fd, limiter->raw_data, quote_flag);
-	if (g_signal == SIGINT)
-	{
-		cmd->info->exit_code = 130;
-		close_unlink_heredoc(fd, file_name);
-		init_signals();
-		write(STDOUT_FILENO, "\n", 1);
-		return (-2);
-	}
+	ret = handle_heredoc_signal(cmd, fd, file_name);
+	if (ret != 0)
+		return (ret);
 	close(fd);
 	if (cmd->heredoc_str)
 		free(cmd->heredoc_str);

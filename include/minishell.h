@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 14:31:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 16:52:43 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ void							count_heredoc(t_info *info, t_vec *tokens,
 int								open_heredoc_file_rdonly(char *file_name);
 char							*expand_env_in_heredoc_line(t_info *info,
 									char *input);
+int								handle_heredoc_signal(t_cmd *cmd, int fd,
+									char *file_name);
+void							del_quotes(char *str);
 
 // Prompt
 char							*read_line(int interactive);
