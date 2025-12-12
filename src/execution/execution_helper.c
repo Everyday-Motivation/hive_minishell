@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:28:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 08:56:15 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,14 @@ int	fork_error(int pipefd[3])
 
 void	no_path_exit(t_cmd *cmd, char **env, t_info *info, t_vec *cmds)
 {
-	ft_putstr_fd(cmd->argv[0], 2);
-	ft_putendl_fd(": command not found", 2);
+	char	*error_msg;
+
+	error_msg = ft_strjoin(cmd->argv[0], ": command not found\n");
+	if (error_msg)
+	{
+		write(2, error_msg, ft_strlen(error_msg));
+		free(error_msg);
+	}
 	free(env);
 	free_exit(info, cmds, 127);
 }

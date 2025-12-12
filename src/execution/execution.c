@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:28:14 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 08:55:19 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,33 @@ int	child_error(char *path, char **argv, char **env)
 {
 	struct stat	sb;
 	int			error_code;
+	char		*error_msg;
+	char		*tmp;
 
 	error_code = errno;
-	ft_putstr_fd("minishell: ", 2);
 	if (path && stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
-		ft_putstr_fd(argv[0], 2);
-		ft_putendl_fd(": Is a directory", 2);
+		error_msg = ft_strjoin_3("minishell: ", argv[0], ": Is a directory\n");
+		if (error_msg)
+		{
+			write(2, error_msg, ft_strlen(error_msg));
+			free(error_msg);
+		}
 		error_code = 126;
 	}
 	else
 	{
-		perror(argv[0]);
+		tmp = ft_strjoin_3("minishell: ", argv[0], ": ");
+		if (tmp)
+		{
+			error_msg = ft_strjoin_3(tmp, strerror(errno), "\n");
+			free(tmp);
+			if (error_msg)
+			{
+				write(2, error_msg, ft_strlen(error_msg));
+				free(error_msg);
+			}
+		}
 		if (error_code == ENOENT)
 			error_code = 127;
 		else
