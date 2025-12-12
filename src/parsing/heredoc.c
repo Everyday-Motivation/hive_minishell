@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:49 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/07 12:49:02 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:18:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	handle_heredoc(t_cmd *cmd, t_token *limiter)
 	fd = create_heredoc_file(file_name);
 	if (fd < 0)
 		return (0);
-	write_heredoc_input(cmd, fd, limiter->data, quote_flag);
+	write_heredoc_input(cmd, fd, limiter->raw_data, quote_flag);
 	if (g_signal == SIGINT)
 	{
 		cmd->info->exit_code = 130;

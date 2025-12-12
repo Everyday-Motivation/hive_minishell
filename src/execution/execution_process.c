@@ -90,6 +90,9 @@ void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 		free_exit(info, cmds, 127);
 	}
 	if (is_bi(cmd->argv[0]) == 1)
+	{
+		signal(SIGPIPE, SIG_IGN);
 		free_exit(info, cmds, run_bi(cmd->argv, info, cmds));
+	}
 	child_run(cmd, info, cmds);
 }
