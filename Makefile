@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/12/12 12:11:49 by timurray         ###   ########.fr        #
+#    Updated: 2025/12/12 12:31:36 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ $(PARS_DIR)/prompt.c \
 $(PARS_DIR)/tokenizing.c \
 $(PARS_DIR)/tokenizing_helper.c \
 $(PARS_DIR)/tokenizing_handle_d.c \
+$(PARS_DIR)/shlvl.c \
 $(PARS_DIR)/env_helper.c \
 $(PARS_DIR)/parsing_build_args.c 
 

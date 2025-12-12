@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 16:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/11 19:58:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:30:24 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,53 +79,6 @@ int	add_pwd(t_vec *env)
 	}
 	return (1);
 }
-
-int	increment_shlvl(t_vec *env)
-{
-	size_t	i;
-	char	**entry;
-	char	*new_level;
-	char	*new_entry;
-			int shlvl_val;
-
-	i = 0;
-	while (i < env->len)
-	{
-		entry = (char **)ft_vec_get(env, i);
-		if (ft_strncmp(*entry, "SHLVL=", 6) == 0)
-		{
-			shlvl_val = ft_atoi(*entry + 6) + 1;
-			if (shlvl_val < 0)
-				shlvl_val = 0;
-			else if (shlvl_val > 999)
-			{
-				printf("minishell: warning: shell level (%i) too high, resetting to 1\n", shlvl_val);
-				shlvl_val = 1;
-			}
-			new_level = ft_itoa(shlvl_val);
-			if (!new_level)
-				return (0);
-			new_entry = ft_strjoin("SHLVL=", new_level);
-			free(new_level);
-			if (!new_entry)
-				return (0);
-			free(*entry);
-			*entry = new_entry;
-			return (1);
-		}
-		i++;
-	}
-	new_entry = ft_strdup("SHLVL=1");
-	if (!new_entry)
-		return (0);
-	if (ft_vec_push(env, &new_entry) < 0)
-	{
-		free(new_entry);
-		return (0);
-	}
-	return (1);
-}
-// TODO: shrink
 
 char	*get_env_value(t_vec *env, const char *key)
 {
