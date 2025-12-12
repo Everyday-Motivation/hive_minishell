@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:00:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 11:14:11 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:45:39 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ void	put_e(char *s_a, char *s_b, char *s_c)
 	ft_putstr_fd(s_a, 2);
 	ft_putstr_fd(s_b, 2);
 	ft_putendl_fd(s_c, 2);
+}
+
+void	free_error(char *msg)
+{
+	if (!msg)
+		return ;
+	write(2, msg, ft_strlen(msg));
+	free(msg);
 }

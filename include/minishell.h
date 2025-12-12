@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 11:19:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:12:43 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,12 @@ int								reap_zombies(pid_t last_pid,
 									size_t count_children);
 void							no_path_exit(t_cmd *cmd, char **env,
 									t_info *info, t_vec *cmds);
+int								child_error(char *path, char **argv,
+									char **env);
+void							child_run(t_cmd *cmd, t_info *info,
+									t_vec *cmds);
+void							child_process(t_vec *cmds, t_info *info,
+									int pipefd[3], size_t i);
 
 // Path
 char							*ft_strjoin_3(const char *s1, const char *s2,
@@ -211,6 +217,9 @@ int								return_error(int e);
 void							free_exit(t_info *info, t_vec *cmds, int code);
 void							put_e(char *s_a, char *s_b, char *s_c);
 int								change_dir(char *address, char *oldpwd);
+void							free_error(char *msg);
+void							child_error_free(char *path, char **argv,
+									char **env);
 
 // Arena
 int								arena_init(t_arena *arena);

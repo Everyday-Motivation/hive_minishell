@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:58:29 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 08:56:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:45:27 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,11 @@ void	no_path_exit(t_cmd *cmd, char **env, t_info *info, t_vec *cmds)
 	}
 	free(env);
 	free_exit(info, cmds, 127);
+}
+
+void	child_error_free(char *path, char **argv, char **env)
+{
+	free(env);
+	if (path && !ft_strchr(argv[0], '/'))
+		free(path);
 }

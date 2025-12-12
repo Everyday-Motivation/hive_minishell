@@ -6,140 +6,62 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 08:55:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:11:13 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	child_error(char *path, char **argv, char **env)
+static void	close_prev_read(int pipefd[3])
 {
-	struct stat	sb;
-	int			error_code;
-	char		*error_msg;
-	char		*tmp;
-
-	error_code = errno;
-	if (path && stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
-	{
-		error_msg = ft_strjoin_3("minishell: ", argv[0], ": Is a directory\n");
-		if (error_msg)
-		{
-			write(2, error_msg, ft_strlen(error_msg));
-			free(error_msg);
-		}
-		error_code = 126;
-	}
-	else
-	{
-		tmp = ft_strjoin_3("minishell: ", argv[0], ": ");
-		if (tmp)
-		{
-			error_msg = ft_strjoin_3(tmp, strerror(errno), "\n");
-			free(tmp);
-			if (error_msg)
-			{
-				write(2, error_msg, ft_strlen(error_msg));
-				free(error_msg);
-			}
-		}
-		if (error_code == ENOENT)
-			error_code = 127;
-		else
-			error_code = 126;
-	}
-	free(env);
-	if (path && !ft_strchr(argv[0], '/'))
-		free(path);
-	return (error_code);
+	if (pipefd[PREV_READ] != -1)
+		close(pipefd[PREV_READ]);
 }
 
-void	child_run(t_cmd *cmd, t_info *info, t_vec *cmds)
+static int	run_pipeline(t_vec *cmds, t_info *info, int pipefd[3],
+		pid_t *last_pid)
 {
-	char	**env;
-	char	*path;
-	char	*underscore;
+	size_t	i;
+	pid_t	pid;
 
-	if (ft_strchr(cmd->argv[0], '/'))
-		path = cmd->argv[0];
-	else
-		path = search_path(cmd->argv[0], info->env);
-	if (path)
+	i = 0;
+	while (i < cmds->len)
 	{
-		underscore = ft_strjoin("_=", path);
-		if (underscore)
-		{
-			env_add_update_line(info->env, underscore);
-			free(underscore);
-		}
+		if (signal_pipe(pipefd, i, cmds) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		pid = fork();
+		if (pid == -1)
+			return (fork_error(pipefd));
+		if (pid == CHILD)
+			child_process(cmds, info, pipefd, i);
+		*last_pid = pid;
+		recycle_pipes(pipefd, i++, cmds);
 	}
-	env = vec_to_arr(info->env);
-	if (!env)
-		free_exit(info, cmds, 1);
-	if (!ft_strchr(cmd->argv[0], '/') && !path)
-		no_path_exit(cmd, env, info, cmds);
-	execve(path, cmd->argv, env);
-	free_exit(info, cmds, child_error(path, cmd->argv, env));
-}
-
-void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
-{
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)ft_vec_get(cmds, i);
-	child_sig();
-	child_pipes(cmd, pipefd, i, cmds);
-	child_redirections(cmd, pipefd, cmds);
-	if (cmd->input_file == NULL && cmd->heredoc_str != NULL)
-	{
-		if (process_heredoc_str(cmd) != 0)
-			free_exit(info, cmds, 1);
-	}
-	if (cmd->argv == NULL || cmd->argv[0] == NULL)
-		free_exit(info, cmds, 0);
-	if (cmd->argv[0][0] == '\0')
-	{
-		ft_putstr_fd("minishell: : command not found\n", 2);
-		free_exit(info, cmds, 127);
-	}
-	if (is_bi(cmd->argv[0]) == 1)
-		free_exit(info, cmds, run_bi(cmd->argv, info, cmds));
-	child_run(cmd, info, cmds);
+	return (EXIT_SUCCESS);
 }
 
 int	execute(t_vec *cmds, t_info *info)
 {
 	int		pipefd[3];
 	int		status;
-	pid_t	pid;
-	size_t	i;
+	pid_t	last_pid;
 
 	init_pipes(pipefd);
 	status = parent_builtin(cmds, info);
 	if (status != -1)
 		return (status);
 	wait_sig();
-	i = 0;
-	while (i < cmds->len)
+	if (cmds->len == 0)
+		return (init_signals(), EXIT_SUCCESS);
+	status = run_pipeline(cmds, info, pipefd, &last_pid);
+	if (status != EXIT_SUCCESS)
 	{
-		if (signal_pipe(pipefd, i, cmds) == EXIT_FAILURE)
-		{
-			init_signals();
-			return (EXIT_FAILURE);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			init_signals();
-			return (fork_error(pipefd));
-		}
-		if (pid == CHILD)
-			child_process(cmds, info, pipefd, i);
-		recycle_pipes(pipefd, i++, cmds);
+		close_prev_read(pipefd);
+		init_signals();
+		return (status);
 	}
-	if (pipefd[PREV_READ] != -1)
-		close(pipefd[PREV_READ]);
-	status = reap_zombies(pid, cmds->len);
+	close_prev_read(pipefd);
+	status = reap_zombies(last_pid, cmds->len);
 	init_signals();
 	return (status);
 }
