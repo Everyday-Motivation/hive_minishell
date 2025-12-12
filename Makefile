@@ -6,7 +6,7 @@
 #    By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 10:26:08 by timurray          #+#    #+#              #
-#    Updated: 2025/12/03 11:23:25 by timurray         ###   ########.fr        #
+#    Updated: 2025/12/12 11:17:51 by timurray         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ $(EXEC_DIR)/execution_heredoc.c
 BTIN_DIR := src/builtins
 BTIN_SRC := \
 $(BTIN_DIR)/cd_builtin.c \
+$(BTIN_DIR)/cd_helper.c \
 $(BTIN_DIR)/echo_builtin.c \
 $(BTIN_DIR)/env_builtin.c \
 $(BTIN_DIR)/exit_builtin.c \
