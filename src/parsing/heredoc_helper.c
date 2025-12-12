@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:25:32 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/11/11 13:07:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 16:20:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,36 @@ char	*expand_env_in_heredoc_line(t_info *info, char *input)
 		}
 	}
 	return (buf);
+}
+
+void	del_quotes(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return ;
+	len = ft_strlen(str);
+	while (len > 0 && (str[0] == '"' || str[0] == '\''))
+	{
+		ft_memmove(str, str + 1, len);
+		len = ft_strlen(str);
+	}
+	while (len > 0 && (str[len - 1] == '"' || str[len - 1] == '\''))
+	{
+		str[len - 1] = '\0';
+		len--;
+	}
+}
+
+int	handle_heredoc_signal(t_cmd *cmd, int fd, char *file_name)
+{
+	if (g_signal == SIGINT)
+	{
+		cmd->info->exit_code = 130;
+		close_unlink_heredoc(fd, file_name);
+		init_signals();
+		write(STDOUT_FILENO, "\n", 1);
+		return (-2);
+	}
+	return (0);
 }
