@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 13:31:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 13:39:38 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ size_t							handle_double_quote(t_info *info, char *input,
 									size_t *i, char **buf);
 size_t							handle_single_quote(char *input, size_t *i,
 									char *buf);
+void							split_word_tokens(t_info *info, t_vec *tokens,
+									t_token *token);
 
 // Parsing
 int								parse_tokens(t_info *info, t_vec *tokens,

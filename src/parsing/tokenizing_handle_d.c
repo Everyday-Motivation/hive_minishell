@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:16 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/12 13:35:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/12 13:38:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,30 @@ void	free_split(char **split)
 	while (split[i])
 		free(split[i++]);
 	free(split);
+}
+
+void	split_word_tokens(t_info *info, t_vec *tokens, t_token *token)
+{
+	char	**parts;
+	int		i;
+	t_token	new_tok;
+
+	if (!ft_strchr(token->data, ' '))
+	{
+		ft_vec_push(tokens, token);
+		return ;
+	}
+	parts = ft_split(token->data, ' ');
+	if (!parts)
+		return ;
+	i = 0;
+	while (parts[i])
+	{
+		new_tok.type = WORD;
+		new_tok.data = arena_strdup(info->arena, parts[i], ft_strlen(parts[i]));
+		new_tok.raw_data = token->raw_data;
+		ft_vec_push(tokens, &new_tok);
+		i++;
+	}
+	free_split(parts);
 }

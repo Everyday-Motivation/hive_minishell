@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/07 12:48:05 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/12 13:43:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av, char **envp)
 	info.arena = &arena;
 	info.env = &env;
 	info.exit_code = 0;
+	info.split_flag = 0;
 	init_signals();
 	shell_loop(isatty(STDIN_FILENO), &info);
 	free_str_vec(&env);
