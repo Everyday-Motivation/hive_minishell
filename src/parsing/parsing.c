@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/13 13:24:55 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 14:28:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,17 @@ int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 	return (1);
 }
 
-static int	no_args(t_info *info)
+static int	no_args(t_info *info, t_vec *redirs)
 {
 	ft_putendl_fd("syntax error near unexpected token", 2);
 	info->exit_code = 2;
+	free_redirs(redirs);
+	return (EXIT_FAILURE);
+}
+
+static int	args_hd(t_vec *redirs)
+{
+	free_redirs(redirs);
 	return (EXIT_FAILURE);
 }
 
@@ -111,9 +118,9 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 			return (EXIT_FAILURE);
 		args = build_args(info->arena, tokens, &i, &cmd);
 		if (args == (char **)HD_INT)
-			return (EXIT_FAILURE);
+			return (args_hd(&cmd.redirs));
 		if (!args)
-			return (no_args(info));
+			return (no_args(info, &cmd.redirs));
 		// {
 		// 	ft_putendl_fd("syntax error near unexpected token", 2);
 		// 	info->exit_code = 2;

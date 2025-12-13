@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/13 13:25:06 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:00:03 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,5 +258,6 @@ size_t							get_str_index(t_vec *src, char *s);
 void							free_cmd_vec(t_vec *cmds);
 void							free_str_vec(t_vec *str_vec);
 void							print_str_vec(t_vec *str_vec, char *prefix);
+void							free_redirs(t_vec *redirs);
 
 #endif

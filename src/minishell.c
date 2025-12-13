@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 10:23:07 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 14:25:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:01:56 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,5 @@ int	main(int ac, char **av, char **envp)
 	arena_free(&arena);
 	return (EXIT_SUCCESS);
 }
+
+// valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=readline.supp -s ./minishell

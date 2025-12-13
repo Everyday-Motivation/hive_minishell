@@ -12,26 +12,32 @@
 
 #include "minishell.h"
 
+void	free_redirs(t_vec *redirs)
+{
+	size_t	i;
+	t_redir	*redir;
+
+	i = 0;
+	while (i < redirs->len)
+	{
+		redir = (t_redir *)ft_vec_get(redirs, i);
+		if (redir->type == D_LT && redir->data)
+			free(redir->data);
+		i++;
+	}
+	ft_vec_free(redirs);
+}
+
 void	free_cmd_vec(t_vec *cmds)
 {
 	size_t	i;
-	size_t	j;
 	t_cmd	*cmd;
-	t_redir	*redir;
 
 	i = 0;
 	while (i < cmds->len)
 	{
 		cmd = (t_cmd *)ft_vec_get(cmds, i);
-		j = 0;
-		while (j < cmd->redirs.len)
-		{
-			redir = (t_redir *)ft_vec_get(&cmd->redirs, j);
-			if (redir->type == D_LT && redir->data)
-				free(redir->data);
-			j++;
-		}
-		ft_vec_free(&cmd->redirs);
+		free_redirs(&cmd->redirs);
 		i++;
 	}
 	ft_vec_free(cmds);
