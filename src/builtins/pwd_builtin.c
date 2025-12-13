@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:26:49 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/21 19:10:10 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:50:38 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	bi_pwd(char **av, t_info *info)
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{
-		perror("pwd error.");
+		perror("PWD error");
 		return (EXIT_FAILURE);
 	}
 	ft_putendl_fd(pwd, 1);
