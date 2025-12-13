@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:35:15 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/10 15:22:36 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:20:25 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef struct s_vec
 
 int					ft_printf(const char *s, ...);
 int					ft_printfd(int fd, const char *s, ...);
-int					ft_putchar_fd(const char c, const int fd);
+ssize_t				ft_putchar_fd(char c, int fd);
 int					char_handler(const int c);
 ssize_t				func_select(const char key, va_list *args);
-ssize_t				ft_putstr_fd(const char *s, const int fd);
+ssize_t				ft_putstr_fd(const char *s, int fd);
 ssize_t				str_handler(const char *s);
 ssize_t				num_handler(const long num, const char *s);
 ssize_t				unum_handler(const unsigned long long num, const char *s);
