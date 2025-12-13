@@ -6,38 +6,25 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 15:47:01 by timurray          #+#    #+#             */
-/*   Updated: 2025/10/04 13:48:15 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:17:57 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_putchar_fd(const char c, const int fd)
+ssize_t	ft_putchar_fd(char c, int fd)
 {
-	int	res;
-
-	res = (write(fd, &c, 1));
-	if (res == -1)
-		return (-1);
-	return (1);
+	return (write(fd, &c, 1));
 }
 
-ssize_t	ft_putstr_fd(const char *s, const int fd)
+ssize_t	ft_putstr_fd(const char *s, int fd)
 {
-	ssize_t	count;
-	ssize_t	res;
+	size_t	len;
 
-	count = 0;
-	res = 0;
-	while (*s)
-	{
-		res = ft_putchar_fd(*s, fd);
-		if (res == -1)
-			return (-1);
-		count += res;
-		s++;
-	}
-	return (count);
+	if (!s)
+		return (-1);
+	len = ft_strlen(s);
+	return (write(fd, s, len));
 }
 
 int	char_handler(const int c)

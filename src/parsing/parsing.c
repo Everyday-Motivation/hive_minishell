@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/07 12:49:08 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:28:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,33 @@ int	count_word(t_vec *tokens, size_t start)
 
 int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
-	int	hd;
+	int		hd;
+	t_redir	redir;
 
 	if (!next || next->type != WORD)
 		return (-1);
-	if (tok->type == S_LT)
-		cmd->input_file = next->data;
-	else if (tok->type == S_GT)
-	{
-		cmd->output_file = next->data;
-		cmd->append = false;
-	}
-	else if (tok->type == D_GT)
-	{
-		cmd->output_file = next->data;
-		cmd->append = true;
-	}
-	else if (tok->type == D_LT)
+	redir.type = tok->type;
+	if (tok->type == D_LT)
 	{
 		init_hd_signals();
-		hd = handle_heredoc(cmd, next);
+		hd = handle_heredoc(cmd->info, next, &redir.data);
 		init_signals();
-		return (hd);
+		if (hd != 1)
+			return (hd);
 	}
+	else
+		redir.data = next->data;
+	if (ft_vec_push(&cmd->redirs, &redir) == -1)
+		return (-1);
 	return (1);
+}
+
+static int	no_args(t_info *info, t_vec *redirs)
+{
+	ft_putendl_fd("syntax error near unexpected token", 2);
+	info->exit_code = 2;
+	free_redirs(redirs);
+	return (EXIT_FAILURE);
 }
 
 int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
@@ -77,15 +80,13 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 	{
 		ft_memset(&cmd, 0, sizeof(t_cmd));
 		cmd.info = info;
+		if (ft_vec_new(&cmd.redirs, 0, sizeof(t_redir)) == -1)
+			return (EXIT_FAILURE);
 		args = build_args(info->arena, tokens, &i, &cmd);
 		if (args == (char **)HD_INT)
-			return (EXIT_FAILURE);
+			return (args_hd(&cmd.redirs));
 		if (!args)
-		{
-			ft_putendl_fd("syntax error near unexpected token", 2);
-			info->exit_code = 2;
-			return (EXIT_FAILURE);
-		}
+			return (no_args(info, &cmd.redirs));
 		cmd.argv = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
 			return (EXIT_FAILURE);
