@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:29:01 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/13 10:42:56 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:24:02 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,3 @@ void	free_cmd_vec(t_vec *cmds)
 	}
 	ft_vec_free(cmds);
 }
-
-//TODO: seems good, double check

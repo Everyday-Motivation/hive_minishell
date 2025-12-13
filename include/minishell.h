@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/13 15:00:03 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:25:52 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,6 @@ typedef struct s_redir
 	char						*data;
 }								t_redir;
 
-// typedef struct s_cmd
-// {
-// 	char						**argv;
-// 	char						*input_file;
-// 	char						*output_file;
-// 	char						*heredoc_str;
-// 	bool						append;
-// 	int							heredoc_counter;
-// 	t_info						*info;
-// }								t_cmd;
-
 typedef struct s_cmd
 {
 	char						**argv;
@@ -167,6 +156,7 @@ int								handle_ridir(t_vec *tokens, t_token *tok,
 int								handle_redirection(t_cmd *cmd, t_token *tok,
 									t_token *next);
 int								count_word(t_vec *tokens, size_t start);
+int								args_hd(t_vec *redirs);
 
 // Heredoc
 void							close_unlink_heredoc(int fd, char *file_name);

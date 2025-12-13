@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 12:10:45 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/13 10:48:28 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:27:51 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,6 @@ void	child_process(t_vec *cmds, t_info *info, int pipefd[3], size_t i)
 	child_sig();
 	child_pipes(cmd, pipefd, i, cmds);
 	child_redirections(cmd, pipefd, cmds);
-	// if (cmd->input_file == NULL && cmd->heredoc_str != NULL)
-	// {
-	// 	if (process_heredoc_str(cmd) != 0)
-	// 		free_exit(info, cmds, 1);
-	// }
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
 		free_exit(info, cmds, 0);
 	if (cmd->argv[0][0] == '\0')

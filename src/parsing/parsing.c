@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:30:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/13 14:28:06 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:28:20 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,6 @@ int	count_word(t_vec *tokens, size_t start)
 	}
 	return (words);
 }
-
-// int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
-// {
-// 	int	hd;
-
-// 	if (!next || next->type != WORD)
-// 		return (-1);
-// 	if (tok->type == S_LT)
-// 		cmd->input_file = next->data;
-// 	else if (tok->type == S_GT)
-// 	{
-// 		cmd->output_file = next->data;
-// 		cmd->append = false;
-// 	}
-// 	else if (tok->type == D_GT)
-// 	{
-// 		cmd->output_file = next->data;
-// 		cmd->append = true;
-// 	}
-// 	else if (tok->type == D_LT)
-// 	{
-// 		init_hd_signals();
-// 		hd = handle_heredoc(cmd, next);
-// 		init_signals();
-// 		return (hd);
-// 	}
-// 	return (1);
-// }
 
 int	handle_redirection(t_cmd *cmd, t_token *tok, t_token *next)
 {
@@ -95,12 +67,6 @@ static int	no_args(t_info *info, t_vec *redirs)
 	return (EXIT_FAILURE);
 }
 
-static int	args_hd(t_vec *redirs)
-{
-	free_redirs(redirs);
-	return (EXIT_FAILURE);
-}
-
 int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 {
 	size_t	i;
@@ -121,11 +87,6 @@ int	parse_tokens(t_info *info, t_vec *tokens, t_vec *cmds)
 			return (args_hd(&cmd.redirs));
 		if (!args)
 			return (no_args(info, &cmd.redirs));
-		// {
-		// 	ft_putendl_fd("syntax error near unexpected token", 2);
-		// 	info->exit_code = 2;
-		// 	return (EXIT_FAILURE);
-		// }
 		cmd.argv = args;
 		if (ft_vec_push(cmds, &cmd) < 0)
 			return (EXIT_FAILURE);
