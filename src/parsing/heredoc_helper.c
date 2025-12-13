@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:25:32 by jaeklee           #+#    #+#             */
-/*   Updated: 2025/12/12 16:20:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/13 10:56:22 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ void	del_quotes(char *str)
 		len--;
 	}
 }
-
-int	handle_heredoc_signal(t_cmd *cmd, int fd, char *file_name)
+// int	handle_heredoc_signal(t_cmd *cmd, int fd, char *file_name)
+int	handle_heredoc_signal(t_info *info, int fd, char *file_name)
 {
 	if (g_signal == SIGINT)
 	{
-		cmd->info->exit_code = 130;
+		// cmd->info->exit_code = 130;
+		info->exit_code = 130;
 		close_unlink_heredoc(fd, file_name);
 		init_signals();
 		write(STDOUT_FILENO, "\n", 1);

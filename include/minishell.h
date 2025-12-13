@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 12:44:00 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 16:21:16 by jaeklee          ###   ########.fr       */
+/*   Updated: 2025/12/13 13:25:06 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,16 @@ enum							e_error_code
 	CD_ARGS_FAIL = 3
 };
 
+typedef enum e_token_type
+{
+	WORD,
+	S_LT,
+	D_LT,
+	S_GT,
+	D_GT,
+	PIPE
+}								t_token_type;
+
 typedef struct s_arena
 {
 	struct s_arena				*next;
@@ -69,26 +79,29 @@ typedef struct s_info
 	int							split_flag;
 }								t_info;
 
+typedef struct s_redir
+{
+	t_token_type				type;
+	char						*data;
+}								t_redir;
+
+// typedef struct s_cmd
+// {
+// 	char						**argv;
+// 	char						*input_file;
+// 	char						*output_file;
+// 	char						*heredoc_str;
+// 	bool						append;
+// 	int							heredoc_counter;
+// 	t_info						*info;
+// }								t_cmd;
+
 typedef struct s_cmd
 {
 	char						**argv;
-	char						*input_file;
-	char						*output_file;
-	char						*heredoc_str;
-	bool						append;
-	int							heredoc_counter;
+	t_vec						redirs;
 	t_info						*info;
 }								t_cmd;
-
-typedef enum e_token_type
-{
-	WORD,
-	S_LT,
-	D_LT,
-	S_GT,
-	D_GT,
-	PIPE
-}								t_token_type;
 
 typedef struct s_token
 {
@@ -158,13 +171,14 @@ int								count_word(t_vec *tokens, size_t start);
 // Heredoc
 void							close_unlink_heredoc(int fd, char *file_name);
 int								limiter_check(char *limiter);
-int								handle_heredoc(t_cmd *cmd, t_token *limiter);
+int								handle_heredoc(t_info *info, t_token *limiter,
+									char **content);
 void							count_heredoc(t_info *info, t_vec *tokens,
 									t_vec *cmds);
 int								open_heredoc_file_rdonly(char *file_name);
 char							*expand_env_in_heredoc_line(t_info *info,
 									char *input);
-int								handle_heredoc_signal(t_cmd *cmd, int fd,
+int								handle_heredoc_signal(t_info *info, int fd,
 									char *file_name);
 void							del_quotes(char *str);
 
@@ -173,7 +187,7 @@ char							*read_line(int interactive);
 
 // Execution
 int								execute(t_vec *cmds, t_info *info);
-int								process_heredoc_str(t_cmd *cmd);
+int								process_heredoc_str(char **str);
 int								handle_builtin_redirections(t_cmd *cmd);
 void							close_pipes(int pipefd[2]);
 int								is_bi(char *cmd);
@@ -182,7 +196,6 @@ void							close_used_pipes(int pipefd[3]);
 int								parent_builtin(t_vec *cmds, t_info *info);
 void							save_std_fds(int pipefd[2]);
 void							reset_std_fds(int pipefd[2]);
-void							parent_sig(void);
 void							wait_sig(void);
 void							child_sig(void);
 void							init_pipes(int pipefd[3]);

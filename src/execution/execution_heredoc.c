@@ -6,37 +6,39 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 17:19:40 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/28 12:30:20 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:30:14 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	process_heredoc_str(t_cmd *cmd)
+int	process_heredoc_str(char **str)
 {
 	int		pipefd[2];
 	size_t	len;
 
-	len = ft_strlen(cmd->heredoc_str);
+	len = ft_strlen(*str);
 	if (pipe(pipefd) == -1)
 	{
-		perror("pipe heredoc issue");
+		perror("minishell: heredoc pipe creation failure");
 		return (1);
 	}
-	if (write(pipefd[WRITE_END], cmd->heredoc_str, len) == -1)
+	if (write(pipefd[WRITE_END], *str, len) == -1)
 	{
-		perror("heredoc write");
+		perror("minishell: heredoc write to pipe failure");
 		close_pipes(pipefd);
 		return (1);
 	}
 	if (dup2(pipefd[READ_END], STDIN_FILENO) == -1)
 	{
-		perror("dup2 to STDIN heredoc");
+		perror("minishell: heredoc duplicate STDIN failure");
 		close_pipes(pipefd);
 		return (1);
 	}
-	free(cmd->heredoc_str);
-	cmd->heredoc_str = NULL;
+	free(*str);
+	*str = NULL;
 	close_pipes(pipefd);
 	return (0);
 }
+
+//TODO: test large heredoc

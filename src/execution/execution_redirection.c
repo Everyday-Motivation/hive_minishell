@@ -6,71 +6,85 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:14:03 by timurray          #+#    #+#             */
-/*   Updated: 2025/11/30 17:35:19 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:37:11 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	handle_builtin_input(t_cmd *cmd)
+static int	builtin_input(t_redir *redir)
 {
 	int	fd;
 
-	if (cmd->input_file)
+	fd = open(redir->data, O_RDONLY);
+	if (fd == -1)
 	{
-		fd = open(cmd->input_file, O_RDONLY);
-		if (fd == -1)
-		{
-			perror(cmd->input_file);
-			return (EXIT_FAILURE);
-		}
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 in file issue");
-			close(fd);
-			return (EXIT_FAILURE);
-		}
+		ft_putstr_fd("minishell: ", 2);
+		perror(redir->data);
+		return (EXIT_FAILURE);
+	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("minishell: duplicate input to STDIN failure");
 		close(fd);
+		return (EXIT_FAILURE);
 	}
-	else if (cmd->heredoc_str)
-	{
-		if (process_heredoc_str(cmd) != 0)
-			return (EXIT_FAILURE);
-	}
+	close(fd);
 	return (EXIT_SUCCESS);
 }
 
-static int	handle_builtin_output(t_cmd *cmd)
+static int	builtin_output(t_redir *redir)
 {
 	int	fd;
+	int	flags;
 
-	if (cmd->output_file)
+	flags = O_WRONLY | O_CREAT;
+	if (redir->type == D_GT)
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+	fd = open(redir->data, flags, 0644);
+	if (fd == -1)
 	{
-		if (cmd->append)
-			fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-		{
-			perror("open outfile issue");
-			return (EXIT_FAILURE);
-		}
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 out");
-			close(fd);
-			return (EXIT_FAILURE);
-		}
-		close(fd);
+		ft_putstr_fd("minishell: ", 2);
+		perror(redir->data);
+		return (EXIT_FAILURE);
 	}
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		perror("minishell: duplicate output to STDOUT failure");
+		close(fd);
+		return (EXIT_FAILURE);
+	}
+	close(fd);
 	return (EXIT_SUCCESS);
 }
 
 int	handle_builtin_redirections(t_cmd *cmd)
 {
-	if (handle_builtin_input(cmd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
-	if (handle_builtin_output(cmd) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
+	size_t	i;
+	t_redir	*redir;
+
+	i = 0;
+	while (i < cmd->redirs.len)
+	{
+		redir = ft_vec_get(&cmd->redirs, i);
+		if (redir->type == S_LT)
+		{
+			if (builtin_input(redir) != EXIT_SUCCESS)
+				return (EXIT_FAILURE);
+		}
+		else if (redir->type == D_LT)
+		{
+			if (redir->data && process_heredoc_str(&redir->data) != 0)
+				return (EXIT_FAILURE);
+		}
+		else if (redir->type == S_GT || redir->type == D_GT)
+		{
+			if (builtin_output(redir) != EXIT_SUCCESS)
+				return (EXIT_FAILURE);
+		}
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
