@@ -6,7 +6,7 @@
 /*   By: timurray <timurray@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:38:09 by timurray          #+#    #+#             */
-/*   Updated: 2025/12/12 12:11:13 by timurray         ###   ########.fr       */
+/*   Updated: 2025/12/14 13:56:44 by timurray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	execute(t_vec *cmds, t_info *info)
 		return (status);
 	wait_sig();
 	if (cmds->len == 0)
-		return (init_signals(), EXIT_SUCCESS);
+	{
+		init_signals();
+		return (EXIT_SUCCESS);
+	}
 	status = run_pipeline(cmds, info, pipefd, &last_pid);
 	if (status != EXIT_SUCCESS)
 	{
