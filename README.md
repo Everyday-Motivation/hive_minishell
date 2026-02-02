@@ -6,7 +6,7 @@ Implements a subset of a Unix shell: parsing, execution, pipes, redirections, he
 `minishell` is a project that implements a simplified shell in order to more deeply understand Unix systems. It demonstrates parsing of commands, environment handling and expansion, heredoc, redirections, pipelines, child process management, and builtin commands while focusing on robustness and correct signal behaviour.
 
 ## Team
-This project was developed by a two-person team:
+This project was developed by a two person team:
 
 **Jaekwang Robin Lee** [GitHub](https://github.com/turtleship11)
   - Responsibilities: parsing, heredoc process, and signal handling.
@@ -50,12 +50,13 @@ Then use it like a normal shell. Supported features include:
 
 ## Examples
 ```bash
-echo "Hello world"
-cd /tmp && ls -la
-cat <<EOF | grep bar
-line1
-bar
-EOF
+echo hi > hi.txt | cat
+echo 'Home is $HOME'
+echo "Hello '$USER'" > hello.txt
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+cat < in > out
+export | grep "SHLVL"
+cd $HOME
 ```
 
 ## Notes
