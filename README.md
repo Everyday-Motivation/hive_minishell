@@ -22,7 +22,7 @@ ChatGPT and Gemini were used to:
 - assist in creation of README.md
 
 ## Requirements
-- Linux / POSIX environment
+- Linux environment
 - GCC or clang
 - make
 - `readline` or custom input handling (if used)
