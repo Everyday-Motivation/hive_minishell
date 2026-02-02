@@ -18,7 +18,7 @@ This project was developed by a two person team:
 ChatGPT and Gemini were used to:
 - search comprehensively for resources.
 - review minor syntax challenges.
-- assist creation of the bash test script.
+- assist in creation of the bash test script.
 - assist in creation of README.md
 
 ## Requirements
